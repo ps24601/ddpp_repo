@@ -1,0 +1,250 @@
+﻿Region Name,Sub-region Name,Country,M49 Code,ISO-alpha2 Code,ISO-alpha3 Code,Least Developed Countries (LDC),Land Locked Developing Countries (LLDC),Small Island Developing States (SIDS),WEO Country Code,Income Group
+Africa,Northern Africa,Algeria,12,DZ,DZA,0,0,0,612,Lower middle income
+Africa,Northern Africa,Egypt,818,EG,EGY,0,0,0,469,Lower middle income
+Africa,Northern Africa,Libya,434,LY,LBY,0,0,0,672,Upper middle income
+Africa,Northern Africa,Morocco,504,MA,MAR,0,0,0,686,Lower middle income
+Africa,Northern Africa,Sudan,729,SD,SDN,1,0,0,732,Low income
+Africa,Northern Africa,Tunisia,788,TN,TUN,0,0,0,744,Lower middle income
+Africa,Northern Africa,Western Sahara,732,EH,ESH,0,0,0,,
+Africa,Sub-Saharan Africa,British Indian Ocean Territory,86,IO,IOT,0,0,0,,
+Africa,Sub-Saharan Africa,Burundi,108,BI,BDI,1,1,0,618,Low income
+Africa,Sub-Saharan Africa,Comoros,174,KM,COM,1,0,1,632,Lower middle income
+Africa,Sub-Saharan Africa,Djibouti,262,DJ,DJI,1,0,0,611,Lower middle income
+Africa,Sub-Saharan Africa,Eritrea,232,ER,ERI,1,0,0,643,Low income
+Africa,Sub-Saharan Africa,Ethiopia,231,ET,ETH,1,1,0,644,Low income
+Africa,Sub-Saharan Africa,French Southern Territories,260,TF,ATF,0,0,0,,
+Africa,Sub-Saharan Africa,Kenya,404,KE,KEN,0,0,0,664,Lower middle income
+Africa,Sub-Saharan Africa,Madagascar,450,MG,MDG,1,0,0,674,Low income
+Africa,Sub-Saharan Africa,Malawi,454,MW,MWI,1,1,0,676,Low income
+Africa,Sub-Saharan Africa,Mauritius,480,MU,MUS,0,0,1,684,Upper middle income
+Africa,Sub-Saharan Africa,Mayotte,175,YT,MYT,0,0,0,,
+Africa,Sub-Saharan Africa,Mozambique,508,MZ,MOZ,1,0,0,688,Low income
+Africa,Sub-Saharan Africa,Réunion,638,RE,REU,0,0,0,,
+Africa,Sub-Saharan Africa,Rwanda,646,RW,RWA,1,1,0,714,Low income
+Africa,Sub-Saharan Africa,Seychelles,690,SC,SYC,0,0,1,718,High income
+Africa,Sub-Saharan Africa,Somalia,706,SO,SOM,1,0,0,726,Low income
+Africa,Sub-Saharan Africa,South Sudan,728,SS,SSD,1,1,0,733,Low income
+Africa,Sub-Saharan Africa,Uganda,800,UG,UGA,1,1,0,746,Low income
+Africa,Sub-Saharan Africa,United Republic of Tanzania,834,TZ,TZA,1,0,0,738,Lower middle income
+Africa,Sub-Saharan Africa,Zambia,894,ZM,ZMB,1,1,0,754,Lower middle income
+Africa,Sub-Saharan Africa,Zimbabwe,716,ZW,ZWE,0,1,0,698,Lower middle income
+Africa,Sub-Saharan Africa,Angola,24,AO,AGO,1,0,0,614,Lower middle income
+Africa,Sub-Saharan Africa,Cameroon,120,CM,CMR,0,0,0,622,Lower middle income
+Africa,Sub-Saharan Africa,Central African Republic,140,CF,CAF,1,1,0,626,Low income
+Africa,Sub-Saharan Africa,Chad,148,TD,TCD,1,1,0,628,Low income
+Africa,Sub-Saharan Africa,Congo,178,CG,COG,0,0,0,634,Lower middle income
+Africa,Sub-Saharan Africa,Democratic Republic of the Congo,180,CD,COD,1,0,0,636,Low income
+Africa,Sub-Saharan Africa,Equatorial Guinea,226,GQ,GNQ,0,0,0,642,Upper middle income
+Africa,Sub-Saharan Africa,Gabon,266,GA,GAB,0,0,0,646,Upper middle income
+Africa,Sub-Saharan Africa,Sao Tome and Principe,678,ST,STP,1,0,1,716,Lower middle income
+Africa,Sub-Saharan Africa,Botswana,72,BW,BWA,0,1,0,616,Upper middle income
+Africa,Sub-Saharan Africa,Eswatini,748,SZ,SWZ,0,1,0,734,Lower middle income
+Africa,Sub-Saharan Africa,Lesotho,426,LS,LSO,1,1,0,666,Lower middle income
+Africa,Sub-Saharan Africa,Namibia,516,,NAM,0,0,0,728,Upper middle income
+Africa,Sub-Saharan Africa,South Africa,710,ZA,ZAF,0,0,0,199,Upper middle income
+Africa,Sub-Saharan Africa,Benin,204,BJ,BEN,1,0,0,638,Lower middle income
+Africa,Sub-Saharan Africa,Burkina Faso,854,BF,BFA,1,1,0,748,Low income
+Africa,Sub-Saharan Africa,Cabo Verde,132,CV,CPV,0,0,1,624,Lower middle income
+Africa,Sub-Saharan Africa,Côte d’Ivoire,384,CI,CIV,0,0,0,662,Lower middle income
+Africa,Sub-Saharan Africa,Gambia,270,GM,GMB,1,0,0,648,Low income
+Africa,Sub-Saharan Africa,Ghana,288,GH,GHA,0,0,0,652,Lower middle income
+Africa,Sub-Saharan Africa,Guinea,324,GN,GIN,1,0,0,656,Lower middle income
+Africa,Sub-Saharan Africa,Guinea-Bissau,624,GW,GNB,1,0,1,654,Low income
+Africa,Sub-Saharan Africa,Liberia,430,LR,LBR,1,0,0,668,Low income
+Africa,Sub-Saharan Africa,Mali,466,ML,MLI,1,1,0,678,Low income
+Africa,Sub-Saharan Africa,Mauritania,478,MR,MRT,1,0,0,682,Lower middle income
+Africa,Sub-Saharan Africa,Niger,562,NE,NER,1,1,0,692,Low income
+Africa,Sub-Saharan Africa,Nigeria,566,NG,NGA,0,0,0,694,Lower middle income
+Africa,Sub-Saharan Africa,Saint Helena,654,SH,SHN,0,0,0,,
+Africa,Sub-Saharan Africa,Senegal,686,SN,SEN,1,0,0,722,Lower middle income
+Africa,Sub-Saharan Africa,Sierra Leone,694,SL,SLE,1,0,0,724,Low income
+Africa,Sub-Saharan Africa,Togo,768,TG,TGO,1,0,0,742,Low income
+Americas,Latin America and the Caribbean,Anguilla,660,AI,AIA,0,0,1,,
+Americas,Latin America and the Caribbean,Antigua and Barbuda,28,AG,ATG,0,0,1,311,High income
+Americas,Latin America and the Caribbean,Aruba,533,AW,ABW,0,0,1,314,High income
+Americas,Latin America and the Caribbean,Bahamas,44,BS,BHS,0,0,1,313,High income
+Americas,Latin America and the Caribbean,Barbados,52,BB,BRB,0,0,1,316,High income
+Americas,Latin America and the Caribbean,"Bonaire, Sint Eustatius and Saba",535,BQ,BES,0,0,1,,
+Americas,Latin America and the Caribbean,British Virgin Islands,92,VG,VGB,0,0,1,,High income
+Americas,Latin America and the Caribbean,Cayman Islands,136,KY,CYM,0,0,0,,High income
+Americas,Latin America and the Caribbean,Cuba,192,CU,CUB,0,0,1,,Upper middle income
+Americas,Latin America and the Caribbean,Curaçao,531,CW,CUW,0,0,1,,High income
+Americas,Latin America and the Caribbean,Dominica,212,DM,DMA,0,0,1,321,Upper middle income
+Americas,Latin America and the Caribbean,Dominican Republic,214,DO,DOM,0,0,1,243,Upper middle income
+Americas,Latin America and the Caribbean,Grenada,308,GD,GRD,0,0,1,328,Upper middle income
+Americas,Latin America and the Caribbean,Guadeloupe,312,GP,GLP,0,0,0,,
+Americas,Latin America and the Caribbean,Haiti,332,HT,HTI,1,0,1,263,Lower middle income
+Americas,Latin America and the Caribbean,Jamaica,388,JM,JAM,0,0,1,343,Upper middle income
+Americas,Latin America and the Caribbean,Martinique,474,MQ,MTQ,0,0,0,,
+Americas,Latin America and the Caribbean,Montserrat,500,MS,MSR,0,0,1,,
+Americas,Latin America and the Caribbean,Puerto Rico,630,PR,PRI,0,0,1,359,High income
+Americas,Latin America and the Caribbean,Saint Barthélemy,652,BL,BLM,0,0,0,,
+Americas,Latin America and the Caribbean,Saint Kitts and Nevis,659,KN,KNA,0,0,1,361,High income
+Americas,Latin America and the Caribbean,Saint Lucia,662,LC,LCA,0,0,1,362,Upper middle income
+Americas,Latin America and the Caribbean,Saint Martin (French Part),663,MF,MAF,0,0,0,,High income
+Americas,Latin America and the Caribbean,Saint Vincent and the Grenadines,670,VC,VCT,0,0,1,364,Upper middle income
+Americas,Latin America and the Caribbean,Sint Maarten (Dutch part),534,SX,SXM,0,0,1,,High income
+Americas,Latin America and the Caribbean,Trinidad and Tobago,780,TT,TTO,0,0,1,369,High income
+Americas,Latin America and the Caribbean,Turks and Caicos Islands,796,TC,TCA,0,0,0,,High income
+Americas,Latin America and the Caribbean,United States Virgin Islands,850,VI,VIR,0,0,1,,High income
+Americas,Latin America and the Caribbean,Belize,84,BZ,BLZ,0,0,1,339,Upper middle income
+Americas,Latin America and the Caribbean,Costa Rica,188,CR,CRI,0,0,0,238,Upper middle income
+Americas,Latin America and the Caribbean,El Salvador,222,SV,SLV,0,0,0,253,Upper middle income
+Americas,Latin America and the Caribbean,Guatemala,320,GT,GTM,0,0,0,258,Upper middle income
+Americas,Latin America and the Caribbean,Honduras,340,HN,HND,0,0,0,268,Lower middle income
+Americas,Latin America and the Caribbean,Mexico,484,MX,MEX,0,0,0,273,Upper middle income
+Americas,Latin America and the Caribbean,Nicaragua,558,NI,NIC,0,0,0,278,Lower middle income
+Americas,Latin America and the Caribbean,Panama,591,PA,PAN,0,0,0,283,High income
+Americas,Latin America and the Caribbean,Argentina,32,AR,ARG,0,0,0,213,Upper middle income
+Americas,Latin America and the Caribbean,Bolivia (Plurinational State of),68,BO,BOL,0,1,0,218,Lower middle income
+Americas,Latin America and the Caribbean,Bouvet Island,74,BV,BVT,0,0,0,,
+Americas,Latin America and the Caribbean,Brazil,76,BR,BRA,0,0,0,223,Upper middle income
+Americas,Latin America and the Caribbean,Chile,152,CL,CHL,0,0,0,228,High income
+Americas,Latin America and the Caribbean,Colombia,170,CO,COL,0,0,0,233,Upper middle income
+Americas,Latin America and the Caribbean,Ecuador,218,EC,ECU,0,0,0,248,Upper middle income
+Americas,Latin America and the Caribbean,Falkland Islands (Malvinas),238,FK,FLK,0,0,0,,
+Americas,Latin America and the Caribbean,French Guiana,254,GF,GUF,0,0,0,,
+Americas,Latin America and the Caribbean,Guyana,328,GY,GUY,0,0,1,336,High income
+Americas,Latin America and the Caribbean,Paraguay,600,PY,PRY,0,1,0,288,Upper middle income
+Americas,Latin America and the Caribbean,Peru,604,PE,PER,0,0,0,293,Upper middle income
+Americas,Latin America and the Caribbean,South Georgia and the South Sandwich Islands,239,GS,SGS,0,0,0,,
+Americas,Latin America and the Caribbean,Suriname,740,SR,SUR,0,0,1,366,Upper middle income
+Americas,Latin America and the Caribbean,Uruguay,858,UY,URY,0,0,0,298,High income
+Americas,Latin America and the Caribbean,Venezuela (Bolivarian Republic of),862,VE,VEN,0,0,0,299,
+Americas,Northern America,Bermuda,60,BM,BMU,0,0,0,,High income
+Americas,Northern America,Canada,124,CA,CAN,0,0,0,156,High income
+Americas,Northern America,Greenland,304,GL,GRL,0,0,0,,High income
+Americas,Northern America,Saint Pierre and Miquelon,666,PM,SPM,0,0,0,,
+Americas,Northern America,United States of America,840,US,USA,0,0,0,111,High income
+,,Antarctica,10,AQ,ATA,0,0,0,,
+Asia,Central Asia,Kazakhstan,398,KZ,KAZ,0,1,0,916,Upper middle income
+Asia,Central Asia,Kyrgyzstan,417,KG,KGZ,0,1,0,917,Lower middle income
+Asia,Central Asia,Tajikistan,762,TJ,TJK,0,1,0,923,Lower middle income
+Asia,Central Asia,Turkmenistan,795,TM,TKM,0,1,0,925,Upper middle income
+Asia,Central Asia,Uzbekistan,860,UZ,UZB,0,1,0,927,Lower middle income
+Asia,Eastern Asia,China,156,CN,CHN,0,0,0,924,Upper middle income
+Asia,Eastern Asia,"China, Hong Kong Special Administrative Region",344,HK,HKG,0,0,0,532,High income
+Asia,Eastern Asia,"China, Macao Special Administrative Region",446,MO,MAC,0,0,0,546,High income
+Asia,Eastern Asia,Democratic People's Republic of Korea,408,KP,PRK,0,0,0,,Low income
+Asia,Eastern Asia,Japan,392,JP,JPN,0,0,0,158,High income
+Asia,Eastern Asia,Mongolia,496,MN,MNG,0,1,0,948,Lower middle income
+Asia,Eastern Asia,Republic of Korea,410,KR,KOR,0,0,0,542,High income
+Asia,South-eastern Asia,Brunei Darussalam,96,BN,BRN,0,0,0,516,High income
+Asia,South-eastern Asia,Cambodia,116,KH,KHM,1,0,0,522,Lower middle income
+Asia,South-eastern Asia,Indonesia,360,ID,IDN,0,0,0,536,Upper middle income
+Asia,South-eastern Asia,Lao People's Democratic Republic,418,LA,LAO,1,1,0,544,Lower middle income
+Asia,South-eastern Asia,Malaysia,458,MY,MYS,0,0,0,548,Upper middle income
+Asia,South-eastern Asia,Myanmar,104,MM,MMR,1,0,0,518,Lower middle income
+Asia,South-eastern Asia,Philippines,608,PH,PHL,0,0,0,566,Lower middle income
+Asia,South-eastern Asia,Singapore,702,SG,SGP,0,0,1,576,High income
+Asia,South-eastern Asia,Thailand,764,TH,THA,0,0,0,578,Upper middle income
+Asia,South-eastern Asia,Timor-Leste,626,TL,TLS,1,0,1,537,Lower middle income
+Asia,South-eastern Asia,Viet Nam,704,VN,VNM,0,0,0,582,Lower middle income
+Asia,Southern Asia,Afghanistan,4,AF,AFG,1,1,0,512,Low income
+Asia,Southern Asia,Bangladesh,50,BD,BGD,1,0,0,513,Lower middle income
+Asia,Southern Asia,Bhutan,64,BT,BTN,1,1,0,514,Lower middle income
+Asia,Southern Asia,India,356,IN,IND,0,0,0,534,Lower middle income
+Asia,Southern Asia,Iran (Islamic Republic of),364,IR,IRN,0,0,0,429,Lower middle income
+Asia,Southern Asia,Maldives,462,MV,MDV,0,0,1,556,Upper middle income
+Asia,Southern Asia,Nepal,524,NP,NPL,1,1,0,558,Lower middle income
+Asia,Southern Asia,Pakistan,586,PK,PAK,0,0,0,564,Lower middle income
+Asia,Southern Asia,Sri Lanka,144,LK,LKA,0,0,0,524,Lower middle income
+Asia,Western Asia,Armenia,51,AM,ARM,0,1,0,911,Upper middle income
+Asia,Western Asia,Azerbaijan,31,AZ,AZE,0,1,0,912,Upper middle income
+Asia,Western Asia,Bahrain,48,BH,BHR,0,0,0,419,High income
+Asia,Western Asia,Cyprus,196,CY,CYP,0,0,0,423,High income
+Asia,Western Asia,Georgia,268,GE,GEO,0,0,0,915,Upper middle income
+Asia,Western Asia,Iraq,368,IQ,IRQ,0,0,0,433,Upper middle income
+Asia,Western Asia,Israel,376,IL,ISR,0,0,0,436,High income
+Asia,Western Asia,Jordan,400,JO,JOR,0,0,0,439,Lower middle income
+Asia,Western Asia,Kuwait,414,KW,KWT,0,0,0,443,High income
+Asia,Western Asia,Lebanon,422,LB,LBN,0,0,0,446,Lower middle income
+Asia,Western Asia,Oman,512,OM,OMN,0,0,0,449,High income
+Asia,Western Asia,Qatar,634,QA,QAT,0,0,0,453,High income
+Asia,Western Asia,Saudi Arabia,682,SA,SAU,0,0,0,456,High income
+Asia,Western Asia,State of Palestine,275,PS,PSE,0,0,0,,Upper middle income
+Asia,Western Asia,Syrian Arab Republic,760,SY,SYR,0,0,0,463,Low income
+Asia,Western Asia,Türkiye,792,TR,TUR,0,0,0,186,Upper middle income
+Asia,Western Asia,United Arab Emirates,784,AE,ARE,0,0,0,466,High income
+Asia,Western Asia,Yemen,887,YE,YEM,1,0,0,474,Low income
+Europe,Eastern Europe,Belarus,112,BY,BLR,0,0,0,913,Upper middle income
+Europe,Eastern Europe,Bulgaria,100,BG,BGR,0,0,0,918,Upper middle income
+Europe,Eastern Europe,Czechia,203,CZ,CZE,0,0,0,935,High income
+Europe,Eastern Europe,Hungary,348,HU,HUN,0,0,0,944,High income
+Europe,Eastern Europe,Poland,616,PL,POL,0,0,0,964,High income
+Europe,Eastern Europe,Republic of Moldova,498,MD,MDA,0,1,0,921,Upper middle income
+Europe,Eastern Europe,Romania,642,RO,ROU,0,0,0,968,High income
+Europe,Eastern Europe,Russian Federation,643,RU,RUS,0,0,0,922,Upper middle income
+Europe,Eastern Europe,Slovakia,703,SK,SVK,0,0,0,936,High income
+Europe,Eastern Europe,Ukraine,804,UA,UKR,0,0,0,926,Lower middle income
+Europe,Northern Europe,Åland Islands,248,AX,ALA,0,0,0,,
+Europe,Northern Europe,Guernsey,831,GG,GGY,0,0,0,,
+Europe,Northern Europe,Jersey,832,JE,JEY,0,0,0,,
+Europe,Northern Europe,Sark,680,,,0,0,0,,
+Europe,Northern Europe,Denmark,208,DK,DNK,0,0,0,128,High income
+Europe,Northern Europe,Estonia,233,EE,EST,0,0,0,939,High income
+Europe,Northern Europe,Faroe Islands,234,FO,FRO,0,0,0,,High income
+Europe,Northern Europe,Finland,246,FI,FIN,0,0,0,172,High income
+Europe,Northern Europe,Iceland,352,IS,ISL,0,0,0,176,High income
+Europe,Northern Europe,Ireland,372,IE,IRL,0,0,0,178,High income
+Europe,Northern Europe,Isle of Man,833,IM,IMN,0,0,0,,High income
+Europe,Northern Europe,Latvia,428,LV,LVA,0,0,0,941,High income
+Europe,Northern Europe,Lithuania,440,LT,LTU,0,0,0,946,High income
+Europe,Northern Europe,Norway,578,NO,NOR,0,0,0,142,High income
+Europe,Northern Europe,Svalbard and Jan Mayen Islands,744,SJ,SJM,0,0,0,,
+Europe,Northern Europe,Sweden,752,SE,SWE,0,0,0,144,High income
+Europe,Northern Europe,United Kingdom of Great Britain and Northern Ireland,826,GB,GBR,0,0,0,112,High income
+Europe,Southern Europe,Albania,8,AL,ALB,0,0,0,914,Upper middle income
+Europe,Southern Europe,Andorra,20,AD,AND,0,0,0,,High income
+Europe,Southern Europe,Bosnia and Herzegovina,70,BA,BIH,0,0,0,963,Upper middle income
+Europe,Southern Europe,Croatia,191,HR,HRV,0,0,0,960,High income
+Europe,Southern Europe,Gibraltar,292,GI,GIB,0,0,0,,High income
+Europe,Southern Europe,Greece,300,GR,GRC,0,0,0,174,High income
+Europe,Southern Europe,Holy See,336,VA,VAT,0,0,0,,
+Europe,Southern Europe,Italy,380,IT,ITA,0,0,0,136,High income
+Europe,Southern Europe,Malta,470,MT,MLT,0,0,0,181,High income
+Europe,Southern Europe,Montenegro,499,ME,MNE,0,0,0,943,Upper middle income
+Europe,Southern Europe,North Macedonia,807,MK,MKD,0,1,0,962,Upper middle income
+Europe,Southern Europe,Portugal,620,PT,PRT,0,0,0,182,High income
+Europe,Southern Europe,San Marino,674,SM,SMR,0,0,0,135,High income
+Europe,Southern Europe,Serbia,688,RS,SRB,0,0,0,942,Upper middle income
+Europe,Southern Europe,Slovenia,705,SI,SVN,0,0,0,961,High income
+Europe,Southern Europe,Spain,724,ES,ESP,0,0,0,184,High income
+Europe,Western Europe,Austria,40,AT,AUT,0,0,0,122,High income
+Europe,Western Europe,Belgium,56,BE,BEL,0,0,0,124,High income
+Europe,Western Europe,France,250,FR,FRA,0,0,0,132,High income
+Europe,Western Europe,Germany,276,DE,DEU,0,0,0,134,High income
+Europe,Western Europe,Liechtenstein,438,LI,LIE,0,0,0,,High income
+Europe,Western Europe,Luxembourg,442,LU,LUX,0,0,0,137,High income
+Europe,Western Europe,Monaco,492,MC,MCO,0,0,0,,High income
+Europe,Western Europe,Netherlands (Kingdom of the),528,NL,NLD,0,0,0,138,High income
+Europe,Western Europe,Switzerland,756,CH,CHE,0,0,0,146,High income
+Oceania,Australia and New Zealand,Australia,36,AU,AUS,0,0,0,193,High income
+Oceania,Australia and New Zealand,Christmas Island,162,CX,CXR,0,0,0,,
+Oceania,Australia and New Zealand,Cocos (Keeling) Islands,166,CC,CCK,0,0,0,,
+Oceania,Australia and New Zealand,Heard Island and McDonald Islands,334,HM,HMD,0,0,0,,
+Oceania,Australia and New Zealand,New Zealand,554,NZ,NZL,0,0,0,196,High income
+Oceania,Australia and New Zealand,Norfolk Island,574,NF,NFK,0,0,0,,
+Oceania,Melanesia,Fiji,242,FJ,FJI,0,0,1,819,Upper middle income
+Oceania,Melanesia,New Caledonia,540,NC,NCL,0,0,1,,High income
+Oceania,Melanesia,Papua New Guinea,598,PG,PNG,0,0,1,853,Lower middle income
+Oceania,Melanesia,Solomon Islands,90,SB,SLB,1,0,1,813,Lower middle income
+Oceania,Melanesia,Vanuatu,548,VU,VUT,0,0,1,846,Lower middle income
+Oceania,Micronesia,Guam,316,GU,GUM,0,0,1,,High income
+Oceania,Micronesia,Kiribati,296,KI,KIR,1,0,1,826,Lower middle income
+Oceania,Micronesia,Marshall Islands,584,MH,MHL,0,0,1,867,Upper middle income
+Oceania,Micronesia,Micronesia (Federated States of),583,FM,FSM,0,0,1,868,Lower middle income
+Oceania,Micronesia,Nauru,520,NR,NRU,0,0,1,836,High income
+Oceania,Micronesia,Northern Mariana Islands,580,MP,MNP,0,0,1,,High income
+Oceania,Micronesia,Palau,585,PW,PLW,0,0,1,565,Upper middle income
+Oceania,Micronesia,United States Minor Outlying Islands,581,UM,UMI,0,0,0,,
+Oceania,Polynesia,American Samoa,16,AS,ASM,0,0,1,,High income
+Oceania,Polynesia,Cook Islands,184,CK,COK,0,0,1,,
+Oceania,Polynesia,French Polynesia,258,PF,PYF,0,0,1,,High income
+Oceania,Polynesia,Niue,570,NU,NIU,0,0,1,,
+Oceania,Polynesia,Pitcairn,612,PN,PCN,0,0,0,,
+Oceania,Polynesia,Samoa,882,WS,WSM,0,0,1,862,Lower middle income
+Oceania,Polynesia,Tokelau,772,TK,TKL,0,0,0,,
+Oceania,Polynesia,Tonga,776,TO,TON,0,0,1,866,Upper middle income
+Oceania,Polynesia,Tuvalu,798,TV,TUV,1,0,1,869,Upper middle income
+Oceania,Polynesia,Wallis and Futuna Islands,876,WF,WLF,0,0,0,,

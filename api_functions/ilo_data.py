@@ -180,7 +180,7 @@ def get_ilo_data(indicators_dict, start_year_input, end_year_input, featureMap_p
         df_full = pd.concat([df_full, df_id])
     
      # Add country and region columns
-    df_country_codes = pd.read_excel('country_classifications/country_codes.xlsx')
+    df_country_codes = pd.read_csv('country_classifications/country_codes.csv')
     df_country_codes.rename(columns={'ISO-alpha3 Code': 'Country Code', 'Region Name': 'Region', 'Sub-region Name': 'Sub-region'}, inplace=True)
     df_full = pd.merge(df_full, df_country_codes, on=['Country Code'], how="left")
     

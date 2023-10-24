@@ -89,4 +89,4 @@ for ele in selected_cols:
     df_prod = pd.concat([df_prod, mean_values])
 
 # Save as excel file
-df_prod.to_excel('data/production_data.xlsx', index=False)
+df_prod.to_csv('data/production_data.csv', index=False)

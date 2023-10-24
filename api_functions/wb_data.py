@@ -72,7 +72,7 @@ def get_wb_data(feature_map_input, start_year_input, end_year_input):
     df = df[['Country Code', 'Indicator Code', 'Indicator', 'Year', 'Value']]
 
     # Add country and region columns
-    df_country_codes = pd.read_excel('country_classifications/country_codes.xlsx')
+    df_country_codes = pd.read_csv('country_classifications/country_codes.csv')
     df_country_codes.rename(columns={'ISO-alpha3 Code': 'Country Code', 'Region Name': 'Region', 'Sub-region Name': 'Sub-region'}, inplace=True)
     df = pd.merge(df, df_country_codes, on=['Country Code'], how="left")
 
