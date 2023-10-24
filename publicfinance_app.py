@@ -141,6 +141,17 @@ def convert_df(df):
 # imf_csv = convert_df(df_imf)
 df_csv = convert_df(df_combined)
 
+def get_peerstats(country_list, end_year):
+    
+    placeholder = {}
+    for country in country_list:
+        df1 = df_combined[(df_combined.Country == country) & (df_combined.Year == end_year)]
+        placeholder[country] = {}            
+        placeholder[country]['Income Group'] = df1['Income Group'].unique()[0]
+        df1 = df_hdr[df_hdr.Country == country]
+        placeholder[country]['HDI rank (2021)'] = df1['HDI rank (2021)'].values[0]
+    return placeholder
+
 #---------------------------------------- SIDEBAR ---------------------------------
 with st.sidebar:
     # upload and example doc
@@ -185,17 +196,20 @@ with st.sidebar:
         START_YEAR, END_YEAR, (START_YEAR,END_YEAR-1),
         )
 
-    def get_peerstats(country_list, end_year):
-        
-        placeholder = {}
-        for country in country_list:
-            df1 = df_combined[(df_combined.Country == country) & (df_combined.Year == end_year)]
-            placeholder[country] = {}            
-            placeholder[country]['Income Group'] = df1['Income Group'].unique()[0]
-            df1 = df_hdr[df_hdr.Country == country]
-            placeholder[country]['HDI rank (2021)'] = df1['HDI rank (2021)'].values[0]
-        return placeholder
     check_competitors = get_peerstats(selected_peer+[selected_country],END_YEAR)
+    st.sidebar.download_button(label="Click here to download data as csv",
+                        data=df_csv, 
+                        file_name='data.csv')
+    
+    st.sidebar.header("")
+
+    # INFO BOX
+    st.sidebar.info("""Please note that this dashboard is a prototype. 
+                    Users are advised that the tool may contain errors, 
+                    bugs, or limitations and should be used with caution 
+                    and awareness of potential risks, and the developers 
+                    make no warranties or guarantees regarding its performance, 
+                    reliability, or suitability for any specific purpose.""")
 
 
 c1, c2 = st.columns([1,1])
@@ -252,15 +266,7 @@ with c2:
 #                         file_name='data_imf.csv')
 
 
-#     st.sidebar.header("")
 
-#     # INFO BOX
-#     st.sidebar.info("""Please note that this dashboard is a prototype. 
-#                     Users are advised that the tool may contain errors, 
-#                     bugs, or limitations and should be used with caution 
-#                     and awareness of potential risks, and the developers 
-#                     make no warranties or guarantees regarding its performance, 
-#                     reliability, or suitability for any specific purpose.""")
     
 
 
