@@ -51,11 +51,11 @@ df_imf['Year'] = df_imf['Year'].astype(float).astype(int)
 # df_imf['Year'] = df_imf['Year'].astype(int)
 
 # Define start and end year 
-def get_years(df):
-    df = df['Year'].unique().tolist()
-    START_YEAR = min(df)
-    END_YEAR = min(df)
-    return START_YEAR, END_YEAR
+# def get_years(df):
+#     df = df['Year'].unique().tolist()
+#     START_YEAR = min(df)
+#     END_YEAR = min(df)
+#     return START_YEAR, END_YEAR
 
 #------------------------------ Functions  ------------------------------------#
 
@@ -263,13 +263,13 @@ with col3:
                                     ['Population','Population Growth Rate'])
 
     # ### Group data by year
-    chart1_data = chart1_data.groupby([chart1_data.Indicator],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
+    chart1_data = chart1_data.groupby(['Indicator'],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
 
     # Configure plot
     fig = px.line(chart1_data,
                     x="Year", 
                     y="Value",   
-                    color='Country',
+                    color='Indicator',
                     title='Chart 3 - Population',
                     hover_name="Value",
                     color_discrete_sequence=px.colors.qualitative.Plotly
