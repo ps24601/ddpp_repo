@@ -18,6 +18,7 @@ def load_data(path):
 
 # Load data 
 df_combined = load_data("data/pbfinance.csv")
+df_hdr = load_data("data/hdr.csv")
 # df_wb = load_data("data/pbfinance_wb.csv")
 # df_ilo = load_data("data/pbfinance_ilo.csv")
 # df_imf = load_data("data/pbfinance_imf.csv")
@@ -144,9 +145,9 @@ df_csv = convert_df(df_combined)
 with st.sidebar:
     # upload and example doc
     choice = st.sidebar.radio(label = 'Select the Option',
-                            help = " If you want to understand what is possible with tool guided tour \
+                            help = " If you want to understand what is possible with tool use guided mode \
                             else try explorer mode.", 
-                            options = ('Guided','EXplorer'), 
+                            options = ('Guided','Explorer'), 
                             horizontal = True)
     
 
@@ -159,23 +160,53 @@ with st.sidebar:
 #     else:
 #         df_countries = df_imf_countries
 
-#     df_countries.remove("Germany")
-#     df_countries.insert(0,"Germany") 
+    df_countries.remove("Germany")
+    df_countries.insert(0,"Germany") 
 
-#     selected_country = st.sidebar.selectbox(
-#             label="Choose country of interest",
-#             options=df_countries
-#             )
+    selected_country = st.sidebar.selectbox(
+            label="Choose country of interest",
+            options=df_countries
+            )
 
-#     # DESCRIPTION REGIONS/PEER COUNTRIES
-#     st.sidebar.caption("""If you want to compare the values of the chosen country
-#                     to peer countries, please make a selection below.""")
+    # DESCRIPTION REGIONS/PEER COUNTRIES
+    st.sidebar.caption("""If you want to compare the values of the chosen country
+                    to peer countries, please make a selection below.""")
     
-#     # REGION INPUT WIDGET
-#     selected_peer = st.sidebar.multiselect(
-#         "Choose comparison countries",
-#         df_countries
-#         )
+    # REGION INPUT WIDGET
+    selected_peer = st.sidebar.multiselect(
+        "Choose coountries to compare",
+        df_countries
+        )
+    
+    START_YEAR, END_YEAR = get_years(selected_country, df_combined)
+
+    selected_years = st.sidebar.slider(
+        "Select the range",
+        START_YEAR, END_YEAR, (START_YEAR,END_YEAR-1),
+        )
+
+    def get_peerstats(country_list, end_year):
+        
+        placeholder = {}
+        for country in country_list:
+            df1 = df_combined[(df_combined.Country == country) & (df_combined.Year == end_year)]
+            placeholder[country] = {}            
+            placeholder[country]['Income Group'] = df1['Income Group'].unique()[0]
+            df1 = df_hdr[df_hdr.Country == country]
+            placeholder[country]['HDI rank (2021)'] = df1['HDI rank (2021)'].values[0]
+        return placeholder
+    check_competitors = get_peerstats(selected_peer+[selected_country],END_YEAR)
+    c1, c2 = st.columns([1,1])
+    with c1:
+        for country in check_competitors.keys():
+            st.write('**HDI 2021**: `{}`'.format(check_competitors[country]['HDI rank (2021)']))
+    with c2:
+        for country in check_competitors.keys():
+            st.write('**Income Group**: `{}`'.format(check_competitors[country]['Income Group']))
+            
+    
+
+
 
 #     # PEER COUNTRY INPUT WIDGET
 #     #selected_region = st.sidebar.multiselect(
