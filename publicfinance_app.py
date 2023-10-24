@@ -259,7 +259,7 @@ with col1:
 with col3: 
     
   # Get data
-    chart1_data = get_filtered_data([selected_country] + selected_peer, selected_start_year, selected_end_year, 
+    chart1_data = get_filtered_data(df_wb,[selected_country] + selected_peer, selected_start_year, selected_end_year, 
                                     ['Total population','Population Growth Rate'])
 
     # ### Group data by year
