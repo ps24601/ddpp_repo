@@ -240,7 +240,7 @@ with st.expander("ℹ️ - About the data sources", expanded=False):
 # st.subheader("Everyone is talking about  Gross Domestic Product (GDP) - but what does it actually mean? ")
 
 # Configure columns
-col1, col2, col3 = st.columns([1,0.02,1])
+col1, col2, col3 = st.columns([0.3,0.02,1])
 
 with col1:
 
@@ -260,7 +260,7 @@ with col3:
     
   # Get data
     chart1_data = get_filtered_data(df_wb,[selected_country] + selected_peer, selected_start_year, selected_end_year, 
-                                    ['Total population','Population Growth Rate'])
+                                    ['Population','Population Growth Rate'])
 
     # ### Group data by year
     chart3_data = chart1_data.groupby([chart1_data.Indicator],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
