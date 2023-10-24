@@ -198,13 +198,13 @@ with st.sidebar:
     check_competitors = get_peerstats(selected_peer+[selected_country],END_YEAR)
     c1, c2 = st.columns([1,1])
     with c1:
+        st.write('**Income Group**')
         for country in check_competitors.keys():
-            st.write('**{}**'.format(country))
-            st.write('HDI 2021: `{}`'.format(check_competitors[country]['HDI rank (2021)']))
+            st.write('{}: `{}`'.format(country,check_competitors[country]['HDI rank (2021)']))
     with c2:
+        st.write('**HDI 2021 Rank**')
         for country in check_competitors.keys():
-            st.write('**{}**'.format(country))
-            st.write('**Income Group**: `{}`'.format(check_competitors[country]['Income Group']))
+            st.write('{}: `{}`'.format(country,check_competitors[country]['Income Group']))
             
     
 
