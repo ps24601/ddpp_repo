@@ -174,7 +174,7 @@ with st.sidebar:
     
     # REGION INPUT WIDGET
     selected_peer = st.sidebar.multiselect(
-        "Choose coountries to compare",
+        "Choose countries to compare",
         df_countries
         )
     
@@ -199,9 +199,11 @@ with st.sidebar:
     c1, c2 = st.columns([1,1])
     with c1:
         for country in check_competitors.keys():
-            st.write('**HDI 2021**: `{}`'.format(check_competitors[country]['HDI rank (2021)']))
+            st.write('**{}**'.country)
+            st.write('HDI 2021: `{}`'.format(check_competitors[country]['HDI rank (2021)']))
     with c2:
         for country in check_competitors.keys():
+            st.write('**{}**'.country)
             st.write('**Income Group**: `{}`'.format(check_competitors[country]['Income Group']))
             
     
