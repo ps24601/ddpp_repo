@@ -168,7 +168,11 @@ with st.sidebar:
     # START AND END YEAR SLIDER 
 
     # # Update based on data availability for chosen country 
-    START_YEAR, END_YEAR = get_years(selected_country)
+    if choice == 'WB':
+        START_YEAR, END_YEAR = get_years(selected_country, df_wb)
+    else:
+        START_YEAR, END_YEAR = get_years(selected_country, df_ilo)
+
 
     # Widget
     selected_years = st.sidebar.slider(
