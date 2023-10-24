@@ -196,15 +196,17 @@ with st.sidebar:
             placeholder[country]['HDI rank (2021)'] = df1['HDI rank (2021)'].values[0]
         return placeholder
     check_competitors = get_peerstats(selected_peer+[selected_country],END_YEAR)
-    c1, c2 = st.columns([1,1])
-    with c1:
-        st.write('**Income Group**')
-        for country in check_competitors.keys():
-            st.write('{}: `{}`'.format(country,check_competitors[country]['HDI rank (2021)']))
-    with c2:
-        st.write('**HDI 2021 Rank**')
-        for country in check_competitors.keys():
-            st.write('{}: `{}`'.format(country,check_competitors[country]['Income Group']))
+
+
+c1, c2 = st.columns([1,1])
+with c1:
+    st.write('**Income Group**')
+    for country in check_competitors.keys():
+        st.write('{}: `{}`'.format(country,check_competitors[country]['HDI rank (2021)']))
+with c2:
+    st.write('**HDI 2021 Rank**')
+    for country in check_competitors.keys():
+        st.write('{}: `{}`'.format(country,check_competitors[country]['Income Group']))
             
     
 
