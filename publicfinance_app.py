@@ -144,10 +144,10 @@ with st.sidebar:
     df_countries.remove("Germany")
     df_countries.insert(0,"Germany") 
 
-    select_datasource = st.sidebar.selectbox(
-        label="Choose country of interest",
-        options=df_countries
-        )
+    selected_country = st.sidebar.selectbox(
+            label="Choose country of interest",
+            options=df_countries
+            )
 
     # DESCRIPTION REGIONS/PEER COUNTRIES
     st.sidebar.caption("""If you want to compare the values of the chosen country
@@ -159,33 +159,11 @@ with st.sidebar:
         df_countries
         )
 
-    # COUNTRY SELECTION INPUT WIDGET
-
-    # Specify the default options (needs to be first in list)
-    df_countries.remove("Germany")
-    df_countries.insert(0,"Germany")
-
-    # Widget
-    selected_country = st.sidebar.selectbox(
-        label="Choose country of interest",
-        options=df_countries
-        )
-
-    # DESCRIPTION REGIONS/PEER COUNTRIES
-    st.sidebar.caption("""If you want to compare the values of the chosen country
-                    to peer countries, please make a selection below.""")
-
     # PEER COUNTRY INPUT WIDGET
     #selected_region = st.sidebar.multiselect(
     #   "Choose regions for comparison",
     #  df_sub_region
     #  )
-
-    # REGION INPUT WIDGET
-    selected_peer = st.sidebar.multiselect(
-        "Choose comparison countries",
-        df_countries
-        )
 
     # START AND END YEAR SLIDER 
 
