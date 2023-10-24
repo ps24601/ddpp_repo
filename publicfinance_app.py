@@ -263,10 +263,10 @@ with col3:
                                     ['Population','Population Growth Rate'])
 
     # ### Group data by year
-    chart3_data = chart1_data.groupby([chart1_data.Indicator],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
+    chart1_data = chart1_data.groupby([chart1_data.Indicator],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
 
     # Configure plot
-    fig = px.line(chart3_data,
+    fig = px.line(chart1_data,
                     x="Year", 
                     y="Value",   
                     color='Country',
