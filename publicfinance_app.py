@@ -19,7 +19,7 @@ def load_data(path):
 # Load data 
 df_wb = load_data("data/pbfinance_wb.csv")
 df_ilo = load_data("data/pbfinance_ilo.csv")
-df_imf = load_data("data/pbfinance_imf.csv")
+# df_imf = load_data("data/pbfinance_imf.csv")
 
 # Get a country, region and indicator list
 df_wb_countries = df_wb['Country'].unique().tolist()
