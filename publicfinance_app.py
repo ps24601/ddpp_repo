@@ -199,11 +199,11 @@ with st.sidebar:
     c1, c2 = st.columns([1,1])
     with c1:
         for country in check_competitors.keys():
-            st.write('**{}**'.country)
+            st.write('**{}**'.format(country))
             st.write('HDI 2021: `{}`'.format(check_competitors[country]['HDI rank (2021)']))
     with c2:
         for country in check_competitors.keys():
-            st.write('**{}**'.country)
+            st.write('**{}**'.format(country))
             st.write('**Income Group**: `{}`'.format(check_competitors[country]['Income Group']))
             
     
