@@ -128,8 +128,9 @@ def get_imf_data(feature_map_input, start_year_input, end_year_input, dataset_in
 
   return df_full
 
+#--------------------------------------FUNCTION---------------------------------------------
 
-def get_imf_indicator_data(dimension_map_input, start_year_input, end_year_input):
+def get_imf_indicator_data(dimension_map_input, start_year_input =2000, end_year_input=2023):
   """This is to get particular indicator data from IMF"""
 
   # Define base url and extract all params from dimesnion 
@@ -149,6 +150,7 @@ def get_imf_indicator_data(dimension_map_input, start_year_input, end_year_input
   ##### prepare URL and get data #########
 
   url = f"{BASE_URL}{datasetID}/{freq}.{area_codeID}.{indicatorID}.?startPeriod={str(start_year_input)}&endPeriod={str(end_year_input)}"
+  # print(url)
   data = requests.get(url).json()
   # Load data into a pandas dataframe
   auxp = pd.DataFrame(data['CompactData']['DataSet']['Series'])
@@ -162,22 +164,21 @@ def get_imf_indicator_data(dimension_map_input, start_year_input, end_year_input
 
   # Drop, rename and reorder columns columns 
   # df.drop(columns={'@FREQ', '@UNIT_MULT', '@TIME_FORMAT'}, inplace=True)
-  df.rename(columns={'@REF_AREA': 'WEO Country Code', '@INDICATOR': 'Indicator Code', '@TIME_PERIOD': 'Year', '@OBS_VALUE': 'Value'}, inplace=True)
+  df.rename(columns={'@REF_AREA': 'ISO-alpha2 Code', '@INDICATOR': 'Indicator Code', '@TIME_PERIOD': 'Year', '@OBS_VALUE': 'Value'}, inplace=True)
   # Add country name column
-  df['Country'] = df['WEO Country Code'].map(featureMap_areas)
+  df['Country'] = df['ISO-alpha2 Code'].map(featureMap_areas)
 
     # Add country and region columns
   df_country_codes = pd.read_csv('country_classifications/country_codes.csv')
   df_country_codes.rename(columns={'ISO-alpha3 Code': 'Country Code', 'Region Name': 'Region', 'Sub-region Name': 'Sub-region'}, inplace=True)
-  df = pd.merge(df, df_country_codes, on=['WEO Country Code'], how="left")
+  df = pd.merge(df, df_country_codes, on=['ISO-alpha2 Code'], how="left")
   
-  temp = get_dataset_structure(datasetID)
-  if temp:
-    out_file = open(f"country_classification/{datasetID}.json", "w")
-    json.dump(temp, out_file, indent = 6)
-    out_file.close()
-
-    
+  # temp = get_dataset_structure(datasetID)
+  # if temp:
+  #   out_file = open(f"imf_ds/{datasetID}.json", "w")
+  #   json.dump(temp, out_file, indent = 6)
+  #   out_file.close()
+ 
   return df 
 
 
@@ -197,6 +198,7 @@ def get_dataset_structure(datasetID):
         except Exception as e:
             print(e)
             return None
+    return schema_structure
 
 def get_imf_data_updated(indicators_map):
 
@@ -207,14 +209,33 @@ def get_imf_data_updated(indicators_map):
 
   # Loop through each indicator in the dictionary and access data
   for key, value in indicators_map.items(): 
+    # print(key, value)
 
     df_id = get_imf_indicator_data(value)
-    df_id['indicator_name'] = key
+    # df_id.to_csv(f'imf_ds/{key}.csv')
+    df_id['Indicator'] = key
 
     # Attach data to dataframe 
     df_full = pd.concat([df_full, df_id])
 
+  df_full.drop(columns = ['@FREQ', '@UNIT_MULT',
+       '@TIME_FORMAT', 'Country_y', 'M49 Code', 
+       '@BASE_YEAR', '@OBS_STATUS',
+       '@OFFICIAL_BPM'], inplace=True)
+
+  df_full['Value'] = df_full['Value'].astype(float).round(2)
+  df_full.rename(columns = {'Country_x':'Country'},inplace=True)
+
+    # Drop all regions and entries that are not countries
+  df_full = df_full.dropna(subset=['Country'])
+
+  # Rearrange and drop unnecessary columns
+  df_full = df_full[['Country Code', 'Country', 'Indicator Code', 
+                       'Indicator', 'Year', 'Value', 'Region', 'Sub-region', 'Income Group',
+                       'Least Developed Countries (LDC)', 'Land Locked Developing Countries (LLDC)',
+                       'Small Island Developing States (SIDS)']]
   
+  return df_full
   # ##################################### Process data #######################################
 
   # # Drop, rename and reorder columns columns 
@@ -255,6 +276,6 @@ def get_imf_data_updated(indicators_map):
   # # Specify decimal because otherwise German Excel gets confused
   # #df_full.to_excel('data/imf_data.xlsx',index=False)
 
-  return df_full
+  
 
 #print(get_imf_data(featureMap_indicators, START_YEAR, END_YEAR, DATASET))

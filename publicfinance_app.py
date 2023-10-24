@@ -34,19 +34,19 @@ df_ilo_regions = df_ilo['Region'].unique().tolist()
 df_ilo_subregion = df_ilo['Sub-region'].unique().tolist()
 df_ilo_sub_region = df_ilo_regions + df_ilo_subregion
 
-df_imf_countries = df_imf['Country'].unique().tolist()
-df_imf_indicators = df_imf['Indicator'].unique().tolist()
-df_imf_regions = df_imf['Region'].unique().tolist()
-df_imf_subregion = df_imf['Sub-region'].unique().tolist()
-df_imf_sub_region = df_imf_regions + df_imf_subregion
+# df_imf_countries = df_imf['Country'].unique().tolist()
+# df_imf_indicators = df_imf['Indicator'].unique().tolist()
+# df_imf_regions = df_imf['Region'].unique().tolist()
+# df_imf_subregion = df_imf['Sub-region'].unique().tolist()
+# df_imf_sub_region = df_imf_regions + df_imf_subregion
 
 # Turn years into int (str necessary first because Streamlit)
 df_wb['Year'] = df_wb['Year'].astype(str)
 df_wb['Year'] = df_wb['Year'].astype(int)
 df_ilo['Year'] = df_ilo['Year'].astype(str)
 df_ilo['Year'] = df_ilo['Year'].astype(int)
-df_imf['Year'] = df_imf['Year'].astype(str)
-df_imf['Year'] = df_imf['Year'].astype(int)
+# df_imf['Year'] = df_imf['Year'].astype(str)
+# df_imf['Year'] = df_imf['Year'].astype(int)
 
 # Define start and end year 
 def get_years(df):
@@ -120,7 +120,7 @@ def convert_df(df):
 
 wb_csv = convert_df(df_wb)
 ilo_csv = convert_df(df_ilo)
-imf_csv = convert_df(df_imf)
+# imf_csv = convert_df(df_imf)
 
 #---------------------------------------- SIDEBAR ---------------------------------
 with st.sidebar:
@@ -136,10 +136,10 @@ with st.sidebar:
     add_title = st.sidebar.title("Customize your data")
     if choice == 'WB':
         df_countries = df_wb_countries
-    elif choice == 'ILO':
+    else :
         df_countries = df_ilo_countries
-    else:
-        df_countries = df_imf_countries
+    # else:
+    #     df_countries = df_imf_countries
 
     df_countries.remove("Germany")
     df_countries.insert(0,"Germany") 
@@ -205,14 +205,14 @@ with st.sidebar:
         st.sidebar.download_button(label="Click here to download data as csv",
                         data=wb_csv, 
                         file_name='data_wb.csv')
-    elif choice == 'ILO':
+    else :
         st.sidebar.download_button(label="Click here to download data as csv",
                         data=ilo_csv, 
                         file_name='data_ilo.csv')
-    else:
-        st.sidebar.download_button(label="Click here to download data as csv",
-                        data=imf_csv, 
-                        file_name='data_imf.csv')
+    # else:
+    #     st.sidebar.download_button(label="Click here to download data as csv",
+    #                     data=imf_csv, 
+    #                     file_name='data_imf.csv')
 
 
     st.sidebar.header("")

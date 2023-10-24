@@ -1,7 +1,7 @@
 import pandas as pd 
 from api_functions.wb_data import get_wb_data
 from api_functions.ilo_data import get_ilo_data
-from api_functions.imf_data import get_imf_data
+from api_functions.imf_data import get_imf_data_updated
 
 ########################### SPECIFY START AND END YEAR ###############################
 
@@ -62,8 +62,8 @@ featureMap_params = {
 }
 
 ########################### SPECIFY THE IMF INDICATORS NEEDED #########################
+
 INDICATORS_IMF = {}
-# the params on right need to to follow, the sequence [datasetID, Freq, Area/Country....]
 INDICATORS_IMF['Gross Domestic Product, Nominal, Domestic Currency'] = {'datasetID':'IFS','CL_FREQ':'A',
                                                                         'CL_AREA_IFS':'','CL_INDICATOR_IFS':'NGDP_XDC',
                                                                         }
@@ -76,24 +76,25 @@ INDICATORS_IMF['Imports of Goods and Services, Nominal, Domestic Currency'] = {'
 INDICATORS_IMF['Prices, Consumer Price Index, All items, Index'] = {'datasetID':'IFS','CL_FREQ':'A','CL_AREA_IFS':'',
                                                                         'CL_INDICATOR_IFS':'PCPI_IX',
                                                                         }
+INDICATORS_IMF['Fiscal, General Government, Revenue, 2001 Manual, Domestic Currency'] = {'datasetID':'IFS','CL_FREQ':'A',
+                                                                        'CL_AREA_IFS':'','CL_INDICATOR_IFS':'GG_GR_G01_XDC',
+                                                                        }
+INDICATORS_IMF['Fiscal, General Government, Revenue, Tax, 2001 Manual, Domestic Currency'] = {'datasetID':'IFS','CL_FREQ':'A',
+                                                                        'CL_AREA_IFS':'','CL_INDICATOR_IFS':'GG_GRT_G01_XDC',
+                                                                        }
+INDICATORS_IMF['Fiscal, General Government, Expense, 2001 Manual, Domestic Currency'] = {'datasetID':'IFS','CL_FREQ':'A',
+                                                                        'CL_AREA_IFS':'','CL_INDICATOR_IFS':'GG_GE_G01_XDC',
+                                                                        }
+INDICATORS_IMF['Fiscal, General Government, Assets and Liabilities, Net Worth'] = {'datasetID':'IFS','CL_FREQ':'A',
+                                                                        'CL_AREA_IFS':'','CL_INDICATOR_IFS':'GG_GANW_G01_XDC',
+                                                                        }                                                                                                                                                                                                                          
 INDICATORS_IMF['Current Account, Goods and Services, Net, National Currency'] = {'datasetID':'BOP','CL_FREQ':'A','CL_AREA_BOP':'',
                                                                         'CL_INDICATOR_BOP':'BGS_BP6_XDC',
                                                                         }
 INDICATORS_IMF['Debt to GDP Ratio'] = {'datasetID':'HPDD','CL_FREQ':'A','CL_AREA_HPDD':'','CL_INDICATOR_HPDD':'GGXWDG_GDP',
                                                                         }
-# INDICATORS_IMF['Debt to GDP Ratio'] = {'CL_FREQ':'A','CL_AREA_BOP':'.','CL_INDICATOR_BOP':'GGXWDG_GDP',
-#                                                                         }
 
 
-featureMap_indicators_imf = {
-    'NGDP_XDC':'Gross Domestic Product, Nominal, Domestic Currency',
-    'NX_XDC':'Exports of Goods and Services, Nominal, Domestic Currency',
-    'NM_XDC':'Imports of Goods and Services, Nominal, Domestic Currency',
-    'PCPI_IX':'Prices, Consumer Price Index, All items, Index'
-}
-
-# Dataset used (currently only works for one dataset at a time)
-DATASET = "IFS"
 
 
 ########################### RETRIEVE WB DATA ##########################
@@ -102,7 +103,7 @@ DATASET = "IFS"
 # wb_data = get_wb_data(featureMap_indicators, START_YEAR, END_YEAR)
 
 
-# ########################### MANUALLY CALCULATE GDP GROWTH ##########################
+# # ########################### MANUALLY CALCULATE GDP GROWTH ##########################
 
 # # Step 1: Create an empty list to store new rows
 # new_rows = []
@@ -138,6 +139,16 @@ DATASET = "IFS"
 
 # # Step 4-5: Append new rows to the original dataframe
 # wb_data = wb_data.append(new_rows, ignore_index=True)
+# # Calculate region values for the indicators and attach to df
+
+# selected_cols  = ['Region', 'Income Group', 'Least Developed Countries (LDC)', 
+#                   'Land Locked Developing Countries (LLDC)', 
+#                   'Small Island Developing States (SIDS)']
+
+# for ele in selected_cols: 
+#     mean_values = wb_data.groupby([ele , 'Indicator', 'Year'])['Value'].mean().reset_index()
+#     mean_values = mean_values[~(mean_values[ele] == 0)]
+#     wb_data = pd.concat([wb_data, mean_values])
 # wb_data.to_csv('data/pbfinance_wb.csv', index=False)
 
 ########################### RETRIEVE ILO DATA ##########################
@@ -150,14 +161,21 @@ DATASET = "IFS"
 # conditions = ~ilo_data['Indicator'].isin(['Labour force participation rate', 'Unemployment rate'])
 # ilo_data.loc[conditions, 'Value'] = ilo_data.loc[conditions, 'Value'] * 1000
 
-# # # Concat dataframes and append country classifications
-# # df_pb_finance = pd.concat([wb_data, ilo_data])
+# # # # Concat dataframes and append country classifications
+# # # df_pb_finance = pd.concat([wb_data, ilo_data])
+# selected_cols  = ['Region', 'Income Group', 'Least Developed Countries (LDC)', 
+#                   'Land Locked Developing Countries (LLDC)', 
+#                   'Small Island Developing States (SIDS)']
 
+# for ele in selected_cols: 
+#     mean_values = ilo_data.groupby([ele , 'Indicator', 'Year'])['Value'].mean().reset_index()
+#     mean_values = mean_values[~(mean_values[ele] == 0)]
+#     ilo_data = pd.concat([ilo_data, mean_values])
 # ilo_data.to_csv('data/pbfinance_ilo.csv', index=False)
 
-########################### RETRIEVE IMF DATA ##########################
+# ########################### RETRIEVE IMF DATA ##########################
 
-# IMF 
-imf_data = get_imf_data(featureMap_indicators_imf, START_YEAR, END_YEAR, DATASET)
-imf_data.to_csv('data/pbfinance_imf.csv', index=False)
+# # IMF 
+# imf_data = get_imf_data_updated(INDICATORS_IMF)
+# imf_data.to_csv('data/pbfinance_imf.csv', index=False)
 
