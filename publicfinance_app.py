@@ -213,52 +213,82 @@ with st.sidebar:
     
 
 
-
-# # Add empty space to create some distance 
-# st.sidebar.header("")
-
-# st.sidebar.download_button(label="Click here to download data as csv",
-#                    data=csv, 
-#                    file_name='employment_data.xlsx')
-
-# st.sidebar.header("")
-
-# # INFO BOX
-# st.sidebar.info("""Please note that this dashboard is a prototype. 
-#                 Users are advised that the tool may contain errors, 
-#                 bugs, or limitations and should be used with caution 
-#                 and awareness of potential risks, and the developers 
-#                 make no warranties or guarantees regarding its performance, 
-#                 reliability, or suitability for any specific purpose.""")
-
 # #---------------------------------------- MAIN PAGE --------------------------------------------
 
 # # Add a title and intro text
-# st.title("Production dashboard")
+st.title("Public Finance Dashboard")
 
-# st.write("""
-#          Explore a comprehensive production dashboard that provides a holistic view of key employment indicators. 
-#          This interactive platform synthesizes diverse metrics, offering insights into job market trends, labor 
-#          force participation, and economic vitality. With intuitive visualizations and data-driven analysis, gain 
-#          a deeper understanding of workforce dynamics and make informed decisions for the future.
-#          """)
+st.write("""
+         Explore a comprehensive production dashboard that provides a holistic view of key employment indicators. 
+         This interactive platform synthesizes diverse metrics, offering insights into job market trends, labor 
+         force participation, and economic vitality. With intuitive visualizations and data-driven analysis, gain 
+         a deeper understanding of workforce dynamics and make informed decisions for the future.
+         """)
 
 
-# # Add the info box
-# with st.expander("ℹ️ - About the data sources", expanded=False):
-#     st.write(
-#         """
-#         Add the data sources here
-#         """)
+# Add the info box
+with st.expander("ℹ️ - About the data sources", expanded=False):
+    st.write(
+        """
+        It inlcudes IMF, Worldbanl, ILO and Human Devlopment Report data
+        """)
     
 
 # ############################ ROW 1 ###################################
 
-# # # Display subheading 
-# # st.subheader("Everyone is talking about  Gross Domestic Product (GDP) - but what does it actually mean? ")
+# # Display subheading 
+# st.subheader("Everyone is talking about  Gross Domestic Product (GDP) - but what does it actually mean? ")
 
-# # Configure columns
-# col1, col2, col3 = st.columns([1,0.02,1])
+# Configure columns
+col1, col2, col3 = st.columns([1,0.02,1])
+
+with col1:
+
+    # Display subheading 
+    st.subheader("Population Indicator ")
+ 
+   
+    #### Explanatory text box 1
+    st.markdown("""<div style="text-align: justify;">The population statistic gives the size of the population 
+                of the country and its recent development. The population dynamics (growth rate) are 
+                relevant for economic growth (see GDP per capita below) and are the outcome of mortality, 
+                fertility, migration and underlying factors. </div>""", unsafe_allow_html=True
+    )
+        
+    st.header("")
+with col3: 
+    
+  # Get data
+    chart1_data = get_filtered_data([selected_country] + selected_peer, selected_start_year, selected_end_year, 
+                                    ['Total population','Population Growth Rate'])
+
+    # ### Group data by year
+    chart3_data = chart1_data.groupby([chart1_data.Indicator],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
+
+    # Configure plot
+    fig = px.line(chart3_data,
+                    x="Year", 
+                    y="Value",   
+                    color='Country',
+                    title='Chart 3 - Population',
+                    hover_name="Value",
+                    color_discrete_sequence=px.colors.qualitative.Plotly
+                    )
+
+    # Move legend 
+    fig.update_layout(legend=dict(
+        # orientation="h",
+        yanchor="bottom",
+        y=-0.5,
+        xanchor="left",
+        x=0.01
+        ))
+
+    # Display graph
+    st.plotly_chart(fig, use_container_width=True)
+
+    # Caption graph
+    st.caption('Data Sources: World Development Indicators (WDI)')
 
 # # ### GRAPH AND TEXT 1 ###
 
