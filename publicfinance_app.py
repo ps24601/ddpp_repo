@@ -46,7 +46,8 @@ df_wb['Year'] = df_wb['Year'].astype(int)
 df_ilo['Year'] = df_ilo['Year'].astype(str)
 df_ilo['Year'] = df_ilo['Year'].astype(int)
 df_imf['Year'] = df_imf['Year'].astype(str)
-df_imf['Year'] = df_imf['Year'].astype(int)
+df_imf['Year'] = df_imf['Year'].astype(float).astype(int)
+# df_imf['Year'] = df_imf['Year'].astype(int)
 
 # Define start and end year 
 def get_years(df):
