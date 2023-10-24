@@ -175,7 +175,16 @@ INDICATORS_IMF['Debt to GDP Ratio'] = {'datasetID':'HPDD','CL_FREQ':'A','CL_AREA
 
 # ########################### RETRIEVE IMF DATA ##########################
 
-# # IMF 
+# # # IMF 
 # imf_data = get_imf_data_updated(INDICATORS_IMF)
+# selected_cols  = ['Region', 'Income Group', 'Least Developed Countries (LDC)', 
+#                   'Land Locked Developing Countries (LLDC)', 
+#                   'Small Island Developing States (SIDS)']
+
+# for ele in selected_cols: 
+#     mean_values = imf_data.groupby([ele , 'Indicator', 'Year'])['Value'].mean().reset_index()
+#     mean_values = mean_values[~(mean_values[ele] == 0)]
+#     imf_data = pd.concat([imf_data, mean_values])
 # imf_data.to_csv('data/pbfinance_imf.csv', index=False)
+
 
