@@ -294,8 +294,9 @@ st.write("")
 if selected_country == None : #len(selected_peer) == 0
     st.warning("Please Select One Country and atleast 1 peer couuntry for better analysis")
 else:
-    st.caption("Selected Countries")
+    
     st.header("A. General country cotext indicators")
+    st.caption("Selected Countries")
     c1, c2 = st.columns([1,1])
     with c1:
         st.write('**HDI 2021 Rank**')
@@ -306,7 +307,6 @@ else:
         for country in check_competitors.keys():
             st.write('{}: `{}`'.format(country,check_competitors[country]['Income Group']))
                 
-    st.write('----------------')
 
 # if len(selected_peer) == 0:
 #     st.warning("Please Select atleast 1 peer country for better analysis")
@@ -380,7 +380,6 @@ else:
 
     st.caption('Data Sources: World Development Indicators (WDI)')
 
-    st.write("------------------")
 ########### ROW 2 ###################################3
     st.subheader("GDP/GNI Per Capita (nominal)")
     
@@ -584,7 +583,6 @@ else:
 
     st.caption('Data Sources: International Monetary Fund (IMF)')
 
-    st.write("-------------")
     ############### ROW 4 ########################################################
 
     chart7_data = get_filtered_data(df_combined,[selected_country] + selected_peer, selected_start_year, selected_end_year, 
@@ -631,8 +629,6 @@ else:
         # Display graph
         st.plotly_chart(fig, use_container_width=True)
     st.caption('Data Sources: International Monetary Fund (IMF)')
-
-    st.write("-------------------")
 
     ############### ROW 5 ########################################################
 
