@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 import plotly.express as px
+from plotly.subplots import make_subplots
 
 # Git checkout
 # Use full screen 
@@ -332,7 +333,7 @@ else:
                         x="Year", 
                         y="Value",   
                         color='Country',
-                        title='Chart 3 - Population',
+                        title='Chart 1 - Population',
                         hover_name="Value",
                         color_discrete_sequence=px.colors.qualitative.Plotly
                         )
@@ -361,7 +362,7 @@ else:
                         x="Year", 
                         y="Value",   
                         color='Country',
-                        title='Chart 3 - Population Growth Rate',
+                        title='Chart 1 - Population Growth Rate',
                         hover_name="Value",
                         color_discrete_sequence=px.colors.qualitative.Plotly
                         )
@@ -377,7 +378,80 @@ else:
             
         st.plotly_chart(fig, use_container_width=True)
 
-        st.caption('Data Sources: World Development Indicators (WDI)')
+    st.caption('Data Sources: World Development Indicators (WDI)')
+
+########## ROW 2 #########################################
+    col1, col2, col3 = st.columns([1,0.02,1])
+    with col1:
+        st.subheader("GDP")
+        st.markdown("""<div style="text-align: justify;">Gross Domestic Product (GDP) per capita is a widely used
+                        indicator of a country's economic performance and development level. 
+                    It is calculated by dividing the total annual domestic output 
+                    of a country by its population size, thus providing a statistical 
+                    average of GDP per person. This metric offers valuable insights 
+                    into a country's standard of living and economic health, 
+                    especially when considered in conjunction with other indicators 
+                    such as the Human Development Index.</div> 
+                    <br>
+                    <div style="text-align: justify;">The growth rate of GDP per capita is 
+                    generally regarded as the primary measure of a country's economic 
+                    growth. It reflects the increase in the average income of a country's 
+                    citizens over time, which is a key factor in determining their standard
+                    of living. A steadily growing GDP per capita is often seen as an 
+                    indicator of a robust economy, as it suggests that the country is producing
+                    more goods and services per person, thereby improving people's 
+                    purchasing power and overall quality of life.""",  unsafe_allow_html=True)
+    with col2:
+        chart3_data = get_filtered_data(df_combined,[selected_country] + selected_peer, selected_start_year, selected_end_year, 
+                                    ['GDP, PPP (constant 2017 international $)','GDP per capita'])
+        chart3_data = chart3_data.groupby(['Indicator'],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
+
+    # Create figure with secondary y-axis
+    # fig = make_subplots(specs=[[{"secondary_y": True}]])
+
+    # Add traces
+    px.line(chart3_data,
+                        x="Year", 
+                        y="Value",
+                        labels = list(chart3_data.Indicator.unique()) ,
+                        color='Country',
+                        title='Chart 1 - Population Growth Rate',
+                        hover_name="Value",
+                        color_discrete_sequence=px.colors.qualitative.Plotly
+                        )
+    
+    fig.update_layout(legend=dict(
+            # orientation="h",
+            yanchor="bottom",
+            y=-0.5,
+            xanchor="left",
+            x=0.01
+            ))
+            
+    st.plotly_chart(fig, use_container_width=True)
+
+    st.caption('Data Sources: World Development Indicators (WDI)')
+    
+    # fig.add_trace(
+    #     px.Scatter(x =  name="yaxis data"),
+    #     secondary_y=False,
+    # )
+
+    # fig.add_trace(
+    #     go.Scatter(x=[2, 3, 4], y=[4, 5, 6], name="yaxis2 data"),
+    #     secondary_y=True,
+    # )
+
+    # # Add figure title
+    # fig.update_layout(
+    #     title_text="Double Y Axis Example"
+    # )
+    #     fig = make_subplots(specs=[[{"secondary_y": True}]])
+
+
+    
+
+
 
         # Display subheading 
         
