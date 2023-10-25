@@ -429,7 +429,11 @@ else:
                 y=-0.5,
                 xanchor="left",
                 x=0.01
-                ))
+                ),
+                title_text = 'GDP & GNI per capita')
+        fig.layout.xaxis.title="Value"
+        fig.layout.yaxis.title="Year"
+        fig.layout.title
         # fig.update_yaxes(title_text="<b>GDP</b> Indicator Value", secondary_y=False)
         # fig.update_yaxes(title_text="<b>GINI Index</b> value", secondary_y=True)
         fig.for_each_trace(lambda t: t.update(line=dict(color=t.marker.color)))
