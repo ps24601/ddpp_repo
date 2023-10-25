@@ -124,7 +124,7 @@ with st.sidebar:
     selected_country = st.sidebar.selectbox(
             label="Choose country of interest",
             options= df_countries,
-            index = None
+            index = None,
             )
 
     # DESCRIPTION REGIONS/PEER COUNTRIES
@@ -151,7 +151,7 @@ with st.sidebar:
 
     if selected_country != None:
         check_competitors = get_peerstats(selected_peer+[selected_country],END_YEAR)
-        
+
     st.sidebar.download_button(label="Click here to download data as csv",
                         data=df_csv, 
                         file_name='data.csv')
