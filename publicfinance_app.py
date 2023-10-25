@@ -830,10 +830,10 @@ else:
     selected_indicators = st.multiselect("Choose the labels for your plot",
                                          options= Indicators
                                          )
-    title_txt = st.text_area(
-    "Give title to your Graph",
-    "Default",
-    )
+    # title_txt = st.text_area(
+    # "Give title to your Graph",
+    # "Default",
+    # )
     count_of_indicators = len(selected_indicators)
     filtered_data = get_filtered_data(df_combined,[selected_country] + selected_peer, selected_start_year, selected_end_year, 
                             selected_indicators)
@@ -861,8 +861,7 @@ else:
             y=-0.5,
             xanchor="left",
             x=0.01
-            ),
-            title_text = title_txt)
+            ))
     fig.layout.xaxis.title="Year"
     fig.layout.yaxis.title="Value"
 
