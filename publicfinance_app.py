@@ -162,8 +162,8 @@ with st.sidebar:
                             horizontal = True)
     
 
-    df_countries.remove("Germany")
-    df_countries.insert(0,"Germany") 
+    # df_countries.remove("Germany")
+    df_countries.insert(0,"None") 
 
     selected_country = st.sidebar.selectbox(
             label="Choose country of interest",
@@ -275,23 +275,36 @@ st.write("""
          a deeper understanding of workforce dynamics and make informed decisions for the future.
           """)
 st.write("")
-st.caption("Selected Countries")
-
-c1, c2 = st.columns([1,1])
-with c1:
-    st.write('**Income Group**')
-    for country in check_competitors.keys():
-        st.write('{}: `{}`'.format(country,check_competitors[country]['HDI rank (2021)']))
-with c2:
-    st.write('**HDI 2021 Rank**')
-    for country in check_competitors.keys():
-        st.write('{}: `{}`'.format(country,check_competitors[country]['Income Group']))
-            
-st.write('----------------')
-
-if len(selected_peer) == 0:
-    st.warning("Please Select atleast 1 peer country for better analysis")
+if selected_country == 'None' or len(selected_peer) == 0:
+    st.warning("Please Select One Country and atleast 1 peer couuntry for better analysis")
 else:
+    st.caption("Selected Countries")
+
+    c1, c2 = st.columns([1,1])
+    with c1:
+        st.write('**Income Group**')
+        for country in check_competitors.keys():
+            st.write('{}: `{}`'.format(country,check_competitors[country]['HDI rank (2021)']))
+    with c2:
+        st.write('**HDI 2021 Rank**')
+        for country in check_competitors.keys():
+            st.write('{}: `{}`'.format(country,check_competitors[country]['Income Group']))
+                
+    st.write('----------------')
+
+# if len(selected_peer) == 0:
+#     st.warning("Please Select atleast 1 peer country for better analysis")
+# else:
+    ############ ROW 1 ###################################################################33
+    st.subheader("Population")
+    
+    #### Explanatory text box 1
+    st.markdown("""<div style="text-align: justify;">The population statistic gives the size of the population 
+                of the country and its recent development. The population dynamics (growth rate) are 
+                relevant for economic growth (see GDP per capita below) and are the outcome of mortality, 
+                fertility, migration and underlying factors. </div>""", unsafe_allow_html=True
+    )
+            
     col1, col2, col3 = st.columns([1,0.02,1])
     with col1:
         chart1_data = get_filtered_data(df_combined,[selected_country] + selected_peer, selected_start_year, selected_end_year, 
@@ -320,47 +333,39 @@ else:
 
         # Display graph
         st.plotly_chart(fig, use_container_width=True)
-                
-        with col3: 
             
-        # Get data
-            chart2_data = get_filtered_data(df_combined,[selected_country] + selected_peer, selected_start_year, selected_end_year, 
-                                    ['Population Growth Rate'])
-            chart2_data = chart2_data.groupby(['Indicator'],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
+    with col3: 
+        
+    # Get data
+        chart2_data = get_filtered_data(df_combined,[selected_country] + selected_peer, selected_start_year, selected_end_year, 
+                                ['Population Growth Rate'])
+        chart2_data = chart2_data.groupby(['Indicator'],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
 
-                # Configure plot
-            fig = px.line(chart2_data,
-                            x="Year", 
-                            y="Value",   
-                            color='Country',
-                            title='Chart 3 - Population Growth Rate',
-                            hover_name="Value",
-                            color_discrete_sequence=px.colors.qualitative.Plotly
-                            )
+            # Configure plot
+        fig = px.line(chart2_data,
+                        x="Year", 
+                        y="Value",   
+                        color='Country',
+                        title='Chart 3 - Population Growth Rate',
+                        hover_name="Value",
+                        color_discrete_sequence=px.colors.qualitative.Plotly
+                        )
 
             # Move legend 
-            fig.update_layout(legend=dict(
-                # orientation="h",
-                yanchor="bottom",
-                y=-0.5,
-                xanchor="left",
-                x=0.01
-                ))
+        fig.update_layout(legend=dict(
+            # orientation="h",
+            yanchor="bottom",
+            y=-0.5,
+            xanchor="left",
+            x=0.01
+            ))
             
-            st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, use_container_width=True)
+
+        st.caption('Data Sources: World Development Indicators (WDI)')
 
         # Display subheading 
-        st.subheader("Population")
-    
-    
-        #### Explanatory text box 1
-        st.markdown("""<div style="text-align: justify;">The population statistic gives the size of the population 
-                    of the country and its recent development. The population dynamics (growth rate) are 
-                    relevant for economic growth (see GDP per capita below) and are the outcome of mortality, 
-                    fertility, migration and underlying factors. </div>""", unsafe_allow_html=True
-        )
-            
-        st.header("")
+        
 
 # # Add the info box
 # with st.expander("ℹ️ - About the data sources", expanded=False):
@@ -385,7 +390,7 @@ else:
     
 
 #     # Caption graph
-#     st.caption('Data Sources: World Development Indicators (WDI)')
+#     
 
 # # # ### GRAPH AND TEXT 1 ###
 
