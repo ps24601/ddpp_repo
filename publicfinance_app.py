@@ -123,8 +123,7 @@ with st.sidebar:
 
     selected_country = st.sidebar.selectbox(
             label="Choose country of interest",
-            options= df_countries,
-            index = None,
+            options= [None] + df_countries,
             )
 
     # DESCRIPTION REGIONS/PEER COUNTRIES
