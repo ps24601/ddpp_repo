@@ -125,7 +125,7 @@ def get_years(country_input,df):
     available. This can be used to adjust the year slider. 
 
     """
-    if country == 'None':
+    if country_input == 'None':
         return 2000, 2022
     else:
         start_year_country = int(df[df['Country'] == country_input]['Year'].min())
