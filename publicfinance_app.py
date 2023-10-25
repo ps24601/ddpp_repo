@@ -380,7 +380,7 @@ else:
 
     st.caption('Data Sources: World Development Indicators (WDI)')
 
-    
+    st.write("------------------")
 ########### ROW 2 ###################################3
     st.subheader("GDP/GNI Per Capita (nominal)")
     
@@ -430,10 +430,10 @@ else:
                 xanchor="left",
                 x=0.01
                 ),
-                title_text = 'GDP & GNI per capita')
+                title_text = 'Chart 3 - GDP & GNI per capita')
         fig.layout.xaxis.title="Value"
         fig.layout.yaxis.title="Year"
-        fig.layout.title
+
         # fig.update_yaxes(title_text="<b>GDP</b> Indicator Value", secondary_y=False)
         # fig.update_yaxes(title_text="<b>GINI Index</b> value", secondary_y=True)
         fig.for_each_trace(lambda t: t.update(line=dict(color=t.marker.color)))
@@ -471,8 +471,114 @@ else:
 
     st.caption('Data Sources: World Development Indicators (WDI)')
     
-
+    st.write("------------")
 # ########## ROW 3 #########################################
+    st.header("Revenue and Expenditure")
+    
+
+    col1, col2, col3 = st.columns([1,0.02,1])
+    with col1:
+        st.subheader("Revenue")
+    
+        #### Explanatory text box 1
+        st.markdown("""<div style="text-align: justify;">Government revenue is made up
+                     of tax revenue and non-tax revenue (includes social security
+                     contributions, grants, property income, sales, fees, among others). 
+                    General government refers to all tiers of government and 
+                    excludes public corporations.A low level of tax revenues (relative to GDP) may 
+                    indicate a low capacity of the state to sustainably contribute to achieving 
+                    the SDGs (Addis Ababa Action Agenda, Addis Tax Initiative Declarations).  </div>""", unsafe_allow_html=True
+                            )
+        chart5_data = get_filtered_data(df_combined,[selected_country] + selected_peer, selected_start_year, selected_end_year, 
+                                    ['Fiscal, General Government, Revenue, 2001 Manual, Domestic Currency',
+                                      'Fiscal, General Government, Revenue, Tax, 2001 Manual, Domestic Currency'])
+        chart5_data.rename(columns = {'Fiscal, General Government, Revenue, 2001 Manual, Domestic Currency':'Revenue',
+                                      'Fiscal, General Government, Revenue, Tax, 2001 Manual, Domestic Currency':'Tax Revenue',
+                                      }, inplace= True)
+        chart5_data = chart5_data.groupby(['Indicator'],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
+
+        # Configure plot
+        fig = make_subplots()
+        subfig1  =  px.line(chart5_data[chart5_data.Indicator == 'Revenue'],
+                    x="Year", 
+                    y="Value",
+                    line_group='Country',
+                    color='Indicator',
+                    hover_name="Value",
+                    color_discrete_sequence=px.colors.qualitative.Plotly
+                    )
+                    
+        
+        subfig2 =   px.line(chart5_data[chart5_data.Indicator == 'Tax Revenue'],
+                    x="Year", 
+                    y="Value",
+                    line_group='Country',
+                    color='Indicator',
+                    hover_name="Value",
+                    color_discrete_sequence=px.colors.qualitative.Plotly
+                    )
+        # subfig2.update_traces(yaxis="y2")
+
+        fig.add_traces(subfig1.data + subfig2.data)
+
+        fig.update_layout(legend=dict(
+                # orientation="h",
+                yanchor="bottom",
+                y=-0.5,
+                xanchor="left",
+                x=0.01
+                ),
+                title_text = 'Chart 5 - Revenue and Tax Revenue ')
+        fig.layout.xaxis.title="Value"
+        fig.layout.yaxis.title="Year"
+
+        # fig.update_yaxes(title_text="<b>GDP</b> Indicator Value", secondary_y=False)
+        # fig.update_yaxes(title_text="<b>GINI Index</b> value", secondary_y=True)
+        fig.for_each_trace(lambda t: t.update(line=dict(color=t.marker.color)))
+
+            
+        st.plotly_chart(fig, use_container_width=True)
+            
+    with col3: 
+        
+    # Get data
+        st.subheader("Expenditure")
+    
+        #### Explanatory text box 1
+        st.markdown("""<div style="text-align: justify;">General government expenses
+                     serve two broad economic responsibilities: provide selected
+                     goods and services to the community and redistribute income
+                     and wealth. Expenses exceeding revenues need to be 
+                    financed, e.g., through borrowing.   </div>""", unsafe_allow_html=True
+                            )
+        chart6_data = get_filtered_data(df_combined,[selected_country] + selected_peer, selected_start_year, selected_end_year, 
+                                ['Fiscal, General Government, Expense, 2001 Manual, Domestic Currency'])
+        chart6_data.rename(columns= {'Fiscal, General Government, Expense, 2001 Manual, Domestic Currency':'Expenditure'},
+                           inplace= True)
+        chart6_data = chart6_data.groupby(['Indicator'],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
+
+        # Configure plot
+        fig = px.line(chart6_data,
+                        x="Year", 
+                        y="Value",   
+                        color='Country',
+                        title='Chart 6 - Expenditure',
+                        hover_name="Value",
+                        color_discrete_sequence=px.colors.qualitative.Plotly
+                        )
+
+            # Move legend 
+        fig.update_layout(legend=dict(
+            # orientation="h",
+            yanchor="bottom",
+            y=-0.5,
+            xanchor="left",
+            x=0.01
+            ))
+            
+        st.plotly_chart(fig, use_container_width=True)
+
+    st.caption('Data Sources: International Monetary Fund (IMF)')
     # st.subheader("GDP")
     
     # #### Explanatory text box 1
