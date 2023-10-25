@@ -431,8 +431,8 @@ else:
                 x=0.01
                 ),
                 title_text = 'Chart 3 - GDP & GNI per capita')
-        fig.layout.xaxis.title="Value"
-        fig.layout.yaxis.title="Year"
+        fig.layout.xaxis.title="Year"
+        fig.layout.yaxis.title="Value"
 
         # fig.update_yaxes(title_text="<b>GDP</b> Indicator Value", secondary_y=False)
         # fig.update_yaxes(title_text="<b>GINI Index</b> value", secondary_y=True)
@@ -529,8 +529,8 @@ else:
                 x=0.01
                 ),
                 title_text = 'Chart 5 - Revenue and Tax Revenue ')
-        fig.layout.xaxis.title="Value"
-        fig.layout.yaxis.title="Year"
+        fig.layout.xaxis.title="Year"
+        fig.layout.yaxis.title="Value"
 
         # fig.update_yaxes(title_text="<b>GDP</b> Indicator Value", secondary_y=False)
         # fig.update_yaxes(title_text="<b>GINI Index</b> value", secondary_y=True)
@@ -560,6 +560,7 @@ else:
         chart6_data = chart6_data.groupby(['Indicator'],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
         st.write("")
         st.write("")
+        st.write("")
         # Configure plot
         fig = px.line(chart6_data,
                         x="Year", 
@@ -586,18 +587,57 @@ else:
     st.write("-------------")
     ############### ROW 4 ########################################################
 
-    # st.subheader("GDP")
-    
-    # #### Explanatory text box 1
-    # st.markdown("""<div style="text-align: justify;">GDP per capita is a measure 
-    #             of a country’s total annual domestic output, divided by population 
-    #             size. In other words, it constitutes a (statistical) average of GDP 
-    #             per person. Together with the Human Development Index, it 
-    #             may provide a hint at the country’s average </div>""", unsafe_allow_html=True
-    #                     )
+    st.subheader("Inflation")
+    chart7_data = get_filtered_data(df_combined,[selected_country] + selected_peer, selected_start_year, selected_end_year, 
+                        ['Prices, Consumer Price Index, All items, Index'])
+    chart7_data.replace({'Prices, Consumer Price Index, All items, Index':'Consumer Price Index'},
+                        inplace= True)
+    chart7_data = chart7_data.groupby(['Indicator'],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
+    st.write("")
 
-    # col1, col2, col3 = st.columns([1,0.02,1])
-    # with col1:
+
+    col1, col2, col3 = st.columns([1,0.02,1])
+    with col1:
+        #### Explanatory text box 1
+        st.markdown("""<div style="text-align: justify;">The annual inflation rate measures
+                     the yearly change in a general price index. Inflation reduces 
+                    the purchasing power of money; the inflation rate can be used to 
+                    account for price level changes in the development of nominal measures 
+                    by translating them to real values (e.g. nominal versus real GDP).<div>
+                    <br>
+                    <div style="text-align: justify;">Inflation has multiple 
+                    potential causes (e.g. related to expansionary monetary policy)
+                     and affects government and private finances in several ways. 
+                    Both high and very low levels of inflation warrant attention 
+                    to underlying political, economic and financial dynamics and 
+                    their consequences.  </div>""", unsafe_allow_html=True)
+    with col3:
+            # Configure plot
+        fig = px.line(chart7_data,
+                        x="Year", 
+                        y="Value", 
+                        color='Country',
+                        title='Chart 7 - Consumer Price Index',
+                        hover_name="Value",
+                        color_discrete_sequence=px.colors.qualitative.Plotly
+                        )
+
+        # Move legend 
+        fig.update_layout(legend=dict(
+            # orientation="h",
+            yanchor="bottom",
+            y=-0.5,
+            xanchor="left",
+            x=0.01
+            ))
+
+        # Display graph
+        st.plotly_chart(fig, use_container_width=True)
+        st.caption('Data Sources: International Monetary Fund (IMF)')
+
+        st.write("-------------------")
+
+
     #     chart3_data = get_filtered_data(df_combined,[selected_country] + selected_peer, selected_start_year, selected_end_year, 
     #                                 ['GDP per capita','GNI per capita'])
          
