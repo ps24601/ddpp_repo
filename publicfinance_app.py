@@ -125,10 +125,12 @@ def get_years(country_input,df):
     available. This can be used to adjust the year slider. 
 
     """
-    start_year_country = int(df[df['Country'] == country_input]['Year'].min())
-    end_year_country = int(df[df['Country'] == country_input]['Year'].max())
-
-    return start_year_country, end_year_country
+    if country == 'None':
+        return 2000, 2022
+    else:
+        start_year_country = int(df[df['Country'] == country_input]['Year'].min())
+        end_year_country = int(df[df['Country'] == country_input]['Year'].max())
+        return start_year_country, end_year_country
 # DOWNLOAD WIDGET 
 
 # Create a csv version of the dataframe (cache so it doesn't rerun)
@@ -181,14 +183,17 @@ with st.sidebar:
         )
     
     START_YEAR, END_YEAR = get_years(selected_country, df_combined)
+    if selected_country != 'None':
+        selected_years = st.sidebar.slider(
+            "Select the range",
+            START_YEAR, END_YEAR, (START_YEAR,END_YEAR-1),
+            )
+        selected_start_year = selected_years[0]
+        selected_end_year = selected_years[1]
+    else:
+        selected_start_year = 2000
+        selected_end_year = 2022
 
-    selected_years = st.sidebar.slider(
-        "Select the range",
-        START_YEAR, END_YEAR, (START_YEAR,END_YEAR-1),
-        )
-    
-    selected_start_year = selected_years[0]
-    selected_end_year = selected_years[1]
 
     check_competitors = get_peerstats(selected_peer+[selected_country],END_YEAR)
     st.sidebar.download_button(label="Click here to download data as csv",
