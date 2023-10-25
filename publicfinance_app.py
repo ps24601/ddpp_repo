@@ -550,10 +550,7 @@ else:
                      goods and services to the community and redistribute income
                      and wealth. Expenses exceeding revenues need to be 
                     financed, e.g., through borrowing.</div>
-                    
-                    
-                    
-                    
+
                     """, unsafe_allow_html=True
                             )
         chart6_data = get_filtered_data(df_combined,[selected_country] + selected_peer, selected_start_year, selected_end_year, 
@@ -561,7 +558,8 @@ else:
         chart6_data.replace({'Fiscal, General Government, Expense, 2001 Manual, Domestic Currency':'Expenditure'},
                            inplace= True)
         chart6_data = chart6_data.groupby(['Indicator'],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
-
+        st.write("")
+        st.write("")
         # Configure plot
         fig = px.line(chart6_data,
                         x="Year", 
