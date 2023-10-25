@@ -549,11 +549,12 @@ else:
                      serve two broad economic responsibilities: provide selected
                      goods and services to the community and redistribute income
                      and wealth. Expenses exceeding revenues need to be 
-                    financed, e.g., through borrowing.
+                    financed, e.g., through borrowing.</div>
                     
                     
                     
-                       </div>""", unsafe_allow_html=True
+                    
+                    """, unsafe_allow_html=True
                             )
         chart6_data = get_filtered_data(df_combined,[selected_country] + selected_peer, selected_start_year, selected_end_year, 
                                 ['Fiscal, General Government, Expense, 2001 Manual, Domestic Currency'])
