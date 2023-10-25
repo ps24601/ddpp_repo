@@ -438,7 +438,7 @@ else:
                     )
                     
         
-        subfig2 =   px.line(chart3_data_1,
+        subfig2 =   px.line(chart3_data_2,
                     x="Year", 
                     y="Value",
                     line_group='Country',
