@@ -587,17 +587,14 @@ else:
     st.write("-------------")
     ############### ROW 4 ########################################################
 
-    st.subheader("Inflation")
     chart7_data = get_filtered_data(df_combined,[selected_country] + selected_peer, selected_start_year, selected_end_year, 
                         ['Prices, Consumer Price Index, All items, Index'])
     chart7_data.replace({'Prices, Consumer Price Index, All items, Index':'Consumer Price Index'},
                         inplace= True)
     chart7_data = chart7_data.groupby(['Indicator'],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
-    st.write("")
-
-
     col1, col2, col3 = st.columns([1,0.02,1])
     with col1:
+        st.subheader("Inflation")
         #### Explanatory text box 1
         st.markdown("""<div style="text-align: justify;">The annual inflation rate measures
                      the yearly change in a general price index. Inflation reduces 
