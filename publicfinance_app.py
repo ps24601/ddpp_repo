@@ -19,9 +19,6 @@ def load_data(path):
 # Load data 
 df_combined = load_data("data/pbfinance.csv")
 df_hdr = load_data("data/hdr.csv")
-# df_wb = load_data("data/pbfinance_wb.csv")
-# df_ilo = load_data("data/pbfinance_ilo.csv")
-# df_imf = load_data("data/pbfinance_imf.csv")
 
 # Get a country, region and indicator list
 df_countries = df_combined['Country'].unique().tolist()
@@ -30,53 +27,15 @@ df_regions = df_combined['Region'].unique().tolist()
 df_subregion = df_combined['Sub-region'].unique().tolist()
 df_sub_region = df_regions + df_subregion
 
-
-
-# Get a country, region and indicator list
-# df_wb_countries = df_wb['Country'].unique().tolist()
-# df_wb_indicators = df_wb['Indicator'].unique().tolist()
-# df_wb_regions = df_wb['Region'].unique().tolist()
-# df_wb_subregion = df_wb['Sub-region'].unique().tolist()
-# df_wb_sub_region = df_wb_regions + df_wb_subregion
-
-# df_ilo_countries = df_ilo['Country'].unique().tolist()
-# df_ilo_indicators = df_ilo['Indicator'].unique().tolist()
-# df_ilo_regions = df_ilo['Region'].unique().tolist()
-# df_ilo_subregion = df_ilo['Sub-region'].unique().tolist()
-# df_ilo_sub_region = df_ilo_regions + df_ilo_subregion
-
-# df_imf_countries = df_imf['Country'].unique().tolist()
-# df_imf_indicators = df_imf['Indicator'].unique().tolist()
-# df_imf_regions = df_imf['Region'].unique().tolist()
-# df_imf_subregion = df_imf['Sub-region'].unique().tolist()
-# df_imf_sub_region = df_imf_regions + df_imf_subregion
-
 # Turn years into int (str necessary first because Streamlit)
 df_combined = df_combined.dropna(subset=['Year'])
 df_combined['Year'] = df_combined['Year'].astype(str)
 df_combined['Year'] = df_combined['Year'].astype(float).astype(int)
 
-
-# df_wb['Year'] = df_wb['Year'].astype(str)
-# df_wb['Year'] = df_wb['Year'].astype(int)
-# df_ilo['Year'] = df_ilo['Year'].astype(str)
-# df_ilo['Year'] = df_ilo['Year'].astype(int)
-# df_imf = df_imf.dropna(subset=['Year'])
-# df_imf['Year'] = df_imf['Year'].astype(str)
-# df_imf['Year'] = df_imf['Year'].astype(float).astype(int)
-# df_imf['Year'] = df_imf['Year'].astype(int)
-
-# Define start and end year 
-# def get_years(df):
-#     df = df['Year'].unique().tolist()
-#     START_YEAR = min(df)
-#     END_YEAR = min(df)
-#     return START_YEAR, END_YEAR
-
 #------------------------------ Functions  ------------------------------------#
 
-# Data Selection 
 
+# Data Selection 
 def get_filtered_data(df,country_selec, start_year_selec, end_year_selec, indicator_selec):
 
     """
@@ -125,24 +84,19 @@ def get_years(country_input,df):
     available. This can be used to adjust the year slider. 
 
     """
-    if country_input == 'None':
+    if country_input == None:
         return 2000, 2022
     else:
         start_year_country = int(df[df['Country'] == country_input]['Year'].min())
         end_year_country = int(df[df['Country'] == country_input]['Year'].max())
         return start_year_country, end_year_country
-# DOWNLOAD WIDGET 
-
-# Create a csv version of the dataframe (cache so it doesn't rerun)
+    
 @st.cache_data
 def convert_df(df):
     return df.to_csv().encode('utf-8')
-
-# wb_csv = convert_df(df_wb)
-# ilo_csv = convert_df(df_ilo)
-# imf_csv = convert_df(df_imf)
 df_csv = convert_df(df_combined)
 
+# To get HDR and INCOME stats fo countries
 def get_peerstats(country_list, end_year):
     
     placeholder = {}
@@ -165,11 +119,12 @@ with st.sidebar:
     
 
     # df_countries.remove("Germany")
-    df_countries.insert(0,"None") 
+    # df_countries.insert(0,"None") 
 
     selected_country = st.sidebar.selectbox(
             label="Choose country of interest",
-            options=df_countries
+            options= df_countries,
+            index = None
             )
 
     # DESCRIPTION REGIONS/PEER COUNTRIES
@@ -183,7 +138,7 @@ with st.sidebar:
         )
     
     START_YEAR, END_YEAR = get_years(selected_country, df_combined)
-    if selected_country != 'None':
+    if selected_country != None:
         selected_years = st.sidebar.slider(
             "Select the range",
             START_YEAR, END_YEAR, (START_YEAR,END_YEAR-1),
@@ -194,8 +149,9 @@ with st.sidebar:
         selected_start_year = 2000
         selected_end_year = 2022
 
-
-    check_competitors = get_peerstats(selected_peer+[selected_country],END_YEAR)
+    if selected_country != None:
+        check_competitors = get_peerstats(selected_peer+[selected_country],END_YEAR)
+        
     st.sidebar.download_button(label="Click here to download data as csv",
                         data=df_csv, 
                         file_name='data.csv')
@@ -221,6 +177,61 @@ with st.sidebar:
 
 
 
+# df_wb = load_data("data/pbfinance_wb.csv")
+# df_ilo = load_data("data/pbfinance_ilo.csv")
+# df_imf = load_data("data/pbfinance_imf.csv")
+
+# Get a country, region and indicator list
+# df_wb_countries = df_wb['Country'].unique().tolist()
+# df_wb_indicators = df_wb['Indicator'].unique().tolist()
+# df_wb_regions = df_wb['Region'].unique().tolist()
+# df_wb_subregion = df_wb['Sub-region'].unique().tolist()
+# df_wb_sub_region = df_wb_regions + df_wb_subregion
+
+# df_ilo_countries = df_ilo['Country'].unique().tolist()
+# df_ilo_indicators = df_ilo['Indicator'].unique().tolist()
+# df_ilo_regions = df_ilo['Region'].unique().tolist()
+# df_ilo_subregion = df_ilo['Sub-region'].unique().tolist()
+# df_ilo_sub_region = df_ilo_regions + df_ilo_subregion
+
+# df_imf_countries = df_imf['Country'].unique().tolist()
+# df_imf_indicators = df_imf['Indicator'].unique().tolist()
+# df_imf_regions = df_imf['Region'].unique().tolist()
+# df_imf_subregion = df_imf['Sub-region'].unique().tolist()
+# df_imf_sub_region = df_imf_regions + df_imf_subregion
+
+
+
+
+# df_wb['Year'] = df_wb['Year'].astype(str)
+# df_wb['Year'] = df_wb['Year'].astype(int)
+# df_ilo['Year'] = df_ilo['Year'].astype(str)
+# df_ilo['Year'] = df_ilo['Year'].astype(int)
+# df_imf = df_imf.dropna(subset=['Year'])
+# df_imf['Year'] = df_imf['Year'].astype(str)
+# df_imf['Year'] = df_imf['Year'].astype(float).astype(int)
+# df_imf['Year'] = df_imf['Year'].astype(int)
+
+# Define start and end year 
+# def get_years(df):
+#     df = df['Year'].unique().tolist()
+#     START_YEAR = min(df)
+#     END_YEAR = min(df)
+#     return START_YEAR, END_YEAR
+
+
+
+
+
+
+# DOWNLOAD WIDGET 
+
+# Create a csv version of the dataframe (cache so it doesn't rerun)
+
+
+# wb_csv = convert_df(df_wb)
+# ilo_csv = convert_df(df_ilo)
+# imf_csv = convert_df(df_imf)
 
 
 
