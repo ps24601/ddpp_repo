@@ -295,7 +295,7 @@ if selected_country == None : #len(selected_peer) == 0
     st.warning("Please Select One Country and atleast 1 peer couuntry for better analysis")
 else:
     
-    st.header("A. General country cotext indicators")
+    st.header("A. General country context indicators")
     st.caption("Selected Countries")
     c1, c2 = st.columns([1,1])
     with c1:
@@ -380,6 +380,7 @@ else:
 
     st.caption('Data Sources: World Development Indicators (WDI)')
 
+    st.write("")
 ########### ROW 2 ###################################3
     st.subheader("GDP/GNI Per Capita (nominal)")
     
@@ -582,6 +583,7 @@ else:
         st.plotly_chart(fig, use_container_width=True)
 
     st.caption('Data Sources: International Monetary Fund (IMF)')
+    st.write("")
 
     ############### ROW 4 ########################################################
 
@@ -629,6 +631,7 @@ else:
         # Display graph
         st.plotly_chart(fig, use_container_width=True)
     st.caption('Data Sources: International Monetary Fund (IMF)')
+    st.write("")
 
     ############### ROW 5 ########################################################
 
@@ -647,7 +650,7 @@ else:
                     High unemployment is typically associated with poverty, 
                     inequality and a loss of output and productive resources. 
                     For more detail on employment and unemployment.
-                    [Unemployment Dashboard](employment-dashboard.streamlit.app).</div>""", 
+                    [Unemployment Dashboard](https://employment-dashboard.streamlit.app).</div>""", 
                     unsafe_allow_html=True)
     with col3:
             # Configure plot
@@ -692,6 +695,7 @@ else:
             
         st.plotly_chart(fig, use_container_width=True)
     st.caption('Data Sources: International Labour Organization (ILO)')
+    st.write("")
 
     ############### ROW 6 ########################################################
 
@@ -737,79 +741,16 @@ else:
     ##################### Row 7 #########################################################
     st.subheader("More Indicators Plot")
     chart10_data = get_filtered_data(df_combined,[selected_country] + selected_peer, selected_start_year, selected_end_year, 
-                        ['Current Account, Goods and Services, Net, National Currency',
-                         'Fiscal, General Government, Assets and Liabilities, Net Worth'])
-    # chart10_data.replace({'Prices, Consumer Price Index, All items, Index':'Consumer Price Index'},
-    #                     inplace= True)
+                        ['Exports of Goods and Services, Nominal, Domestic Currency',
+                         'Imports of Goods and Services, Nominal, Domestic Currency'])
+    chart10_data.replace({'Exports of Goods and Services, Nominal, Domestic Currency':'Exports',
+                          'Imports of Goods and Services, Nominal, Domestic Currency':'Imports'},
+                        inplace= True)
     chart10_data = chart10_data.groupby(['Indicator'],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
     col1, col2, col3 = st.columns([1,0.02,1])
     with col1:
-        
-        fig = px.line(chart10_data[chart10_data.Indicator == 'Current Account, Goods and Services, Net, National Currency'],
-                        x="Year", 
-                        y="Value", 
-                        color='Country',
-                        title='Chart 10 - Current Account, Goods and Services, Net',
-                        hover_name="Value",
-                        color_discrete_sequence=px.colors.qualitative.Plotly
-                        )
-
-        # Move legend 
-        fig.update_layout(legend=dict(
-            # orientation="h",
-            yanchor="bottom",
-            y=-0.5,
-            xanchor="left",
-            x=0.01
-            ))
-
-        # Display graph
-        st.plotly_chart(fig, use_container_width=True)
-        #### Explanatory text box 1
-        # st.markdown("""<div style="text-align: justify;">An increase in the 
-        #             public debt/government debt to GDP ratio indicates an 
-        #             increase in public liabilities relative to gross domestic output. 
-        #             Rising debt rates may be associated with decreasing debt 
-        #             sustainability and the capacity to access new financing. 
-        #             Details depend on several factors including financing 
-        #             conditions, type of debt, capacity to repay (e. g. DRM).</div>""", unsafe_allow_html=True)
-    with col3:
-            # Configure plot
-        st.subheader('Fiscal, General Government, Assets and Liabilities, Net Worth')
-        fig = px.line(chart10_data[chart10_data.Indicator == 'Fiscal, General Government, Assets and Liabilities, Net Worth'],
-                        x="Year", 
-                        y="Value", 
-                        color='Country',
-                        title='Chart 11 - Assets and Liabilities, Net Worth',
-                        hover_name="Value",
-                        color_discrete_sequence=px.colors.qualitative.Plotly
-                        )
-
-        # Move legend 
-        fig.update_layout(legend=dict(
-            # orientation="h",
-            yanchor="bottom",
-            y=-0.5,
-            xanchor="left",
-            x=0.01
-            ))
-
-        # Display graph
-        st.plotly_chart(fig, use_container_width=True)
-    st.caption('Data Sources: International Monetary Fund (IMF)')
-
-    ############# ROW 8 ########################################################
-    chart11_data = get_filtered_data(df_combined,[selected_country] + selected_peer, selected_start_year, selected_end_year, 
-                        ['Exports of Goods and Services, Nominal, Domestic Currency',
-                         'Imports of Goods and Services, Nominal, Domestic Currency'])
-    chart11_data.replace({'Exports of Goods and Services, Nominal, Domestic Currency':'Exports',
-                          'Imports of Goods and Services, Nominal, Domestic Currency':'Imports'},
-                        inplace= True)
-    chart11_data = chart11_data.groupby(['Indicator'],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
-    col1, col2, col3 = st.columns([1,0.02,1])
-    with col1:
         fig = make_subplots()
-        subfig1  =  px.line(chart11_data[chart11_data.Indicator == 'Exports'],
+        subfig1  =  px.line(chart10_data[chart10_data.Indicator == 'Exports'],
                     x="Year", 
                     y="Value",
                     line_group='Country',
@@ -819,7 +760,7 @@ else:
                     )
                     
         
-        subfig2 =   px.line(chart11_data[chart11_data.Indicator == 'Imports'],
+        subfig2 =   px.line(chart10_data[chart10_data.Indicator == 'Imports'],
                     x="Year", 
                     y="Value",
                     line_group='Country',
@@ -838,7 +779,7 @@ else:
                 xanchor="left",
                 x=0.01
                 ),
-                title_text = 'Chart 12 - Exports & Imports')
+                title_text = 'Chart 10 - Exports & Imports')
         fig.layout.xaxis.title="Year"
         fig.layout.yaxis.title="Value"
 
@@ -848,6 +789,99 @@ else:
 
             
         st.plotly_chart(fig, use_container_width=True)
+
+    with col3:
+            # Configure plot
+        chart11_data = get_filtered_data(df_combined,[selected_country] + selected_peer, selected_start_year, selected_end_year, 
+                    ['Gini index'])
+
+        chart11_data = chart11_data.groupby(['Indicator'],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')    
+        fig = px.line(chart9_data,
+                        x="Year", 
+                        y="Value", 
+                        color='Country',
+                        title='Chart 11 - Gini index',
+                        hover_name="Value",
+                        color_discrete_sequence=px.colors.qualitative.Plotly
+                        )
+
+        # Move legend 
+        fig.update_layout(legend=dict(
+            # orientation="h",
+            yanchor="bottom",
+            y=-0.5,
+            xanchor="left",
+            x=0.01
+            ))
+
+        # Display graph
+        st.plotly_chart(fig, use_container_width=True)
+    st.caption('Data Sources: International Monetary Fund (IMF)')
+
+    ############# ROW 8 ########################################################
+    # 
+    # chart10_data = get_filtered_data(df_combined,[selected_country] + selected_peer, selected_start_year, selected_end_year, 
+    #                     ['Current Account, Goods and Services, Net, National Currency',
+    #                      'Fiscal, General Government, Assets and Liabilities, Net Worth'])
+    # # chart10_data.replace({'Prices, Consumer Price Index, All items, Index':'Consumer Price Index'},
+    # #                     inplace= True)
+    # chart10_data = chart10_data.groupby(['Indicator'],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
+    # col1, col2, col3 = st.columns([1,0.02,1])
+    # with col1:
+        
+    #     fig = px.line(chart10_data[chart10_data.Indicator == 'Current Account, Goods and Services, Net, National Currency'],
+    #                     x="Year", 
+    #                     y="Value", 
+    #                     color='Country',
+    #                     title='Chart 10 - Current Account, Goods and Services, Net',
+    #                     hover_name="Value",
+    #                     color_discrete_sequence=px.colors.qualitative.Plotly
+    #                     )
+
+    #     # Move legend 
+    #     fig.update_layout(legend=dict(
+    #         # orientation="h",
+    #         yanchor="bottom",
+    #         y=-0.5,
+    #         xanchor="left",
+    #         x=0.01
+    #         ))
+
+    #     # Display graph
+    #     st.plotly_chart(fig, use_container_width=True)
+    #     #### Explanatory text box 1
+    #     # st.markdown("""<div style="text-align: justify;">An increase in the 
+    #     #             public debt/government debt to GDP ratio indicates an 
+    #     #             increase in public liabilities relative to gross domestic output. 
+    #     #             Rising debt rates may be associated with decreasing debt 
+    #     #             sustainability and the capacity to access new financing. 
+    #     #             Details depend on several factors including financing 
+    #     #             conditions, type of debt, capacity to repay (e. g. DRM).</div>""", unsafe_allow_html=True)
+    # with col3:
+    #         # Configure plot
+    #     fig = px.line(chart10_data[chart10_data.Indicator == 'Fiscal, General Government, Assets and Liabilities, Net Worth'],
+    #                     x="Year", 
+    #                     y="Value", 
+    #                     color='Country',
+    #                     title='Chart 11 - Assets and Liabilities, Net Worth',
+    #                     hover_name="Value",
+    #                     color_discrete_sequence=px.colors.qualitative.Plotly
+    #                     )
+
+    #     # Move legend 
+    #     fig.update_layout(legend=dict(
+    #         # orientation="h",
+    #         yanchor="bottom",
+    #         y=-0.5,
+    #         xanchor="left",
+    #         x=0.01
+    #         ))
+
+    #     # Display graph
+    #     st.plotly_chart(fig, use_container_width=True)
+    # st.caption('Data Sources: International Monetary Fund (IMF)')
+    # st.write("")
+   
 
     ############################# ROW 10 ###########################3
 
