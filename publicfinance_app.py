@@ -276,6 +276,7 @@ st.write("""
           """)
 st.write("")
 st.caption("Selected Countries")
+
 c1, c2 = st.columns([1,1])
 with c1:
     st.write('**Income Group**')
@@ -287,6 +288,79 @@ with c2:
         st.write('{}: `{}`'.format(country,check_competitors[country]['Income Group']))
             
 st.write('----------------')
+
+if len(selected_peer) == 0:
+    st.warning("Please Select atleast 1 peer country for better analysis")
+else:
+    col1, col2, col3 = st.columns([1,0.02,1])
+    with col1:
+        chart1_data = get_filtered_data(df_combined,[selected_country] + selected_peer, selected_start_year, selected_end_year, 
+                                    ['Population'])
+        
+        chart1_data = chart1_data.groupby(['Indicator'],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
+
+        # Configure plot
+        fig = px.line(chart1_data,
+                        x="Year", 
+                        y="Value",   
+                        color='Country',
+                        title='Chart 3 - Population',
+                        hover_name="Value",
+                        color_discrete_sequence=px.colors.qualitative.Plotly
+                        )
+
+        # Move legend 
+        fig.update_layout(legend=dict(
+            # orientation="h",
+            yanchor="bottom",
+            y=-0.5,
+            xanchor="left",
+            x=0.01
+            ))
+
+        # Display graph
+        st.plotly_chart(fig, use_container_width=True)
+                
+        with col3: 
+            
+        # Get data
+            chart2_data = get_filtered_data(df_combined,[selected_country] + selected_peer, selected_start_year, selected_end_year, 
+                                    ['Population Growth Rate'])
+            chart2_data = chart2_data.groupby(['Indicator'],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
+
+                # Configure plot
+            fig = px.line(chart2_data,
+                            x="Year", 
+                            y="Value",   
+                            color='Country',
+                            title='Chart 3 - Population Growth Rate',
+                            hover_name="Value",
+                            color_discrete_sequence=px.colors.qualitative.Plotly
+                            )
+
+            # Move legend 
+            fig.update_layout(legend=dict(
+                # orientation="h",
+                yanchor="bottom",
+                y=-0.5,
+                xanchor="left",
+                x=0.01
+                ))
+            
+            st.plotly_chart(fig, use_container_width=True)
+
+        # Display subheading 
+        st.subheader("Population")
+    
+    
+        #### Explanatory text box 1
+        st.markdown("""<div style="text-align: justify;">The population statistic gives the size of the population 
+                    of the country and its recent development. The population dynamics (growth rate) are 
+                    relevant for economic growth (see GDP per capita below) and are the outcome of mortality, 
+                    fertility, migration and underlying factors. </div>""", unsafe_allow_html=True
+        )
+            
+        st.header("")
 
 # # Add the info box
 # with st.expander("ℹ️ - About the data sources", expanded=False):
@@ -302,52 +376,13 @@ st.write('----------------')
 # # st.subheader("Everyone is talking about  Gross Domestic Product (GDP) - but what does it actually mean? ")
 
 # Configure columns
-col1, col2, col3 = st.columns([0.3,0.02,1])
 
-with col1:
 
-    # Display subheading 
-    st.subheader("Population and GDP")
- 
-   
-    #### Explanatory text box 1
-    st.markdown("""<div style="text-align: justify;">The population statistic gives the size of the population 
-                of the country and its recent development. The population dynamics (growth rate) are 
-                relevant for economic growth (see GDP per capita below) and are the outcome of mortality, 
-                fertility, migration and underlying factors. </div>""", unsafe_allow_html=True
-    )
-        
-    st.header("")
-with col3: 
-    
-  # Get data
-    chart1_data = get_filtered_data(df_combined,[selected_country] + selected_peer, selected_start_year, selected_end_year, 
-                                    ['GDP Growth','Population Growth Rate'])
+
+
 
     # ### Group data by year
-    chart1_data = chart1_data.groupby(['Indicator'],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
-
-    # Configure plot
-    fig = px.line(chart1_data,
-                    x="Year", 
-                    y="Value",   
-                    color='Indicator',
-                    title='Chart 3 - Population and GDP growth',
-                    hover_name="Value",
-                    color_discrete_sequence=px.colors.qualitative.Plotly
-                    )
-
-    # Move legend 
-    fig.update_layout(legend=dict(
-        # orientation="h",
-        yanchor="bottom",
-        y=-0.5,
-        xanchor="left",
-        x=0.01
-        ))
-
-    # Display graph
-    st.plotly_chart(fig, use_container_width=True)
+    
 
 #     # Caption graph
 #     st.caption('Data Sources: World Development Indicators (WDI)')
