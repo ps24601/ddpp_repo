@@ -427,7 +427,7 @@ else:
         fig = make_subplots(specs=[[{"secondary_y": True}]])
 
         # Add traces
-        fig.add_trace( px.line(chart3_data_1,
+        subfig1  =  px.line(chart3_data_1,
                     x="Year", 
                     y="Value",
                     line_group='Country',
@@ -435,10 +435,10 @@ else:
                     title='Chart 3 - GDP and Inequality',
                     hover_name="Value",
                     color_discrete_sequence=px.colors.qualitative.Plotly
-                    ),
-                    secondary_y = False)
+                    )
+                    
         
-        fig.add_trace(px.line(chart3_data_1,
+        subfig2 =   px.line(chart3_data_1,
                     x="Year", 
                     y="Value",
                     line_group='Country',
@@ -446,15 +446,17 @@ else:
                     hover_name="Value",
                     color_discrete_sequence=px.colors.qualitative.Plotly
                     ),
-                    secondary_y = True)
+        subfig2.update_traces(yaxis="y2")
+
+        fig.add_traces(subfig1.data + subfig2.data)
         
-        fig.update_layout(legend=dict(
-                # orientation="h",
-                yanchor="bottom",
-                y=-0.5,
-                xanchor="left",
-                x=0.01
-                ))
+        # fig.update_layout(legend=dict(
+        #         # orientation="h",
+        #         yanchor="bottom",
+        #         y=-0.5,
+        #         xanchor="left",
+        #         x=0.01
+        #         ))
         fig.update_yaxes(title_text="<b>GDP</b> Indicator Value", secondary_y=False)
         fig.update_yaxes(title_text="<b>GINI Index</b> value", secondary_y=True)
             
