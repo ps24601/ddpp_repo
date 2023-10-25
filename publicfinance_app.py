@@ -162,15 +162,6 @@ with st.sidebar:
                             horizontal = True)
     
 
-# # TITLE
-#     add_title = st.sidebar.title("Customize your data")
-#     if choice == 'WB':
-#         df_countries = df_wb_countries
-#     elif choice == 'ILO' :
-#         df_countries = df_ilo_countries
-#     else:
-#         df_countries = df_imf_countries
-
     df_countries.remove("Germany")
     df_countries.insert(0,"Germany") 
 
@@ -195,6 +186,9 @@ with st.sidebar:
         "Select the range",
         START_YEAR, END_YEAR, (START_YEAR,END_YEAR-1),
         )
+    
+    selected_start_year = selected_years[0]
+    selected_end_year = selected_years[1]
 
     check_competitors = get_peerstats(selected_peer+[selected_country],END_YEAR)
     st.sidebar.download_button(label="Click here to download data as csv",
@@ -211,18 +205,18 @@ with st.sidebar:
                     make no warranties or guarantees regarding its performance, 
                     reliability, or suitability for any specific purpose.""")
 
+# # TITLE
+#     add_title = st.sidebar.title("Customize your data")
+#     if choice == 'WB':
+#         df_countries = df_wb_countries
+#     elif choice == 'ILO' :
+#         df_countries = df_ilo_countries
+#     else:
+#         df_countries = df_imf_countries
 
-c1, c2 = st.columns([1,1])
-with c1:
-    st.write('**Income Group**')
-    for country in check_competitors.keys():
-        st.write('{}: `{}`'.format(country,check_competitors[country]['HDI rank (2021)']))
-with c2:
-    st.write('**HDI 2021 Rank**')
-    for country in check_competitors.keys():
-        st.write('{}: `{}`'.format(country,check_competitors[country]['Income Group']))
-            
-    
+
+
+
 
 
 
@@ -248,8 +242,7 @@ with c2:
 #         "Select the range",
 #         START_YEAR, END_YEAR, (START_YEAR,END_YEAR-1),
 #         )
-#     selected_start_year = selected_years[0]
-#     selected_end_year = selected_years[1]
+    
 #     # Add empty space to create some distance 
 #     st.sidebar.header("")
 #     if choice == 'WB':
@@ -270,18 +263,30 @@ with c2:
     
 
 
-# # #---------------------------------------- MAIN PAGE --------------------------------------------
+# #---------------------------------------- MAIN PAGE --------------------------------------------
 
-# # # Add a title and intro text
-# st.title("Public Finance Dashboard")
+# # Add a title and intro text
+st.title("Public Finance Dashboard")
 
-# st.write("""
-#          Explore a comprehensive production dashboard that provides a holistic view of key employment indicators. 
-#          This interactive platform synthesizes diverse metrics, offering insights into job market trends, labor 
-#          force participation, and economic vitality. With intuitive visualizations and data-driven analysis, gain 
-#          a deeper understanding of workforce dynamics and make informed decisions for the future.
-#          """)
-
+st.write("""
+         Explore a comprehensive production dashboard that provides a holistic view of key employment indicators. 
+         This interactive platform synthesizes diverse metrics, offering insights into job market trends, labor 
+         force participation, and economic vitality. With intuitive visualizations and data-driven analysis, gain 
+         a deeper understanding of workforce dynamics and make informed decisions for the future.
+          """)
+st.write("")
+st.caption("Selected Countries")
+c1, c2 = st.columns([1,1])
+with c1:
+    st.write('**Income Group**')
+    for country in check_competitors.keys():
+        st.write('{}: `{}`'.format(country,check_competitors[country]['HDI rank (2021)']))
+with c2:
+    st.write('**HDI 2021 Rank**')
+    for country in check_competitors.keys():
+        st.write('{}: `{}`'.format(country,check_competitors[country]['Income Group']))
+            
+st.write('----------------')
 
 # # Add the info box
 # with st.expander("ℹ️ - About the data sources", expanded=False):
@@ -296,41 +301,41 @@ with c2:
 # # # Display subheading 
 # # st.subheader("Everyone is talking about  Gross Domestic Product (GDP) - but what does it actually mean? ")
 
-# # Configure columns
-# col1, col2, col3 = st.columns([0.3,0.02,1])
+# Configure columns
+col1, col2, col3 = st.columns([0.3,0.02,1])
 
-# with col1:
+with col1:
 
-#     # Display subheading 
-#     st.subheader("Population Indicator")
+    # Display subheading 
+    st.subheader("Population and GDP")
  
    
-#     #### Explanatory text box 1
-#     st.markdown("""<div style="text-align: justify;">The population statistic gives the size of the population 
-#                 of the country and its recent development. The population dynamics (growth rate) are 
-#                 relevant for economic growth (see GDP per capita below) and are the outcome of mortality, 
-#                 fertility, migration and underlying factors. </div>""", unsafe_allow_html=True
-#     )
+    #### Explanatory text box 1
+    st.markdown("""<div style="text-align: justify;">The population statistic gives the size of the population 
+                of the country and its recent development. The population dynamics (growth rate) are 
+                relevant for economic growth (see GDP per capita below) and are the outcome of mortality, 
+                fertility, migration and underlying factors. </div>""", unsafe_allow_html=True
+    )
         
-#     st.header("")
-# with col3: 
+    st.header("")
+with col3: 
     
-#   # Get data
-#     chart1_data = get_filtered_data(df_wb,[selected_country] + selected_peer, selected_start_year, selected_end_year, 
-#                                     ['Population','Population Growth Rate'])
+  # Get data
+    chart1_data = get_filtered_data(df_combined,[selected_country] + selected_peer, selected_start_year, selected_end_year, 
+                                    ['GDP Growth','Population Growth Rate'])
 
-#     # ### Group data by year
-#     chart1_data = chart1_data.groupby(['Indicator'],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
+    # ### Group data by year
+    chart1_data = chart1_data.groupby(['Indicator'],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
 
-#     # Configure plot
-#     fig = px.line(chart1_data,
-#                     x="Year", 
-#                     y="Value",   
-#                     color='Indicator',
-#                     title='Chart 3 - Population',
-#                     hover_name="Value",
-#                     color_discrete_sequence=px.colors.qualitative.Plotly
-#                     )
+    # Configure plot
+    fig = px.line(chart1_data,
+                    x="Year", 
+                    y="Value",   
+                    color='Indicator',
+                    title='Chart 3 - Population and GDP growth',
+                    hover_name="Value",
+                    color_discrete_sequence=px.colors.qualitative.Plotly
+                    )
 
 #     # Move legend 
 #     fig.update_layout(legend=dict(
