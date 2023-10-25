@@ -400,10 +400,19 @@ else:
                     of living. A steadily growing GDP per capita is often seen as an 
                     indicator of a robust economy, as it suggests that the country is producing
                     more goods and services per person, thereby improving people's 
-                    purchasing power and overall quality of life.""",  unsafe_allow_html=True)
+                    purchasing power and overall quality of life.<div>
+                    <br>
+                    <div style="text-align: justify;">
+                    However, it is important to note that GDP per 
+                    capita has its limitations as a measure of a 
+                    country's economic well-being. For instance, 
+                    it does not take into account factors such as 
+                    income inequality, poverty rates, and environmental
+                    degradation, which can significantly impact a 
+                    country's overall development.<div>""",  unsafe_allow_html=True)
     with col3:
         chart3_data = get_filtered_data(df_combined,[selected_country] + selected_peer, selected_start_year, selected_end_year, 
-                                    ['GDP per capita', 'GNI per capita'])
+                                    ['GDP per capita', 'GNI per capita','Gini index'])
         # 'GDP, PPP (constant 2017 international $)','GDP per capita',
         chart3_data = chart3_data.groupby(['Indicator'],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
 
@@ -416,7 +425,7 @@ else:
                     y="Value",
                     line_group='Country',
                     color='Indicator',
-                    title='Chart 3 - GDP Growth Rate',
+                    title='Chart 3 - GDP and Inequality',
                     hover_name="Value",
                     color_discrete_sequence=px.colors.qualitative.Plotly
                     )
