@@ -120,7 +120,7 @@ with st.sidebar:
     
 
     df_countries.remove("Germany")
-    df_countries.insert(0,"None") 
+    df_countries.insert(0,"Germany") 
 
     selected_country = st.sidebar.selectbox(
             label="Choose country of interest",
