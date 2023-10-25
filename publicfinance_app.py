@@ -419,7 +419,7 @@ else:
                     hover_name="Value",
                     color_discrete_sequence=px.colors.qualitative.Plotly
                     )
-        subfig2.update_traces(yaxis="y2")
+        # subfig2.update_traces(yaxis="y2")
 
         fig.add_traces(subfig1.data + subfig2.data)
 
@@ -430,8 +430,8 @@ else:
                 xanchor="left",
                 x=0.01
                 ))
-        fig.update_yaxes(title_text="<b>GDP</b> Indicator Value", secondary_y=False)
-        fig.update_yaxes(title_text="<b>GINI Index</b> value", secondary_y=True)
+        # fig.update_yaxes(title_text="<b>GDP</b> Indicator Value", secondary_y=False)
+        # fig.update_yaxes(title_text="<b>GINI Index</b> value", secondary_y=True)
         fig.for_each_trace(lambda t: t.update(line=dict(color=t.marker.color)))
 
             
