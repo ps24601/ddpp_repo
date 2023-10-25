@@ -411,16 +411,23 @@ else:
                     degradation, which can significantly impact a 
                     country's overall development.<div>""",  unsafe_allow_html=True)
     with col3:
-        chart3_data = get_filtered_data(df_combined,[selected_country] + selected_peer, selected_start_year, selected_end_year, 
-                                    ['GDP per capita', 'GNI per capita','Gini index'])
-        # 'GDP, PPP (constant 2017 international $)','GDP per capita',
-        chart3_data = chart3_data.groupby(['Indicator'],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
+        chart3_data_1 = get_filtered_data(df_combined,[selected_country] + selected_peer, selected_start_year, selected_end_year, 
+                                    ['GDP per capita', 'GNI per capita'])
+        # 'GDP, PPP (constant 2017 international $)','GDP per capita', 'Gini index'
+        chart3_data_1 = chart3_data_1.groupby(['Indicator'],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
+
+        chart3_data_2 = get_filtered_data(df_combined,[selected_country] + selected_peer, selected_start_year, selected_end_year, 
+                                    ['Gini index'])
+       
+        # 'GDP, PPP (constant 2017 international $)','GDP per capita', 
+        chart3_data_2 = chart3_data_2.groupby(['Indicator'],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
+
 
     # Create figure with secondary y-axis
-    # fig = make_subplots(specs=[[{"secondary_y": True}]])
+        fig = make_subplots(specs=[[{"secondary_y": True}]])
 
         # Add traces
-        fig = px.line(chart3_data,
+        fig.add_trace( px.line(chart3_data_1,
                     x="Year", 
                     y="Value",
                     line_group='Country',
@@ -428,7 +435,18 @@ else:
                     title='Chart 3 - GDP and Inequality',
                     hover_name="Value",
                     color_discrete_sequence=px.colors.qualitative.Plotly
-                    )
+                    ),
+                    secondary_y = False)
+        
+        fig.add_trace(px.line(chart3_data_1,
+                    x="Year", 
+                    y="Value",
+                    line_group='Country',
+                    color='Indicator',
+                    hover_name="Value",
+                    color_discrete_sequence=px.colors.qualitative.Plotly
+                    ),
+                    secondary_y = True)
         
         fig.update_layout(legend=dict(
                 # orientation="h",
@@ -437,6 +455,8 @@ else:
                 xanchor="left",
                 x=0.01
                 ))
+        fig.update_yaxes(title_text="<b>GDP</b> Indicator Value", secondary_y=False)
+        fig.update_yaxes(title_text="<b>GINI Index</b> value", secondary_y=True)
             
         st.plotly_chart(fig, use_container_width=True)
 
