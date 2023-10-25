@@ -850,28 +850,28 @@ else:
                         hover_name="Value",
                         color_discrete_sequence=px.colors.qualitative.Plotly
                         ))
-        fig_data = ()
-        for i in plots_holder:
-            fig_data = fig_data + i.data
-        fig.add_traces(fig_data)
+    fig_data = ()
+    for i in plots_holder:
+        fig_data = fig_data + i.data
+    fig.add_traces(fig_data)
 
-        fig.update_layout(legend=dict(
-                # orientation="h",
-                yanchor="bottom",
-                y=-0.5,
-                xanchor="left",
-                x=0.01
-                ),
-                title_text = title_txt)
-        fig.layout.xaxis.title="Year"
-        fig.layout.yaxis.title="Value"
+    fig.update_layout(legend=dict(
+            # orientation="h",
+            yanchor="bottom",
+            y=-0.5,
+            xanchor="left",
+            x=0.01
+            ),
+            title_text = title_txt)
+    fig.layout.xaxis.title="Year"
+    fig.layout.yaxis.title="Value"
 
-            # fig.update_yaxes(title_text="<b>GDP</b> Indicator Value", secondary_y=False)
-            # fig.update_yaxes(title_text="<b>GINI Index</b> value", secondary_y=True)
-        fig.for_each_trace(lambda t: t.update(line=dict(color=t.marker.color)))
+        # fig.update_yaxes(title_text="<b>GDP</b> Indicator Value", secondary_y=False)
+        # fig.update_yaxes(title_text="<b>GINI Index</b> value", secondary_y=True)
+    fig.for_each_trace(lambda t: t.update(line=dict(color=t.marker.color)))
 
-                
-        st.plotly_chart(fig, use_container_width=True)
+            
+    st.plotly_chart(fig, use_container_width=True)
         
 
     ############# ROW 8 ########################################################
