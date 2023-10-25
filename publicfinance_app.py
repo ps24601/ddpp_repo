@@ -695,52 +695,110 @@ else:
 
     st.write("-------------------")
 
-    ############### ROW 7 ########################################################
+    ############### ROW 6 ########################################################
 
-    # chart7_data = get_filtered_data(df_combined,[selected_country] + selected_peer, selected_start_year, selected_end_year, 
-    #                     ['Prices, Consumer Price Index, All items, Index'])
-    # chart7_data.replace({'Prices, Consumer Price Index, All items, Index':'Consumer Price Index'},
+    chart9_data = get_filtered_data(df_combined,[selected_country] + selected_peer, selected_start_year, selected_end_year, 
+                        ['Debt to GDP Ratio'])
+    chart9_data = chart9_data.groupby(['Indicator'],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
+    col1, col2, col3 = st.columns([1,0.02,1])
+    with col1:
+        st.subheader("Debt Rate")
+        #### Explanatory text box 1
+        st.markdown("""<div style="text-align: justify;">An increase in the 
+                    public debt/government debt to GDP ratio indicates an 
+                    increase in public liabilities relative to gross domestic output. 
+                    Rising debt rates may be associated with decreasing debt 
+                    sustainability and the capacity to access new financing. 
+                    Details depend on several factors including financing 
+                    conditions, type of debt, capacity to repay (e. g. DRM).</div>""", unsafe_allow_html=True)
+    with col3:
+            # Configure plot
+        fig = px.line(chart9_data,
+                        x="Year", 
+                        y="Value", 
+                        color='Country',
+                        title='Chart 8 - Debt to GDP Ratio',
+                        hover_name="Value",
+                        color_discrete_sequence=px.colors.qualitative.Plotly
+                        )
+
+        # Move legend 
+        fig.update_layout(legend=dict(
+            # orientation="h",
+            yanchor="bottom",
+            y=-0.5,
+            xanchor="left",
+            x=0.01
+            ))
+
+        # Display graph
+        st.plotly_chart(fig, use_container_width=True)
+    st.caption('Data Sources: International Monetary Fund (IMF)')
+
+    ##################### Row 7 #########################################################
+    chart10_data = get_filtered_data(df_combined,[selected_country] + selected_peer, selected_start_year, selected_end_year, 
+                        ['Current Account, Goods and Services, Net, National Currency',
+                         'Fiscal, General Government, Assets and Liabilities, Net Worth'])
+    # chart10_data.replace({'Prices, Consumer Price Index, All items, Index':'Consumer Price Index'},
     #                     inplace= True)
-    # chart7_data = chart7_data.groupby(['Indicator'],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
-    # col1, col2, col3 = st.columns([1,0.02,1])
-    # with col1:
-    #     st.subheader("Inflation")
-    #     #### Explanatory text box 1
-    #     st.markdown("""<div style="text-align: justify;">The annual inflation rate measures
-    #                  the yearly change in a general price index. Inflation reduces 
-    #                 the purchasing power of money; the inflation rate can be used to 
-    #                 account for price level changes in the development of nominal measures 
-    #                 by translating them to real values (e.g. nominal versus real GDP).</div>
-    #                 <br>
-    #                 <div style="text-align: justify;">Inflation has multiple 
-    #                 potential causes (e.g. related to expansionary monetary policy)
-    #                  and affects government and private finances in several ways. 
-    #                 Both high and very low levels of inflation warrant attention 
-    #                 to underlying political, economic and financial dynamics and 
-    #                 their consequences.  </div>""", unsafe_allow_html=True)
-    # with col3:
-    #         # Configure plot
-    #     fig = px.line(chart7_data,
-    #                     x="Year", 
-    #                     y="Value", 
-    #                     color='Country',
-    #                     title='Chart 7 - Consumer Price Index',
-    #                     hover_name="Value",
-    #                     color_discrete_sequence=px.colors.qualitative.Plotly
-    #                     )
+    chart10_data = chart10_data.groupby(['Indicator'],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
+    col1, col2, col3 = st.columns([1,0.02,1])
+    with col1:
+        st.subheader("Current Account, Goods and Services, Net, National Currency")
+        fig = px.line(chart7_data,
+                        x="Year", 
+                        y="Value", 
+                        color='Country',
+                        title='Chart 10 - Current Account, Goods and Services, Net',
+                        hover_name="Value",
+                        color_discrete_sequence=px.colors.qualitative.Plotly
+                        )
 
-    #     # Move legend 
-    #     fig.update_layout(legend=dict(
-    #         # orientation="h",
-    #         yanchor="bottom",
-    #         y=-0.5,
-    #         xanchor="left",
-    #         x=0.01
-    #         ))
+        # Move legend 
+        fig.update_layout(legend=dict(
+            # orientation="h",
+            yanchor="bottom",
+            y=-0.5,
+            xanchor="left",
+            x=0.01
+            ))
 
-    #     # Display graph
-    #     st.plotly_chart(fig, use_container_width=True)
-    # st.caption('Data Sources: International Monetary Fund (IMF)')
+        # Display graph
+        st.plotly_chart(fig, use_container_width=True)
+        #### Explanatory text box 1
+        # st.markdown("""<div style="text-align: justify;">An increase in the 
+        #             public debt/government debt to GDP ratio indicates an 
+        #             increase in public liabilities relative to gross domestic output. 
+        #             Rising debt rates may be associated with decreasing debt 
+        #             sustainability and the capacity to access new financing. 
+        #             Details depend on several factors including financing 
+        #             conditions, type of debt, capacity to repay (e. g. DRM).</div>""", unsafe_allow_html=True)
+    with col3:
+            # Configure plot
+        st.subheader('Fiscal, General Government, Assets and Liabilities, Net Worth')
+        fig = px.line(chart10_data,
+                        x="Year", 
+                        y="Value", 
+                        color='Country',
+                        title='Chart 7 - Debt to GDP Ratio',
+                        hover_name="Value",
+                        color_discrete_sequence=px.colors.qualitative.Plotly
+                        )
+
+        # Move legend 
+        fig.update_layout(legend=dict(
+            # orientation="h",
+            yanchor="bottom",
+            y=-0.5,
+            xanchor="left",
+            x=0.01
+            ))
+
+        # Display graph
+        st.plotly_chart(fig, use_container_width=True)
+    st.caption('Data Sources: International Monetary Fund (IMF)')
+
+    
 
 
     #     chart3_data = get_filtered_data(df_combined,[selected_country] + selected_peer, selected_start_year, selected_end_year, 
