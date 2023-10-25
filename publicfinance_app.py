@@ -400,7 +400,7 @@ else:
 
         # Configure plot
         fig = make_subplots()
-        subfig1  =  px.line(chart3_data[chart3_data.Indicator == ['GDP per capita']],
+        subfig1  =  px.line(chart3_data[chart3_data.Indicator == 'GDP per capita'],
                     x="Year", 
                     y="Value",
                     line_group='Country',
@@ -411,7 +411,7 @@ else:
                     )
                     
         
-        subfig2 =   px.line(chart3_data[chart3_data.Indicator == ['GNI per capita']],
+        subfig2 =   px.line(chart3_data[chart3_data.Indicator == 'GNI per capita'],
                     x="Year", 
                     y="Value",
                     line_group='Country',
