@@ -825,7 +825,7 @@ if choice == 'Guided':
 else:
 
     st.header(" This is your Playgroud ")
-    Indicators = list(df_combined.Indicators.unique())
+    Indicators = list(df_combined.Indicator.unique())
 
     selected_indicators = st.multiselect("Choose the labels for your plot",
                                          options= Indicators
