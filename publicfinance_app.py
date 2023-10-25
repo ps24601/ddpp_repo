@@ -282,543 +282,597 @@ with st.sidebar:
 # #---------------------------------------- MAIN PAGE --------------------------------------------
 
 # # Add a title and intro text
-st.title("Public Finance Dashboard")
+if choice == 'Guided':
+    st.title("Public Finance Dashboard")
 
-st.write("""
-         Explore a comprehensive production dashboard that provides a holistic view of key employment indicators. 
-         This interactive platform synthesizes diverse metrics, offering insights into job market trends, labor 
-         force participation, and economic vitality. With intuitive visualizations and data-driven analysis, gain 
-         a deeper understanding of workforce dynamics and make informed decisions for the future.
-          """)
-st.write("")
-if selected_country == None : #len(selected_peer) == 0
-    st.warning("Please Select One Country and atleast 1 peer couuntry for better analysis")
-else:
-    
-    st.header("A. General country context indicators")
-    st.caption("Selected Countries")
-    c1, c2 = st.columns([1,1])
-    with c1:
-        st.write('**HDI 2021 Rank**')
-        for country in check_competitors.keys():
-            st.write('{}: `{}`'.format(country,check_competitors[country]['HDI rank (2021)']))
-    with c2:
-        st.write('**Income Group**')
-        for country in check_competitors.keys():
-            st.write('{}: `{}`'.format(country,check_competitors[country]['Income Group']))
+    st.write("""
+            Explore a comprehensive production dashboard that provides a holistic view of key employment indicators. 
+            This interactive platform synthesizes diverse metrics, offering insights into job market trends, labor 
+            force participation, and economic vitality. With intuitive visualizations and data-driven analysis, gain 
+            a deeper understanding of workforce dynamics and make informed decisions for the future.
+            """)
+    st.write("")
+    if selected_country == None : #len(selected_peer) == 0
+        st.warning("Please Select One Country and atleast 1 peer couuntry for better analysis")
+    else:
+        
+        st.header("A. General country context indicators")
+        st.caption("Selected Countries")
+        c1, c2 = st.columns([1,1])
+        with c1:
+            st.write('**HDI 2021 Rank**')
+            for country in check_competitors.keys():
+                st.write('{}: `{}`'.format(country,check_competitors[country]['HDI rank (2021)']))
+        with c2:
+            st.write('**Income Group**')
+            for country in check_competitors.keys():
+                st.write('{}: `{}`'.format(country,check_competitors[country]['Income Group']))
+                    
+
+    # if len(selected_peer) == 0:
+    #     st.warning("Please Select atleast 1 peer country for better analysis")
+    # else:
+        ############ ROW 1 ###################################################################33
+        st.subheader("Population")
+        
+        #### Explanatory text box 1
+        st.markdown("""<div style="text-align: justify;">The population statistic gives the size of the population 
+                    of the country and its recent development. The population dynamics (growth rate) are 
+                    relevant for economic growth (see GDP per capita below) and are the outcome of mortality, 
+                    fertility, migration and underlying factors. </div>""", unsafe_allow_html=True
+        )
                 
-
-# if len(selected_peer) == 0:
-#     st.warning("Please Select atleast 1 peer country for better analysis")
-# else:
-    ############ ROW 1 ###################################################################33
-    st.subheader("Population")
-    
-    #### Explanatory text box 1
-    st.markdown("""<div style="text-align: justify;">The population statistic gives the size of the population 
-                of the country and its recent development. The population dynamics (growth rate) are 
-                relevant for economic growth (see GDP per capita below) and are the outcome of mortality, 
-                fertility, migration and underlying factors. </div>""", unsafe_allow_html=True
-    )
+        col1, col2, col3 = st.columns([1,0.02,1])
+        with col1:
+            chart1_data = get_filtered_data(df_combined,[selected_country] + selected_peer, selected_start_year, selected_end_year, 
+                                        ['Population'])
             
-    col1, col2, col3 = st.columns([1,0.02,1])
-    with col1:
-        chart1_data = get_filtered_data(df_combined,[selected_country] + selected_peer, selected_start_year, selected_end_year, 
-                                    ['Population'])
-        
-        chart1_data = chart1_data.groupby(['Indicator'],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
-
-        # Configure plot
-        fig = px.line(chart1_data,
-                        x="Year", 
-                        y="Value",   
-                        color='Country',
-                        title='Chart 1 - Population',
-                        hover_name="Value",
-                        color_discrete_sequence=px.colors.qualitative.Plotly
-                        )
-
-        # Move legend 
-        fig.update_layout(legend=dict(
-            # orientation="h",
-            yanchor="bottom",
-            y=-0.5,
-            xanchor="left",
-            x=0.01
-            ))
-
-        # Display graph
-        st.plotly_chart(fig, use_container_width=True)
-            
-    with col3: 
-        
-    # Get data
-        chart2_data = get_filtered_data(df_combined,[selected_country] + selected_peer, selected_start_year, selected_end_year, 
-                                ['Population Growth Rate'])
-        chart2_data = chart2_data.groupby(['Indicator'],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
+            chart1_data = chart1_data.groupby(['Indicator'],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
 
             # Configure plot
-        fig = px.line(chart2_data,
-                        x="Year", 
-                        y="Value",   
-                        color='Country',
-                        title='Chart 2 - Population Growth Rate',
-                        hover_name="Value",
-                        color_discrete_sequence=px.colors.qualitative.Plotly
-                        )
-
-            # Move legend 
-        fig.update_layout(legend=dict(
-            # orientation="h",
-            yanchor="bottom",
-            y=-0.5,
-            xanchor="left",
-            x=0.01
-            ))
-            
-        st.plotly_chart(fig, use_container_width=True)
-
-    st.caption('Data Sources: World Development Indicators (WDI)')
-
-    st.write("")
-########### ROW 2 ###################################3
-    st.subheader("GDP/GNI Per Capita (nominal)")
-    
-    #### Explanatory text box 1
-    st.markdown("""<div style="text-align: justify;">GDP per capita is a measure 
-                of a country’s total annual domestic output, divided by population 
-                size. In other words, it constitutes a (statistical) average of GDP 
-                per person. Together with the Human Development Index, it 
-                may provide a hint at the country’s average </div>""", unsafe_allow_html=True
-                        )
-
-    col1, col2, col3 = st.columns([1,0.02,1])
-    with col1:
-        chart3_data = get_filtered_data(df_combined,[selected_country] + selected_peer, selected_start_year, selected_end_year, 
-                                    ['GDP per capita','GNI per capita'])
-        chart3_data = chart3_data.groupby(['Indicator'],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
-
-        # Configure plot
-        fig = make_subplots()
-        subfig1  =  px.line(chart3_data[chart3_data.Indicator == 'GDP per capita'],
-                    x="Year", 
-                    y="Value",
-                    line_group='Country',
-                    color='Indicator',
-                    title='Chart 3 - GDP and Inequality',
-                    hover_name="Value",
-                    color_discrete_sequence=px.colors.qualitative.Plotly
-                    )
-                    
-        
-        subfig2 =   px.line(chart3_data[chart3_data.Indicator == 'GNI per capita'],
-                    x="Year", 
-                    y="Value",
-                    line_group='Country',
-                    color='Indicator',
-                    hover_name="Value",
-                    color_discrete_sequence=px.colors.qualitative.Plotly
-                    )
-        # subfig2.update_traces(yaxis="y2")
-
-        fig.add_traces(subfig1.data + subfig2.data)
-
-        fig.update_layout(legend=dict(
-                # orientation="h",
-                yanchor="bottom",
-                y=-0.5,
-                xanchor="left",
-                x=0.01
-                ),
-                title_text = 'Chart 3 - GDP & GNI per capita')
-        fig.layout.xaxis.title="Year"
-        fig.layout.yaxis.title="Value"
-
-        # fig.update_yaxes(title_text="<b>GDP</b> Indicator Value", secondary_y=False)
-        # fig.update_yaxes(title_text="<b>GINI Index</b> value", secondary_y=True)
-        fig.for_each_trace(lambda t: t.update(line=dict(color=t.marker.color)))
-
-            
-        st.plotly_chart(fig, use_container_width=True)
-            
-    with col3: 
-        
-    # Get data
-        chart4_data = get_filtered_data(df_combined,[selected_country] + selected_peer, selected_start_year, selected_end_year, 
-                                ['GDP, PPP (constant 2017 international $)'])
-        chart4_data = chart4_data.groupby(['Indicator'],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
-
-        # Configure plot
-        fig = px.line(chart4_data,
-                        x="Year", 
-                        y="Value",   
-                        color='Country',
-                        title='Chart 4 - GDP, PPP (constant 2017 international $)',
-                        hover_name="Value",
-                        color_discrete_sequence=px.colors.qualitative.Plotly
-                        )
-
-            # Move legend 
-        fig.update_layout(legend=dict(
-            # orientation="h",
-            yanchor="bottom",
-            y=-0.5,
-            xanchor="left",
-            x=0.01
-            ))
-            
-        st.plotly_chart(fig, use_container_width=True)
-
-    st.caption('Data Sources: World Development Indicators (WDI)')
-    
-    st.write("------------")
-# ########## ROW 3 #########################################
-    st.header("B. Public finance indicators ")
-    
-
-    col1, col2, col3 = st.columns([1,0.02,1])
-    with col1:
-        st.subheader("Revenue")
-    
-        #### Explanatory text box 1
-        st.markdown("""<div style="text-align: justify;">Government revenue is made up
-                     of tax revenue and non-tax revenue (includes social security
-                     contributions, grants, property income, sales, fees, among others). 
-                    General government refers to all tiers of government and 
-                    excludes public corporations.A low level of tax revenues (relative to GDP) may 
-                    indicate a low capacity of the state to sustainably contribute to achieving 
-                    the SDGs (Addis Ababa Action Agenda, Addis Tax Initiative Declarations).  </div>""", unsafe_allow_html=True
+            fig = px.line(chart1_data,
+                            x="Year", 
+                            y="Value",   
+                            color='Country',
+                            title='Chart 1 - Population',
+                            hover_name="Value",
+                            color_discrete_sequence=px.colors.qualitative.Plotly
                             )
-        chart5_data = get_filtered_data(df_combined,[selected_country] + selected_peer, selected_start_year, selected_end_year, 
-                                    ['Fiscal, General Government, Revenue, 2001 Manual, Domestic Currency',
-                                      'Fiscal, General Government, Revenue, Tax, 2001 Manual, Domestic Currency'])
-        chart5_data.replace({'Fiscal, General Government, Revenue, 2001 Manual, Domestic Currency':'Revenue',
-                                      'Fiscal, General Government, Revenue, Tax, 2001 Manual, Domestic Currency':'Tax Revenue',
-                                      }, inplace= True)
-        chart5_data = chart5_data.groupby(['Indicator'],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
-
-        # Configure plot
-        fig = make_subplots()
-        subfig1  =  px.line(chart5_data[chart5_data.Indicator == 'Revenue'],
-                    x="Year", 
-                    y="Value",
-                    line_group='Country',
-                    color='Indicator',
-                    hover_name="Value",
-                    color_discrete_sequence=px.colors.qualitative.Plotly
-                    )
-                    
-        
-        subfig2 =   px.line(chart5_data[chart5_data.Indicator == 'Tax Revenue'],
-                    x="Year", 
-                    y="Value",
-                    line_group='Country',
-                    color='Indicator',
-                    hover_name="Value",
-                    color_discrete_sequence=px.colors.qualitative.Plotly
-                    )
-        # subfig2.update_traces(yaxis="y2")
-
-        fig.add_traces(subfig1.data + subfig2.data)
-
-        fig.update_layout(legend=dict(
-                # orientation="h",
-                yanchor="bottom",
-                y=-0.5,
-                xanchor="left",
-                x=0.01
-                ),
-                title_text = 'Chart 5 - Revenue and Tax Revenue ')
-        fig.layout.xaxis.title="Year"
-        fig.layout.yaxis.title="Value"
-
-        # fig.update_yaxes(title_text="<b>GDP</b> Indicator Value", secondary_y=False)
-        # fig.update_yaxes(title_text="<b>GINI Index</b> value", secondary_y=True)
-        fig.for_each_trace(lambda t: t.update(line=dict(color=t.marker.color)))
-
-            
-        st.plotly_chart(fig, use_container_width=True)
-            
-    with col3: 
-        
-    # Get data
-        st.subheader("Expenditure")
-    
-        #### Explanatory text box 1
-        st.markdown("""<div style="text-align: justify;">General government expenses
-                     serve two broad economic responsibilities: provide selected
-                     goods and services to the community and redistribute income
-                     and wealth. Expenses exceeding revenues need to be 
-                    financed, e.g., through borrowing.</div>
-
-                    """, unsafe_allow_html=True
-                            )
-        chart6_data = get_filtered_data(df_combined,[selected_country] + selected_peer, selected_start_year, selected_end_year, 
-                                ['Fiscal, General Government, Expense, 2001 Manual, Domestic Currency'])
-        chart6_data.replace({'Fiscal, General Government, Expense, 2001 Manual, Domestic Currency':'Expenditure'},
-                           inplace= True)
-        chart6_data = chart6_data.groupby(['Indicator'],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
-        st.write("")
-        st.write("")
-        st.write("")
-        # Configure plot
-        fig = px.line(chart6_data,
-                        x="Year", 
-                        y="Value",   
-                        color='Country',
-                        title='Chart 6 - Expenditure',
-                        hover_name="Value",
-                        color_discrete_sequence=px.colors.qualitative.Plotly
-                        )
 
             # Move legend 
-        fig.update_layout(legend=dict(
-            # orientation="h",
-            yanchor="bottom",
-            y=-0.5,
-            xanchor="left",
-            x=0.01
-            ))
-            
-        st.plotly_chart(fig, use_container_width=True)
-
-    st.caption('Data Sources: International Monetary Fund (IMF)')
-    st.write("")
-
-    ############### ROW 4 ########################################################
-
-    chart7_data = get_filtered_data(df_combined,[selected_country] + selected_peer, selected_start_year, selected_end_year, 
-                        ['Prices, Consumer Price Index, All items, Index'])
-    chart7_data.replace({'Prices, Consumer Price Index, All items, Index':'Consumer Price Index'},
-                        inplace= True)
-    chart7_data = chart7_data.groupby(['Indicator'],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
-    col1, col2, col3 = st.columns([1,0.02,1])
-    with col1:
-        st.subheader("Inflation")
-        #### Explanatory text box 1
-        st.markdown("""<div style="text-align: justify;">The annual inflation rate measures
-                     the yearly change in a general price index. Inflation reduces 
-                    the purchasing power of money; the inflation rate can be used to 
-                    account for price level changes in the development of nominal measures 
-                    by translating them to real values (e.g. nominal versus real GDP).</div>
-                    <br>
-                    <div style="text-align: justify;">Inflation has multiple 
-                    potential causes (e.g. related to expansionary monetary policy)
-                     and affects government and private finances in several ways. 
-                    Both high and very low levels of inflation warrant attention 
-                    to underlying political, economic and financial dynamics and 
-                    their consequences.  </div>""", unsafe_allow_html=True)
-    with col3:
-            # Configure plot
-        fig = px.line(chart7_data,
-                        x="Year", 
-                        y="Value", 
-                        color='Country',
-                        title='Chart 7 - Consumer Price Index',
-                        hover_name="Value",
-                        color_discrete_sequence=px.colors.qualitative.Plotly
-                        )
-
-        # Move legend 
-        fig.update_layout(legend=dict(
-            # orientation="h",
-            yanchor="bottom",
-            y=-0.5,
-            xanchor="left",
-            x=0.01
-            ))
-
-        # Display graph
-        st.plotly_chart(fig, use_container_width=True)
-        st.caption('Data Sources: International Monetary Fund (IMF)')
-    st.write("")
-
-    ############### ROW 5 ########################################################
-
-    chart8_data = get_filtered_data(df_combined,[selected_country] + selected_peer, selected_start_year, selected_end_year, 
-                        ['Labour force participation rate','Unemployment rate'])
-    # chart7_data.replace({'Prices, Consumer Price Index, All items, Index':'Consumer Price Index'},
-    #                     inplace= True)
-    chart8_data = chart8_data.groupby(['Indicator'],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
-    col1, col2, col3 = st.columns([1,0.02,1])
-    with col1:
-        st.subheader("Unemployment")
-        #### Explanatory text box 1
-        st.markdown("""<div style="text-align: justify;">Official unemployment rates 
-                    measure the proportion of the working age population that is 
-                    looking for but cannot find formal work (according to certain criteria). 
-                    High unemployment is typically associated with poverty, 
-                    inequality and a loss of output and productive resources. 
-                    For more detail on employment and unemployment.
-                    [Unemployment Dashboard](https://employment-dashboard.streamlit.app).</div>""", 
-                    unsafe_allow_html=True)
-    with col3:
-            # Configure plot
-        fig = make_subplots()
-        subfig1  =  px.line(chart8_data[chart8_data.Indicator == 'Labour force participation rate'],
-                    x="Year", 
-                    y="Value",
-                    line_group='Country',
-                    color='Indicator',
-                    hover_name="Value",
-                    color_discrete_sequence=px.colors.qualitative.Plotly
-                    )
-                    
-        
-        subfig2 =   px.line(chart8_data[chart8_data.Indicator == 'Unemployment rate'],
-                    x="Year", 
-                    y="Value",
-                    line_group='Country',
-                    color='Indicator',
-                    hover_name="Value",
-                    color_discrete_sequence=px.colors.qualitative.Plotly
-                    )
-        # subfig2.update_traces(yaxis="y2")
-
-        fig.add_traces(subfig1.data + subfig2.data)
-
-        fig.update_layout(legend=dict(
+            fig.update_layout(legend=dict(
                 # orientation="h",
                 yanchor="bottom",
                 y=-0.5,
                 xanchor="left",
                 x=0.01
-                ),
-                title_text = 'Chart 8 - Unemployment')
-        fig.layout.xaxis.title="Year"
-        fig.layout.yaxis.title="Value"
+                ))
 
-        # fig.update_yaxes(title_text="<b>GDP</b> Indicator Value", secondary_y=False)
-        # fig.update_yaxes(title_text="<b>GINI Index</b> value", secondary_y=True)
-        fig.for_each_trace(lambda t: t.update(line=dict(color=t.marker.color)))
-
+            # Display graph
+            st.plotly_chart(fig, use_container_width=True)
+                
+        with col3: 
             
-        st.plotly_chart(fig, use_container_width=True)
-        st.caption('Data Sources: International Labour Organization (ILO)')
-    st.write("")
+        # Get data
+            chart2_data = get_filtered_data(df_combined,[selected_country] + selected_peer, selected_start_year, selected_end_year, 
+                                    ['Population Growth Rate'])
+            chart2_data = chart2_data.groupby(['Indicator'],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
 
-    ############### ROW 6 ########################################################
+                # Configure plot
+            fig = px.line(chart2_data,
+                            x="Year", 
+                            y="Value",   
+                            color='Country',
+                            title='Chart 2 - Population Growth Rate',
+                            hover_name="Value",
+                            color_discrete_sequence=px.colors.qualitative.Plotly
+                            )
 
-    chart9_data = get_filtered_data(df_combined,[selected_country] + selected_peer, selected_start_year, selected_end_year, 
-                        ['Debt to GDP Ratio'])
-    chart9_data = chart9_data.groupby(['Indicator'],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
-    col1, col2, col3 = st.columns([1,0.02,1])
-    with col1:
-        st.subheader("Debt Rate")
-        #### Explanatory text box 1
-        st.markdown("""<div style="text-align: justify;">An increase in the 
-                    public debt/government debt to GDP ratio indicates an 
-                    increase in public liabilities relative to gross domestic output. 
-                    Rising debt rates may be associated with decreasing debt 
-                    sustainability and the capacity to access new financing. 
-                    Details depend on several factors including financing 
-                    conditions, type of debt, capacity to repay (e. g. DRM).</div>""", unsafe_allow_html=True)
-    with col3:
-            # Configure plot
-        fig = px.line(chart9_data,
-                        x="Year", 
-                        y="Value", 
-                        color='Country',
-                        title='Chart 9 - Debt to GDP Ratio',
-                        hover_name="Value",
-                        color_discrete_sequence=px.colors.qualitative.Plotly
-                        )
-
-        # Move legend 
-        fig.update_layout(legend=dict(
-            # orientation="h",
-            yanchor="bottom",
-            y=-0.5,
-            xanchor="left",
-            x=0.01
-            ))
-
-        # Display graph
-        st.plotly_chart(fig, use_container_width=True)
-    st.caption('Data Sources: International Monetary Fund (IMF)')
-    st.write("----------------------------------------------")
-
-    ##################### Row 7 #########################################################
-    st.subheader("More Indicators Plot")
-    chart10_data = get_filtered_data(df_combined,[selected_country] + selected_peer, selected_start_year, selected_end_year, 
-                        ['Exports of Goods and Services, Nominal, Domestic Currency',
-                         'Imports of Goods and Services, Nominal, Domestic Currency'])
-    chart10_data.replace({'Exports of Goods and Services, Nominal, Domestic Currency':'Exports',
-                          'Imports of Goods and Services, Nominal, Domestic Currency':'Imports'},
-                        inplace= True)
-    chart10_data = chart10_data.groupby(['Indicator'],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
-    col1, col2, col3 = st.columns([1,0.02,1])
-    with col1:
-        fig = make_subplots()
-        subfig1  =  px.line(chart10_data[chart10_data.Indicator == 'Exports'],
-                    x="Year", 
-                    y="Value",
-                    line_group='Country',
-                    color='Indicator',
-                    hover_name="Value",
-                    color_discrete_sequence=px.colors.qualitative.Plotly
-                    )
-                    
-        
-        subfig2 =   px.line(chart10_data[chart10_data.Indicator == 'Imports'],
-                    x="Year", 
-                    y="Value",
-                    line_group='Country',
-                    color='Indicator',
-                    hover_name="Value",
-                    color_discrete_sequence=px.colors.qualitative.Plotly
-                    )
-        # subfig2.update_traces(yaxis="y2")
-
-        fig.add_traces(subfig1.data + subfig2.data)
-
-        fig.update_layout(legend=dict(
+                # Move legend 
+            fig.update_layout(legend=dict(
                 # orientation="h",
                 yanchor="bottom",
                 y=-0.5,
                 xanchor="left",
                 x=0.01
-                ),
-                title_text = 'Chart 10 - Exports & Imports')
-        fig.layout.xaxis.title="Year"
-        fig.layout.yaxis.title="Value"
+                ))
+                
+            st.plotly_chart(fig, use_container_width=True)
 
-        # fig.update_yaxes(title_text="<b>GDP</b> Indicator Value", secondary_y=False)
-        # fig.update_yaxes(title_text="<b>GINI Index</b> value", secondary_y=True)
-        fig.for_each_trace(lambda t: t.update(line=dict(color=t.marker.color)))
-
-            
-        st.plotly_chart(fig, use_container_width=True)
-        st.caption('Data Sources: International Monetary Fund (IMF)')
-
-    with col3:
-            # Configure plot
-        chart11_data = get_filtered_data(df_combined,[selected_country] + selected_peer, selected_start_year, selected_end_year, 
-                    ['Gini index'])
-
-        chart11_data = chart11_data.groupby(['Indicator'],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')    
-        fig = px.line(chart11_data,
-                        x="Year", 
-                        y="Value", 
-                        color='Country',
-                        title='Chart 11 - Gini index',
-                        hover_name="Value",
-                        color_discrete_sequence=px.colors.qualitative.Plotly
-                        )
-
-        # Move legend 
-        fig.update_layout(legend=dict(
-            # orientation="h",
-            yanchor="bottom",
-            y=-0.5,
-            xanchor="left",
-            x=0.01
-            ))
-
-        # Display graph
-        st.plotly_chart(fig, use_container_width=True)
         st.caption('Data Sources: World Development Indicators (WDI)')
+
+        st.write("")
+    ########### ROW 2 ###################################3
+        st.subheader("GDP/GNI Per Capita (nominal)")
+        
+        #### Explanatory text box 1
+        st.markdown("""<div style="text-align: justify;">GDP per capita is a measure 
+                    of a country’s total annual domestic output, divided by population 
+                    size. In other words, it constitutes a (statistical) average of GDP 
+                    per person. Together with the Human Development Index, it 
+                    may provide a hint at the country’s average </div>""", unsafe_allow_html=True
+                            )
+
+        col1, col2, col3 = st.columns([1,0.02,1])
+        with col1:
+            chart3_data = get_filtered_data(df_combined,[selected_country] + selected_peer, selected_start_year, selected_end_year, 
+                                        ['GDP per capita','GNI per capita'])
+            chart3_data = chart3_data.groupby(['Indicator'],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
+
+            # Configure plot
+            fig = make_subplots()
+            subfig1  =  px.line(chart3_data[chart3_data.Indicator == 'GDP per capita'],
+                        x="Year", 
+                        y="Value",
+                        line_group='Country',
+                        color='Indicator',
+                        title='Chart 3 - GDP and Inequality',
+                        hover_name="Value",
+                        color_discrete_sequence=px.colors.qualitative.Plotly
+                        )
+                        
+            
+            subfig2 =   px.line(chart3_data[chart3_data.Indicator == 'GNI per capita'],
+                        x="Year", 
+                        y="Value",
+                        line_group='Country',
+                        color='Indicator',
+                        hover_name="Value",
+                        color_discrete_sequence=px.colors.qualitative.Plotly
+                        )
+            # subfig2.update_traces(yaxis="y2")
+
+            fig.add_traces(subfig1.data + subfig2.data)
+
+            fig.update_layout(legend=dict(
+                    # orientation="h",
+                    yanchor="bottom",
+                    y=-0.5,
+                    xanchor="left",
+                    x=0.01
+                    ),
+                    title_text = 'Chart 3 - GDP & GNI per capita')
+            fig.layout.xaxis.title="Year"
+            fig.layout.yaxis.title="Value"
+
+            # fig.update_yaxes(title_text="<b>GDP</b> Indicator Value", secondary_y=False)
+            # fig.update_yaxes(title_text="<b>GINI Index</b> value", secondary_y=True)
+            fig.for_each_trace(lambda t: t.update(line=dict(color=t.marker.color)))
+
+                
+            st.plotly_chart(fig, use_container_width=True)
+                
+        with col3: 
+            
+        # Get data
+            chart4_data = get_filtered_data(df_combined,[selected_country] + selected_peer, selected_start_year, selected_end_year, 
+                                    ['GDP, PPP (constant 2017 international $)'])
+            chart4_data = chart4_data.groupby(['Indicator'],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
+
+            # Configure plot
+            fig = px.line(chart4_data,
+                            x="Year", 
+                            y="Value",   
+                            color='Country',
+                            title='Chart 4 - GDP, PPP (constant 2017 international $)',
+                            hover_name="Value",
+                            color_discrete_sequence=px.colors.qualitative.Plotly
+                            )
+
+                # Move legend 
+            fig.update_layout(legend=dict(
+                # orientation="h",
+                yanchor="bottom",
+                y=-0.5,
+                xanchor="left",
+                x=0.01
+                ))
+                
+            st.plotly_chart(fig, use_container_width=True)
+
+        st.caption('Data Sources: World Development Indicators (WDI)')
+        
+        st.write("------------")
+    # ########## ROW 3 #########################################
+        st.header("B. Public finance indicators ")
+        
+
+        col1, col2, col3 = st.columns([1,0.02,1])
+        with col1:
+            st.subheader("Revenue")
+        
+            #### Explanatory text box 1
+            st.markdown("""<div style="text-align: justify;">Government revenue is made up
+                        of tax revenue and non-tax revenue (includes social security
+                        contributions, grants, property income, sales, fees, among others). 
+                        General government refers to all tiers of government and 
+                        excludes public corporations.A low level of tax revenues (relative to GDP) may 
+                        indicate a low capacity of the state to sustainably contribute to achieving 
+                        the SDGs (Addis Ababa Action Agenda, Addis Tax Initiative Declarations).  </div>""", unsafe_allow_html=True
+                                )
+            chart5_data = get_filtered_data(df_combined,[selected_country] + selected_peer, selected_start_year, selected_end_year, 
+                                        ['Fiscal, General Government, Revenue, 2001 Manual, Domestic Currency',
+                                        'Fiscal, General Government, Revenue, Tax, 2001 Manual, Domestic Currency'])
+            chart5_data.replace({'Fiscal, General Government, Revenue, 2001 Manual, Domestic Currency':'Revenue',
+                                        'Fiscal, General Government, Revenue, Tax, 2001 Manual, Domestic Currency':'Tax Revenue',
+                                        }, inplace= True)
+            chart5_data = chart5_data.groupby(['Indicator'],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
+
+            # Configure plot
+            fig = make_subplots()
+            subfig1  =  px.line(chart5_data[chart5_data.Indicator == 'Revenue'],
+                        x="Year", 
+                        y="Value",
+                        line_group='Country',
+                        color='Indicator',
+                        hover_name="Value",
+                        color_discrete_sequence=px.colors.qualitative.Plotly
+                        )
+                        
+            
+            subfig2 =   px.line(chart5_data[chart5_data.Indicator == 'Tax Revenue'],
+                        x="Year", 
+                        y="Value",
+                        line_group='Country',
+                        color='Indicator',
+                        hover_name="Value",
+                        color_discrete_sequence=px.colors.qualitative.Plotly
+                        )
+            # subfig2.update_traces(yaxis="y2")
+
+            fig.add_traces(subfig1.data + subfig2.data)
+
+            fig.update_layout(legend=dict(
+                    # orientation="h",
+                    yanchor="bottom",
+                    y=-0.5,
+                    xanchor="left",
+                    x=0.01
+                    ),
+                    title_text = 'Chart 5 - Revenue and Tax Revenue ')
+            fig.layout.xaxis.title="Year"
+            fig.layout.yaxis.title="Value"
+
+            # fig.update_yaxes(title_text="<b>GDP</b> Indicator Value", secondary_y=False)
+            # fig.update_yaxes(title_text="<b>GINI Index</b> value", secondary_y=True)
+            fig.for_each_trace(lambda t: t.update(line=dict(color=t.marker.color)))
+
+                
+            st.plotly_chart(fig, use_container_width=True)
+                
+        with col3: 
+            
+        # Get data
+            st.subheader("Expenditure")
+        
+            #### Explanatory text box 1
+            st.markdown("""<div style="text-align: justify;">General government expenses
+                        serve two broad economic responsibilities: provide selected
+                        goods and services to the community and redistribute income
+                        and wealth. Expenses exceeding revenues need to be 
+                        financed, e.g., through borrowing.</div>
+
+                        """, unsafe_allow_html=True
+                                )
+            chart6_data = get_filtered_data(df_combined,[selected_country] + selected_peer, selected_start_year, selected_end_year, 
+                                    ['Fiscal, General Government, Expense, 2001 Manual, Domestic Currency'])
+            chart6_data.replace({'Fiscal, General Government, Expense, 2001 Manual, Domestic Currency':'Expenditure'},
+                            inplace= True)
+            chart6_data = chart6_data.groupby(['Indicator'],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
+            st.write("")
+            st.write("")
+            st.write("")
+            # Configure plot
+            fig = px.line(chart6_data,
+                            x="Year", 
+                            y="Value",   
+                            color='Country',
+                            title='Chart 6 - Expenditure',
+                            hover_name="Value",
+                            color_discrete_sequence=px.colors.qualitative.Plotly
+                            )
+
+                # Move legend 
+            fig.update_layout(legend=dict(
+                # orientation="h",
+                yanchor="bottom",
+                y=-0.5,
+                xanchor="left",
+                x=0.01
+                ))
+                
+            st.plotly_chart(fig, use_container_width=True)
+
+        st.caption('Data Sources: International Monetary Fund (IMF)')
+        st.write("")
+
+        ############### ROW 4 ########################################################
+
+        chart7_data = get_filtered_data(df_combined,[selected_country] + selected_peer, selected_start_year, selected_end_year, 
+                            ['Prices, Consumer Price Index, All items, Index'])
+        chart7_data.replace({'Prices, Consumer Price Index, All items, Index':'Consumer Price Index'},
+                            inplace= True)
+        chart7_data = chart7_data.groupby(['Indicator'],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
+        col1, col2, col3 = st.columns([1,0.02,1])
+        with col1:
+            st.subheader("Inflation")
+            #### Explanatory text box 1
+            st.markdown("""<div style="text-align: justify;">The annual inflation rate measures
+                        the yearly change in a general price index. Inflation reduces 
+                        the purchasing power of money; the inflation rate can be used to 
+                        account for price level changes in the development of nominal measures 
+                        by translating them to real values (e.g. nominal versus real GDP).</div>
+                        <br>
+                        <div style="text-align: justify;">Inflation has multiple 
+                        potential causes (e.g. related to expansionary monetary policy)
+                        and affects government and private finances in several ways. 
+                        Both high and very low levels of inflation warrant attention 
+                        to underlying political, economic and financial dynamics and 
+                        their consequences.  </div>""", unsafe_allow_html=True)
+        with col3:
+                # Configure plot
+            fig = px.line(chart7_data,
+                            x="Year", 
+                            y="Value", 
+                            color='Country',
+                            title='Chart 7 - Consumer Price Index',
+                            hover_name="Value",
+                            color_discrete_sequence=px.colors.qualitative.Plotly
+                            )
+
+            # Move legend 
+            fig.update_layout(legend=dict(
+                # orientation="h",
+                yanchor="bottom",
+                y=-0.5,
+                xanchor="left",
+                x=0.01
+                ))
+
+            # Display graph
+            st.plotly_chart(fig, use_container_width=True)
+            st.caption('Data Sources: International Monetary Fund (IMF)')
+        st.write("")
+
+        ############### ROW 5 ########################################################
+
+        chart8_data = get_filtered_data(df_combined,[selected_country] + selected_peer, selected_start_year, selected_end_year, 
+                            ['Labour force participation rate','Unemployment rate'])
+        # chart7_data.replace({'Prices, Consumer Price Index, All items, Index':'Consumer Price Index'},
+        #                     inplace= True)
+        chart8_data = chart8_data.groupby(['Indicator'],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
+        col1, col2, col3 = st.columns([1,0.02,1])
+        with col1:
+            st.subheader("Unemployment")
+            #### Explanatory text box 1
+            st.markdown("""<div style="text-align: justify;">Official unemployment rates 
+                        measure the proportion of the working age population that is 
+                        looking for but cannot find formal work (according to certain criteria). 
+                        High unemployment is typically associated with poverty, 
+                        inequality and a loss of output and productive resources. 
+                        For more detail on employment and unemployment.
+                        [Unemployment Dashboard](https://employment-dashboard.streamlit.app).</div>""", 
+                        unsafe_allow_html=True)
+        with col3:
+                # Configure plot
+            fig = make_subplots()
+            subfig1  =  px.line(chart8_data[chart8_data.Indicator == 'Labour force participation rate'],
+                        x="Year", 
+                        y="Value",
+                        line_group='Country',
+                        color='Indicator',
+                        hover_name="Value",
+                        color_discrete_sequence=px.colors.qualitative.Plotly
+                        )
+                        
+            
+            subfig2 =   px.line(chart8_data[chart8_data.Indicator == 'Unemployment rate'],
+                        x="Year", 
+                        y="Value",
+                        line_group='Country',
+                        color='Indicator',
+                        hover_name="Value",
+                        color_discrete_sequence=px.colors.qualitative.Plotly
+                        )
+            # subfig2.update_traces(yaxis="y2")
+
+            fig.add_traces(subfig1.data + subfig2.data)
+
+            fig.update_layout(legend=dict(
+                    # orientation="h",
+                    yanchor="bottom",
+                    y=-0.5,
+                    xanchor="left",
+                    x=0.01
+                    ),
+                    title_text = 'Chart 8 - Unemployment')
+            fig.layout.xaxis.title="Year"
+            fig.layout.yaxis.title="Value"
+
+            # fig.update_yaxes(title_text="<b>GDP</b> Indicator Value", secondary_y=False)
+            # fig.update_yaxes(title_text="<b>GINI Index</b> value", secondary_y=True)
+            fig.for_each_trace(lambda t: t.update(line=dict(color=t.marker.color)))
+
+                
+            st.plotly_chart(fig, use_container_width=True)
+            st.caption('Data Sources: International Labour Organization (ILO)')
+        st.write("")
+
+        ############### ROW 6 ########################################################
+
+        chart9_data = get_filtered_data(df_combined,[selected_country] + selected_peer, selected_start_year, selected_end_year, 
+                            ['Debt to GDP Ratio'])
+        chart9_data = chart9_data.groupby(['Indicator'],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
+        col1, col2, col3 = st.columns([1,0.02,1])
+        with col1:
+            st.subheader("Debt Rate")
+            #### Explanatory text box 1
+            st.markdown("""<div style="text-align: justify;">An increase in the 
+                        public debt/government debt to GDP ratio indicates an 
+                        increase in public liabilities relative to gross domestic output. 
+                        Rising debt rates may be associated with decreasing debt 
+                        sustainability and the capacity to access new financing. 
+                        Details depend on several factors including financing 
+                        conditions, type of debt, capacity to repay (e. g. DRM).</div>""", unsafe_allow_html=True)
+        with col3:
+                # Configure plot
+            fig = px.line(chart9_data,
+                            x="Year", 
+                            y="Value", 
+                            color='Country',
+                            title='Chart 9 - Debt to GDP Ratio',
+                            hover_name="Value",
+                            color_discrete_sequence=px.colors.qualitative.Plotly
+                            )
+
+            # Move legend 
+            fig.update_layout(legend=dict(
+                # orientation="h",
+                yanchor="bottom",
+                y=-0.5,
+                xanchor="left",
+                x=0.01
+                ))
+
+            # Display graph
+            st.plotly_chart(fig, use_container_width=True)
+            st.caption('Data Sources: International Monetary Fund (IMF)')
+        st.write("----------------------------------------------")
+
+        ##################### Row 7 #########################################################
+        st.subheader("More Indicators Plot")
+        chart10_data = get_filtered_data(df_combined,[selected_country] + selected_peer, selected_start_year, selected_end_year, 
+                            ['Exports of Goods and Services, Nominal, Domestic Currency',
+                            'Imports of Goods and Services, Nominal, Domestic Currency'])
+        chart10_data.replace({'Exports of Goods and Services, Nominal, Domestic Currency':'Exports',
+                            'Imports of Goods and Services, Nominal, Domestic Currency':'Imports'},
+                            inplace= True)
+        chart10_data = chart10_data.groupby(['Indicator'],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
+        col1, col2, col3 = st.columns([1,0.02,1])
+        with col1:
+            fig = make_subplots()
+            subfig1  =  px.line(chart10_data[chart10_data.Indicator == 'Exports'],
+                        x="Year", 
+                        y="Value",
+                        line_group='Country',
+                        color='Indicator',
+                        hover_name="Value",
+                        color_discrete_sequence=px.colors.qualitative.Plotly
+                        )
+                        
+            
+            subfig2 =   px.line(chart10_data[chart10_data.Indicator == 'Imports'],
+                        x="Year", 
+                        y="Value",
+                        line_group='Country',
+                        color='Indicator',
+                        hover_name="Value",
+                        color_discrete_sequence=px.colors.qualitative.Plotly
+                        )
+            # subfig2.update_traces(yaxis="y2")
+
+            fig.add_traces(subfig1.data + subfig2.data)
+
+            fig.update_layout(legend=dict(
+                    # orientation="h",
+                    yanchor="bottom",
+                    y=-0.5,
+                    xanchor="left",
+                    x=0.01
+                    ),
+                    title_text = 'Chart 10 - Exports & Imports')
+            fig.layout.xaxis.title="Year"
+            fig.layout.yaxis.title="Value"
+
+            # fig.update_yaxes(title_text="<b>GDP</b> Indicator Value", secondary_y=False)
+            # fig.update_yaxes(title_text="<b>GINI Index</b> value", secondary_y=True)
+            fig.for_each_trace(lambda t: t.update(line=dict(color=t.marker.color)))
+
+                
+            st.plotly_chart(fig, use_container_width=True)
+            st.caption('Data Sources: International Monetary Fund (IMF)')
+
+        with col3:
+                # Configure plot
+            chart11_data = get_filtered_data(df_combined,[selected_country] + selected_peer, selected_start_year, selected_end_year, 
+                        ['Gini index'])
+
+            chart11_data = chart11_data.groupby(['Indicator'],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')    
+            fig = px.line(chart11_data,
+                            x="Year", 
+                            y="Value", 
+                            color='Country',
+                            title='Chart 11 - Gini index',
+                            hover_name="Value",
+                            color_discrete_sequence=px.colors.qualitative.Plotly
+                            )
+
+            # Move legend 
+            fig.update_layout(legend=dict(
+                # orientation="h",
+                yanchor="bottom",
+                y=-0.5,
+                xanchor="left",
+                x=0.01
+                ))
+
+            # Display graph
+            st.plotly_chart(fig, use_container_width=True)
+            st.caption('Data Sources: World Development Indicators (WDI)')
     
+
+    ####################### Explorer TAB ###########################3
+else:
+
+    st.header(" This is your Playgroud ")
+    Indicators = list(df_combined.Indicators.unique())
+
+    selected_indicators = st.multiselect("Choose the labels for your plot",
+                                         options= Indicators
+                                         )
+    title_txt = st.text_area(
+    "Give title to your Graph",
+    "Default",
+    )
+    count_of_indicators = len(selected_indicators)
+    filtered_data = get_filtered_data(df_combined,[selected_country] + selected_peer, selected_start_year, selected_end_year, 
+                            selected_indicators)
+
+    filtered_data = filtered_data.groupby(['Indicator'],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
+    fig = make_subplots()
+    plots_holder = []
+    for i in range(count_of_indicators):
+        plots_holder.append(px.line(filtered_data[filtered_data.Indicator == selected_indicators[i]],
+                        x="Year", 
+                        y="Value",
+                        line_group='Country',
+                        color='Indicator',
+                        hover_name="Value",
+                        color_discrete_sequence=px.colors.qualitative.Plotly
+                        ))
+        fig_data = ()
+        for i in plots_holder:
+            fig_data = fig_data + plots_holder[i]
+        fig.add_traces(fig_data)
+
+        fig.update_layout(legend=dict(
+                # orientation="h",
+                yanchor="bottom",
+                y=-0.5,
+                xanchor="left",
+                x=0.01
+                ),
+                title_text = title_txt)
+        fig.layout.xaxis.title="Year"
+        fig.layout.yaxis.title="Value"
+
+            # fig.update_yaxes(title_text="<b>GDP</b> Indicator Value", secondary_y=False)
+            # fig.update_yaxes(title_text="<b>GINI Index</b> value", secondary_y=True)
+        fig.for_each_trace(lambda t: t.update(line=dict(color=t.marker.color)))
+
+                
+        st.plotly_chart(fig, use_container_width=True)
+        
 
     ############# ROW 8 ########################################################
     # 
