@@ -119,12 +119,12 @@ with st.sidebar:
                             horizontal = True)
     
 
-    # df_countries.remove("Germany")
-    # df_countries.insert(0,"None") 
+    df_countries.remove("Germany")
+    df_countries.insert(0,"None") 
 
     selected_country = st.sidebar.selectbox(
             label="Choose country of interest",
-            options= [None] + df_countries,
+            options= df_countries,
             )
 
     # DESCRIPTION REGIONS/PEER COUNTRIES
@@ -291,18 +291,18 @@ st.write("""
          a deeper understanding of workforce dynamics and make informed decisions for the future.
           """)
 st.write("")
-if selected_country == None or len(selected_peer) == 0:
+if selected_country == None : #len(selected_peer) == 0
     st.warning("Please Select One Country and atleast 1 peer couuntry for better analysis")
 else:
     st.caption("Selected Countries")
 
     c1, c2 = st.columns([1,1])
     with c1:
-        st.write('**Income Group**')
+        st.write('**HDI 2021 Rank**')
         for country in check_competitors.keys():
             st.write('{}: `{}`'.format(country,check_competitors[country]['HDI rank (2021)']))
     with c2:
-        st.write('**HDI 2021 Rank**')
+        st.write('**Income Group**')
         for country in check_competitors.keys():
             st.write('{}: `{}`'.format(country,check_competitors[country]['Income Group']))
                 
@@ -362,7 +362,7 @@ else:
                         x="Year", 
                         y="Value",   
                         color='Country',
-                        title='Chart 1 - Population Growth Rate',
+                        title='Chart 2 - Population Growth Rate',
                         hover_name="Value",
                         color_discrete_sequence=px.colors.qualitative.Plotly
                         )
@@ -380,128 +380,61 @@ else:
 
     st.caption('Data Sources: World Development Indicators (WDI)')
 
-########## ROW 2 #########################################
-    col1, col2, col3 = st.columns([1,0.02,1])
-    with col1:
-        st.subheader("GDP and Inequality")
-        st.markdown("""<div style="text-align: justify;">Gross Domestic Product (GDP) per capita is a widely used
-                        indicator of a country's economic performance and development level. 
-                    It is calculated by dividing the total annual domestic output 
-                    of a country by its population size, thus providing a statistical 
-                    average of GDP per person. This metric offers valuable insights 
-                    into a country's standard of living and economic health, 
-                    especially when considered in conjunction with other indicators 
-                    such as the Human Development Index.</div> 
-                    <br>
-                    <div style="text-align: justify;">The growth rate of GDP per capita is 
-                    generally regarded as the primary measure of a country's economic 
-                    growth. It reflects the increase in the average income of a country's 
-                    citizens over time, which is a key factor in determining their standard
-                    of living. A steadily growing GDP per capita is often seen as an 
-                    indicator of a robust economy, as it suggests that the country is producing
-                    more goods and services per person, thereby improving people's 
-                    purchasing power and overall quality of life.<div>
-                    <br>
-                    <div style="text-align: justify;">
-                    However, it is important to note that GDP per 
-                    capita has its limitations as a measure of a 
-                    country's economic well-being. For instance, 
-                    it does not take into account factors such as 
-                    income inequality, poverty rates, and environmental
-                    degradation, which can significantly impact a 
-                    country's overall development.<div>""",  unsafe_allow_html=True)
-    with col3:
-        chart3_data_1 = get_filtered_data(df_combined,[selected_country] + selected_peer, selected_start_year, selected_end_year, 
-                                    ['GDP per capita', 'GNI per capita'])
-        # 'GDP, PPP (constant 2017 international $)','GDP per capita', 'Gini index'
-        chart3_data_1 = chart3_data_1.groupby(['Indicator'],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
-
-        chart3_data_2 = get_filtered_data(df_combined,[selected_country] + selected_peer, selected_start_year, selected_end_year, 
-                                    ['Gini index'])
-       
-        # 'GDP, PPP (constant 2017 international $)','GDP per capita', 
-        chart3_data_2 = chart3_data_2.groupby(['Indicator'],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
-
-
-    # Create figure with secondary y-axis
-        fig = make_subplots(specs=[[{"secondary_y": True}]])
-
-        # Add traces
-        subfig1  =  px.line(chart3_data_1,
-                    x="Year", 
-                    y="Value",
-                    line_group='Country',
-                    color='Indicator',
-                    title='Chart 3 - GDP and Inequality',
-                    hover_name="Value",
-                    color_discrete_sequence=px.colors.qualitative.Plotly
-                    )
-                    
-        
-        subfig2 =   px.line(chart3_data_2,
-                    x="Year", 
-                    y="Value",
-                    line_group='Country',
-                    color='Indicator',
-                    hover_name="Value",
-                    color_discrete_sequence=px.colors.qualitative.Plotly
-                    )
-        subfig2.update_traces(yaxis="y2")
-
-        fig.add_traces(subfig1.data + subfig2.data)
-
-        fig.update_layout(legend=dict(
-                # orientation="h",
-                yanchor="bottom",
-                y=-0.5,
-                xanchor="left",
-                x=0.01
-                ))
-        fig.update_yaxes(title_text="<b>GDP</b> Indicator Value", secondary_y=False)
-        fig.update_yaxes(title_text="<b>GINI Index</b> value", secondary_y=True)
-        fig.for_each_trace(lambda t: t.update(line=dict(color=t.marker.color)))
-            
-        st.plotly_chart(fig, use_container_width=True)
-
-    st.caption('Data Sources: World Development Indicators (WDI)')
-
-    ####################### ROW 3 ####################################################################
-    col1, col2, col3 = st.columns([1,0.02,1])
-    with col1:
-        st.subheader("Revenue and Expenditure")
-        st.markdown("""<div style="text-align: justify;">Gross Domestic Product (GDP) per capita is a widely used
-                        indicator of a country's economic performance and development level. 
-                    It is calculated by dividing the total annual domestic output 
-                    of a country by its population size, thus providing a statistical 
-                    average of GDP per person. This metric offers valuable insights 
-                    into a country's standard of living and economic health, 
-                    especially when considered in conjunction with other indicators 
-                    such as the Human Development Index.</div> 
-                    <br>
-                    <div style="text-align: justify;">The growth rate of GDP per capita is 
-                    generally regarded as the primary measure of a country's economic 
-                    growth. It reflects the increase in the average income of a country's 
-                    citizens over time, which is a key factor in determining their standard
-                    of living. A steadily growing GDP per capita is often seen as an 
-                    indicator of a robust economy, as it suggests that the country is producing
-                    more goods and services per person, thereby improving people's 
-                    purchasing power and overall quality of life.<div>
-                    <br>
-                    """,  unsafe_allow_html=True)
     
-    with col3:
-        chart4_data = get_filtered_data(df_combined,[selected_country], selected_start_year, selected_end_year, 
-                                    ['Fiscal, General Government, Revenue, 2001 Manual, Domestic Currency',
-       'Fiscal, General Government, Revenue, Tax, 2001 Manual, Domestic Currency',
-       'Fiscal, General Government, Expense, 2001 Manual, Domestic Currency'])
-        # 'GDP, PPP (constant 2017 international $)','GDP per capita', 'Gini index'
+########### ROW 2 ###################################3
+    st.subheader("GDP/GNI Per Capita")
+    
+    #### Explanatory text box 1
+    st.markdown("""<div style="text-align: justify;">GDP per capita is a measure 
+                of a country’s total annual domestic output, divided by population 
+                size. In other words, it constitutes a (statistical) average of GDP 
+                per person. Together with the Human Development Index, it 
+                may provide a hint at the country’s average </div>""", unsafe_allow_html=True
+                        )
+
+    col1, col2, col3 = st.columns([1,0.02,1])
+    with col1:
+        chart3_data = get_filtered_data(df_combined,[selected_country] + selected_peer, selected_start_year, selected_end_year, 
+                                    ['GDP per capita'])
+         
+        
+        chart3_data = chart3_data.groupby(['Indicator'],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
+
+        # Configure plot
+        fig = px.line(chart3_data,
+                        x="Year", 
+                        y="Value",   
+                        color='Country',
+                        title='Chart 3 - GDP per capita',
+                        hover_name="Value",
+                        color_discrete_sequence=px.colors.qualitative.Plotly
+                        )
+
+        # Move legend 
+        fig.update_layout(legend=dict(
+            # orientation="h",
+            yanchor="bottom",
+            y=-0.5,
+            xanchor="left",
+            x=0.01
+            ))
+
+        # Display graph
+        st.plotly_chart(fig, use_container_width=True)
+            
+    with col3: 
+        
+    # Get data
+        chart4_data = get_filtered_data(df_combined,[selected_country] + selected_peer, selected_start_year, selected_end_year, 
+                                ['GNI per capita'])
         chart4_data = chart4_data.groupby(['Indicator'],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
 
+            # Configure plot
         fig = px.line(chart4_data,
                         x="Year", 
                         y="Value",   
-                        color='Indicator',
-                        title='Chart 4 - Revenue and Expenditure',
+                        color='Country',
+                        title='Chart 4 - GNI per capita',
                         hover_name="Value",
                         color_discrete_sequence=px.colors.qualitative.Plotly
                         )
@@ -517,415 +450,514 @@ else:
             
         st.plotly_chart(fig, use_container_width=True)
 
-        st.caption('Data Sources: International Monetary Fund (IMF)')
-
-        # chart3_data_2 = get_filtered_data(df_combined,[selected_country] + selected_peer, selected_start_year, selected_end_year, 
-        #                             ['Gini index'])
-       
-        # # 'GDP, PPP (constant 2017 international $)','GDP per capita', 
-        # chart3_data_2 = chart3_data_2.groupby(['Indicator'],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
-
-
-    # Create figure with secondary y-axis
-        fig = make_subplots(specs=[[{"secondary_y": True}]])
-
-        # Add traces
-        subfig1  =  px.line(chart3_data_1,
-                    x="Year", 
-                    y="Value",
-                    line_group='Country',
-                    color='Indicator',
-                    title='Chart 3 - GDP and Inequality',
-                    hover_name="Value",
-                    color_discrete_sequence=px.colors.qualitative.Plotly
-                    )
-                    
-        
-        subfig2 =   px.line(chart3_data_2,
-                    x="Year", 
-                    y="Value",
-                    line_group='Country',
-                    color='Indicator',
-                    hover_name="Value",
-                    color_discrete_sequence=px.colors.qualitative.Plotly
-                    )
-        subfig2.update_traces(yaxis="y2")
-
-        fig.add_traces(subfig1.data + subfig2.data)
-
-        fig.update_layout(legend=dict(
-                # orientation="h",
-                yanchor="bottom",
-                y=-0.5,
-                xanchor="left",
-                x=0.01
-                ))
-        fig.update_yaxes(title_text="<b>GDP</b> Indicator Value", secondary_y=False)
-        fig.update_yaxes(title_text="<b>GINI Index</b> value", secondary_y=True)
-        fig.for_each_trace(lambda t: t.update(line=dict(color=t.marker.color)))
-            
-        st.plotly_chart(fig, use_container_width=True)
-
     st.caption('Data Sources: World Development Indicators (WDI)')
     
+
+# ########## ROW 2 #########################################
+#     col1, col2, col3 = st.columns([1,0.02,1])
+#     with col1:
+#         st.subheader("GDP and Inequality")
+#         st.markdown("""<div style="text-align: justify;">Gross Domestic Product (GDP) per capita is a widely used
+#                         indicator of a country's economic performance and development level. 
+#                     It is calculated by dividing the total annual domestic output 
+#                     of a country by its population size, thus providing a statistical 
+#                     average of GDP per person. This metric offers valuable insights 
+#                     into a country's standard of living and economic health, 
+#                     especially when considered in conjunction with other indicators 
+#                     such as the Human Development Index.</div> 
+#                     <br>
+#                     <div style="text-align: justify;">The growth rate of GDP per capita is 
+#                     generally regarded as the primary measure of a country's economic 
+#                     growth. It reflects the increase in the average income of a country's 
+#                     citizens over time, which is a key factor in determining their standard
+#                     of living. A steadily growing GDP per capita is often seen as an 
+#                     indicator of a robust economy, as it suggests that the country is producing
+#                     more goods and services per person, thereby improving people's 
+#                     purchasing power and overall quality of life.<div>
+#                     <br>
+#                     <div style="text-align: justify;">
+#                     However, it is important to note that GDP per 
+#                     capita has its limitations as a measure of a 
+#                     country's economic well-being. For instance, 
+#                     it does not take into account factors such as 
+#                     income inequality, poverty rates, and environmental
+#                     degradation, which can significantly impact a 
+#                     country's overall development.<div>""",  unsafe_allow_html=True)
+#     with col3:
+#         chart3_data_1 = get_filtered_data(df_combined,[selected_country] + selected_peer, selected_start_year, selected_end_year, 
+#                                     ['GDP per capita', 'GNI per capita'])
+#         # 'GDP, PPP (constant 2017 international $)','GDP per capita', 'Gini index'
+#         chart3_data_1 = chart3_data_1.groupby(['Indicator'],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
+
+#         chart3_data_2 = get_filtered_data(df_combined,[selected_country] + selected_peer, selected_start_year, selected_end_year, 
+#                                     ['Gini index'])
+       
+#         # 'GDP, PPP (constant 2017 international $)','GDP per capita', 
+#         chart3_data_2 = chart3_data_2.groupby(['Indicator'],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
+
+
+#     # Create figure with secondary y-axis
+#         fig = make_subplots(specs=[[{"secondary_y": True}]])
+
+#         # Add traces
+#         subfig1  =  px.line(chart3_data_1,
+#                     x="Year", 
+#                     y="Value",
+#                     line_group='Country',
+#                     color='Indicator',
+#                     title='Chart 3 - GDP and Inequality',
+#                     hover_name="Value",
+#                     color_discrete_sequence=px.colors.qualitative.Plotly
+#                     )
+                    
         
-    # fig.add_trace(
-    #     px.Scatter(x =  name="yaxis data"),
-    #     secondary_y=False,
-    # )
+#         subfig2 =   px.line(chart3_data_2,
+#                     x="Year", 
+#                     y="Value",
+#                     line_group='Country',
+#                     color='Indicator',
+#                     hover_name="Value",
+#                     color_discrete_sequence=px.colors.qualitative.Plotly
+#                     )
+#         subfig2.update_traces(yaxis="y2")
 
-    # fig.add_trace(
-    #     go.Scatter(x=[2, 3, 4], y=[4, 5, 6], name="yaxis2 data"),
-    #     secondary_y=True,
-    # )
+#         fig.add_traces(subfig1.data + subfig2.data)
 
-    # # Add figure title
-    # fig.update_layout(
-    #     title_text="Double Y Axis Example"
-    # )
-    #     fig = make_subplots(specs=[[{"secondary_y": True}]])
+#         fig.update_layout(legend=dict(
+#                 # orientation="h",
+#                 yanchor="bottom",
+#                 y=-0.5,
+#                 xanchor="left",
+#                 x=0.01
+#                 ))
+#         fig.update_yaxes(title_text="<b>GDP</b> Indicator Value", secondary_y=False)
+#         fig.update_yaxes(title_text="<b>GINI Index</b> value", secondary_y=True)
+#         fig.for_each_trace(lambda t: t.update(line=dict(color=t.marker.color)))
+            
+#         st.plotly_chart(fig, use_container_width=True)
+
+#     st.caption('Data Sources: World Development Indicators (WDI)')
+
+#     ####################### ROW 3 ####################################################################
+#     col1, col2, col3 = st.columns([1,0.02,1])
+#     with col1:
+#         st.subheader("Revenue and Expenditure")
+#         st.markdown("""<div style="text-align: justify;">Gross Domestic Product (GDP) per capita is a widely used
+#                         indicator of a country's economic performance and development level. 
+#                     It is calculated by dividing the total annual domestic output 
+#                     of a country by its population size, thus providing a statistical 
+#                     average of GDP per person. This metric offers valuable insights 
+#                     into a country's standard of living and economic health, 
+#                     especially when considered in conjunction with other indicators 
+#                     such as the Human Development Index.</div> 
+#                     <br>
+#                     <div style="text-align: justify;">The growth rate of GDP per capita is 
+#                     generally regarded as the primary measure of a country's economic 
+#                     growth. It reflects the increase in the average income of a country's 
+#                     citizens over time, which is a key factor in determining their standard
+#                     of living. A steadily growing GDP per capita is often seen as an 
+#                     indicator of a robust economy, as it suggests that the country is producing
+#                     more goods and services per person, thereby improving people's 
+#                     purchasing power and overall quality of life.<div>
+#                     <br>
+#                     """,  unsafe_allow_html=True)
+    
+#     with col3:
+#         chart4_data = get_filtered_data(df_combined,[selected_country], selected_start_year, selected_end_year, 
+#                                     ['Fiscal, General Government, Revenue, 2001 Manual, Domestic Currency',
+#        'Fiscal, General Government, Revenue, Tax, 2001 Manual, Domestic Currency',
+#        'Fiscal, General Government, Expense, 2001 Manual, Domestic Currency'])
+#         # 'GDP, PPP (constant 2017 international $)','GDP per capita', 'Gini index'
+#         chart4_data = chart4_data.groupby(['Indicator'],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
+
+#         fig = px.line(chart4_data,
+#                         x="Year", 
+#                         y="Value",   
+#                         color='Indicator',
+#                         title='Chart 4 - Revenue and Expenditure',
+#                         hover_name="Value",
+#                         color_discrete_sequence=px.colors.qualitative.Plotly
+#                         )
+
+#             # Move legend 
+#         fig.update_layout(legend=dict(
+#             # orientation="h",
+#             yanchor="bottom",
+#             y=-0.5,
+#             xanchor="left",
+#             x=0.01
+#             ))
+            
+#         st.plotly_chart(fig, use_container_width=True)
+
+#         st.caption('Data Sources: International Monetary Fund (IMF)')
+
+#         # chart3_data_2 = get_filtered_data(df_combined,[selected_country] + selected_peer, selected_start_year, selected_end_year, 
+#         #                             ['Gini index'])
+       
+#         # # 'GDP, PPP (constant 2017 international $)','GDP per capita', 
+#         # chart3_data_2 = chart3_data_2.groupby(['Indicator'],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
+
+
+    
+        
+#     # fig.add_trace(
+#     #     px.Scatter(x =  name="yaxis data"),
+#     #     secondary_y=False,
+#     # )
+
+#     # fig.add_trace(
+#     #     go.Scatter(x=[2, 3, 4], y=[4, 5, 6], name="yaxis2 data"),
+#     #     secondary_y=True,
+#     # )
+
+#     # # Add figure title
+#     # fig.update_layout(
+#     #     title_text="Double Y Axis Example"
+#     # )
+#     #     fig = make_subplots(specs=[[{"secondary_y": True}]])
 
 
     
 
 
 
-        # Display subheading 
+#         # Display subheading 
         
 
-# # Add the info box
-# with st.expander("ℹ️ - About the data sources", expanded=False):
-#     st.write(
-#         """
-#         It inlcudes IMF, Worldbanl, ILO and Human Devlopment Report data
-#         """)
+# # # Add the info box
+# # with st.expander("ℹ️ - About the data sources", expanded=False):
+# #     st.write(
+# #         """
+# #         It inlcudes IMF, Worldbanl, ILO and Human Devlopment Report data
+# #         """)
     
 
-# # ############################ ROW 1 ###################################
+# # # ############################ ROW 1 ###################################
 
-# # # Display subheading 
-# # st.subheader("Everyone is talking about  Gross Domestic Product (GDP) - but what does it actually mean? ")
+# # # # Display subheading 
+# # # st.subheader("Everyone is talking about  Gross Domestic Product (GDP) - but what does it actually mean? ")
 
-# Configure columns
-
-
+# # Configure columns
 
 
 
-    # ### Group data by year
+
+
+#     # ### Group data by year
     
 
-#     # Caption graph
-#     
+# #     # Caption graph
+# #     
 
-# # # ### GRAPH AND TEXT 1 ###
+# # # # ### GRAPH AND TEXT 1 ###
+
+# # # # with col1: 
+    
+# # # #     # Text 
+# # # #     st.markdown("""<div style="text-align: justify;">The best way to understand the concept of GDP is probably
+# # # #                  by breaking it down into its components. Click through the tabs to explore the 
+# # # #                 different components.</div>""",unsafe_allow_html=True)
+    
+# # # #     # Tabs 
+# # # #     tab1, tab2, tab3, tab4, tab5 = st.tabs(["Product", "Services", "Goods", "Domestic", "Gross"])
+
+# # # #     with tab1: 
+# # # #         st.markdown("""<div style="text-align: justify;">Let us start from the back and look at the term 
+# # # #                         <strong>"Product"</strong> first: 
+# # # #                         The GDP measures all final goods and services that have been produced within a defined time 
+# # # #                         period (typically a year).  If this year, 
+# # # #                         someone sells a house that has been build two years ago, it will not be part of 
+# # # #                         this year's GDP. Also, if someone resells a car that has been manufactured and that 
+# # # #                         she has bought this year it will only be counted once into the GDP since reselling 
+# # # #                         is not producing.</div>""",unsafe_allow_html=True)
+
+# # # #     with tab2: 
+# # # #         st.markdown("""<div style="text-align: justify;">Examples for <strong>"Services"</strong> are a 
+# # # #                         haircut, entertainment, a taxi ride, consultancy, a craft activity, renting out an apartment, 
+# # # #                         formal schooling, or health care. They all have in common that you cannot store them.</div>""",unsafe_allow_html=True)
+    
+# # # #     with tab3: 
+# # # #         st.markdown("""<div style="text-align: justify;"><strong>"Goods"</strong>, in turn, can be stored as they are 
+# # # #                         tangible things such as food, clothes, books, computers, mobiles, machines in general, and even 
+# # # #                         buildings.  What does the term <strong>final</strong> mean? A car is a final good – but the steel and 
+# # # #                         glass a car manufacturer buys to produce 
+# # # #                         the car are not final goods. That is: All the goods and services which directly end up 
+# # # #                         in a product are not final goods. Machines, however, are final goods since they are used 
+# # # #                         to produce goods, but do not directly end up in them.</div>""",unsafe_allow_html=True)
+
+# # # #     with tab4: 
+# # # #             st.markdown(""" <div style="text-align: justify;">Finally, <strong>"domestic"</strong> refers to the fact
+# # # #                         that only those final goods and services are part of the GDP that are produced 
+# # # #                         in the considered country. Whether a domestic factory belongs to a foreign owner or 
+# # # #                         a domestic one does not matter - it only matters that the good is produced in the regarded country.</div>""", unsafe_allow_html=True)
+
+# # # with col1:
+
+# # #     # Display subheading 
+# # #     st.subheader("Everyone is talking about  Gross Domestic Product (GDP) - but what does it actually mean? ")
+ 
+   
+# # #     #### Explanatory text box 1
+# # #     st.markdown("""<div style="text-align: justify;">The best way to understand GDP is probably
+# # #                 by breaking it down into its components. Let us start with <strong>"Product"</strong>: The GDP measures all final goods and services that 
+# # #                 have been produced within a defined time period (typically a year).  If this year, 
+# # #                 someone sells a house that has been build two years ago, it will not be part of 
+# # #                 this year's GDP. Also, if someone resells a car that has been manufactured and that 
+# # #                 she has bought this year it will only be counted once into the GDP since reselling 
+# # #                 is not producing.Examples for <strong>"services"</strong> are a haircut, entertainment, a taxi ride, 
+# # #                 consultancy, a craft activity, renting out an apartment, formal schooling, or health care. 
+# # #                 They all have in common that you cannot store them.</div> 
+# # #                 <br>
+# # #                 <div style="text-align: justify;"><strong>"Goods"</strong>, in turn, can be stored as they are tangible things such as food, clothes, books, 
+# # #                 computers, mobiles, machines in general, and even buildings.  What does the term <strong>final</strong> 
+# # #                 mean? A car is a final good – but the steel and glass a car manufacturer buys to produce 
+# # #                 the car are not final goods. That is: All the goods and services which directly end up 
+# # #                 in a product are not final goods. Machines, however, are final goods since they are used 
+# # #                 to produce goods, but do not directly end up in them.</div>  
+# # #                 <br>
+# # #                 <div style="text-align: justify;"><strong>"Domestic"</strong>: Only those final goods and services are part of the GDP that are produced 
+# # #                 in the considered country. Whether a domestic factory belongs to a foreign owner or 
+# # #                 a domestic one does not matter - it only matters that the good is produced in the regarded country.</div>""", unsafe_allow_html=True
+# # #     )
+        
+# # #     st.header("")
+
+# # # #### Graph 1
+
+# # # with col3: 
+
+# # #     # Create tabs 
+# # #     tab1, tab2 = st.tabs(['GDP per capita', 'GDP'])
+
+# # #     with tab1: 
+
+# # #         # Get data
+# # #         chart1_data = get_filtered_data([selected_country] + selected_peer, selected_start_year, selected_end_year, ['GDP per capita'])
+
+# # #         # ### Group data by year
+# # #         chart1_data = chart1_data.groupby([chart1_data.Indicator],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
+
+# # #         # Configure plot
+# # #         fig = px.line(chart1_data,
+# # #                         x="Year", 
+# # #                         y="Value",   
+# # #                         color='Country',
+# # #                         title='Chart 1 - GDP per capita',
+# # #                         hover_name="Value",
+# # #                         color_discrete_sequence=px.colors.qualitative.Plotly
+# # #                         )
+
+# # #         # # Move legend 
+# # #         # fig.update_layout(legend=dict(
+# # #         #     # orientation="h",
+# # #         #     yanchor="bottom",
+# # #         #     y=1.05,
+# # #         #     xanchor="left",
+# # #         #     x=0.01
+# # #         #     ))
+
+# # #         # Display graph
+# # #         st.plotly_chart(fig, use_container_width=True)
+
+# # #         # Caption graph
+# # #         st.caption('Data Sources: World Development Indicators (WDI)')
+    
+# # #     with tab2: 
+        
+# # #         # Get data
+# # #         chart2_data = get_filtered_data([selected_country] + selected_peer, selected_start_year, selected_end_year, ['GDP'])
+
+# # #         # ### Group data by year
+# # #         chart2_data = chart2_data.groupby([chart2_data.Indicator],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
+
+# # #         # Configure plot
+# # #         fig = px.line(chart2_data,
+# # #                         x="Year", 
+# # #                         y="Value",   
+# # #                         color='Country',
+# # #                         title='Chart 2 - GDP',
+# # #                         hover_name="Value",
+# # #                         color_discrete_sequence=px.colors.qualitative.Plotly
+# # #                         )
+
+# # #         # # Move legend 
+# # #         # fig.update_layout(legend=dict(
+# # #         #     # orientation="h",
+# # #         #     yanchor="bottom",
+# # #         #     y=1.05,
+# # #         #     xanchor="left",
+# # #         #     x=0.01
+# # #         #     ))
+
+# # #         # Display graph
+# # #         st.plotly_chart(fig, use_container_width=True)
+
+# # #         # Caption graph
+# # #         st.caption('Data Sources: World Development Indicators (WDI)')
+
+
+# # # ############################# ROW 2 ###################################
+
+# # # # Text 
+# # # st.subheader("So how do people actually manage that their economies grow?")
+
+# # # # Configure columns
+# # # col1, col2, col3 = st.columns([1,0.02,1])
 
 # # # with col1: 
     
-# # #     # Text 
-# # #     st.markdown("""<div style="text-align: justify;">The best way to understand the concept of GDP is probably
-# # #                  by breaking it down into its components. Click through the tabs to explore the 
-# # #                 different components.</div>""",unsafe_allow_html=True)
-    
-# # #     # Tabs 
-# # #     tab1, tab2, tab3, tab4, tab5 = st.tabs(["Product", "Services", "Goods", "Domestic", "Gross"])
-
-# # #     with tab1: 
-# # #         st.markdown("""<div style="text-align: justify;">Let us start from the back and look at the term 
-# # #                         <strong>"Product"</strong> first: 
-# # #                         The GDP measures all final goods and services that have been produced within a defined time 
-# # #                         period (typically a year).  If this year, 
-# # #                         someone sells a house that has been build two years ago, it will not be part of 
-# # #                         this year's GDP. Also, if someone resells a car that has been manufactured and that 
-# # #                         she has bought this year it will only be counted once into the GDP since reselling 
-# # #                         is not producing.</div>""",unsafe_allow_html=True)
-
-# # #     with tab2: 
-# # #         st.markdown("""<div style="text-align: justify;">Examples for <strong>"Services"</strong> are a 
-# # #                         haircut, entertainment, a taxi ride, consultancy, a craft activity, renting out an apartment, 
-# # #                         formal schooling, or health care. They all have in common that you cannot store them.</div>""",unsafe_allow_html=True)
-    
-# # #     with tab3: 
-# # #         st.markdown("""<div style="text-align: justify;"><strong>"Goods"</strong>, in turn, can be stored as they are 
-# # #                         tangible things such as food, clothes, books, computers, mobiles, machines in general, and even 
-# # #                         buildings.  What does the term <strong>final</strong> mean? A car is a final good – but the steel and 
-# # #                         glass a car manufacturer buys to produce 
-# # #                         the car are not final goods. That is: All the goods and services which directly end up 
-# # #                         in a product are not final goods. Machines, however, are final goods since they are used 
-# # #                         to produce goods, but do not directly end up in them.</div>""",unsafe_allow_html=True)
-
-# # #     with tab4: 
-# # #             st.markdown(""" <div style="text-align: justify;">Finally, <strong>"domestic"</strong> refers to the fact
-# # #                         that only those final goods and services are part of the GDP that are produced 
-# # #                         in the considered country. Whether a domestic factory belongs to a foreign owner or 
-# # #                         a domestic one does not matter - it only matters that the good is produced in the regarded country.</div>""", unsafe_allow_html=True)
-
-# # with col1:
-
-# #     # Display subheading 
-# #     st.subheader("Everyone is talking about  Gross Domestic Product (GDP) - but what does it actually mean? ")
- 
-   
-# #     #### Explanatory text box 1
-# #     st.markdown("""<div style="text-align: justify;">The best way to understand GDP is probably
-# #                 by breaking it down into its components. Let us start with <strong>"Product"</strong>: The GDP measures all final goods and services that 
-# #                 have been produced within a defined time period (typically a year).  If this year, 
-# #                 someone sells a house that has been build two years ago, it will not be part of 
-# #                 this year's GDP. Also, if someone resells a car that has been manufactured and that 
-# #                 she has bought this year it will only be counted once into the GDP since reselling 
-# #                 is not producing.Examples for <strong>"services"</strong> are a haircut, entertainment, a taxi ride, 
-# #                 consultancy, a craft activity, renting out an apartment, formal schooling, or health care. 
-# #                 They all have in common that you cannot store them.</div> 
-# #                 <br>
-# #                 <div style="text-align: justify;"><strong>"Goods"</strong>, in turn, can be stored as they are tangible things such as food, clothes, books, 
-# #                 computers, mobiles, machines in general, and even buildings.  What does the term <strong>final</strong> 
-# #                 mean? A car is a final good – but the steel and glass a car manufacturer buys to produce 
-# #                 the car are not final goods. That is: All the goods and services which directly end up 
-# #                 in a product are not final goods. Machines, however, are final goods since they are used 
-# #                 to produce goods, but do not directly end up in them.</div>  
-# #                 <br>
-# #                 <div style="text-align: justify;"><strong>"Domestic"</strong>: Only those final goods and services are part of the GDP that are produced 
-# #                 in the considered country. Whether a domestic factory belongs to a foreign owner or 
-# #                 a domestic one does not matter - it only matters that the good is produced in the regarded country.</div>""", unsafe_allow_html=True
-# #     )
-        
-# #     st.header("")
-
-# # #### Graph 1
-
-# # with col3: 
-
-# #     # Create tabs 
-# #     tab1, tab2 = st.tabs(['GDP per capita', 'GDP'])
-
-# #     with tab1: 
-
-# #         # Get data
-# #         chart1_data = get_filtered_data([selected_country] + selected_peer, selected_start_year, selected_end_year, ['GDP per capita'])
-
-# #         # ### Group data by year
-# #         chart1_data = chart1_data.groupby([chart1_data.Indicator],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
-
-# #         # Configure plot
-# #         fig = px.line(chart1_data,
-# #                         x="Year", 
-# #                         y="Value",   
-# #                         color='Country',
-# #                         title='Chart 1 - GDP per capita',
-# #                         hover_name="Value",
-# #                         color_discrete_sequence=px.colors.qualitative.Plotly
-# #                         )
-
-# #         # # Move legend 
-# #         # fig.update_layout(legend=dict(
-# #         #     # orientation="h",
-# #         #     yanchor="bottom",
-# #         #     y=1.05,
-# #         #     xanchor="left",
-# #         #     x=0.01
-# #         #     ))
-
-# #         # Display graph
-# #         st.plotly_chart(fig, use_container_width=True)
-
-# #         # Caption graph
-# #         st.caption('Data Sources: World Development Indicators (WDI)')
-    
-# #     with tab2: 
-        
-# #         # Get data
-# #         chart2_data = get_filtered_data([selected_country] + selected_peer, selected_start_year, selected_end_year, ['GDP'])
-
-# #         # ### Group data by year
-# #         chart2_data = chart2_data.groupby([chart2_data.Indicator],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
-
-# #         # Configure plot
-# #         fig = px.line(chart2_data,
-# #                         x="Year", 
-# #                         y="Value",   
-# #                         color='Country',
-# #                         title='Chart 2 - GDP',
-# #                         hover_name="Value",
-# #                         color_discrete_sequence=px.colors.qualitative.Plotly
-# #                         )
-
-# #         # # Move legend 
-# #         # fig.update_layout(legend=dict(
-# #         #     # orientation="h",
-# #         #     yanchor="bottom",
-# #         #     y=1.05,
-# #         #     xanchor="left",
-# #         #     x=0.01
-# #         #     ))
-
-# #         # Display graph
-# #         st.plotly_chart(fig, use_container_width=True)
-
-# #         # Caption graph
-# #         st.caption('Data Sources: World Development Indicators (WDI)')
-
-
-# # ############################# ROW 2 ###################################
-
-# # # Text 
-# # st.subheader("So how do people actually manage that their economies grow?")
-
-# # # Configure columns
-# # col1, col2, col3 = st.columns([1,0.02,1])
-
-# # with col1: 
-    
-# #     st.markdown("""<div style="text-align: justify;">In chart 1, we can see that 
-# #                 the economies of a lot of countries (if selected) tend to grow. That is, 
-# #                 year by year most countries manage to establish new "high scores" in terms 
-# #                 of the total value of final goods and services they have produced in that 
-# #                 year (GDP). So how do people actually manage that their economies grow?</div>  
-# #                 <br>
-# #                 <div style="text-align: justify;">Production depends on three so-called factors of production: Economists 
-# #                 call the first land – which is a synonym for natural resources. They 
-# #                 provide the material input for all the goods and services that an economy 
-# #                 produces. Obviously, the material boundaries of our planet set an upper 
-# #                 limit for material growth on earth.</div>   
-# #                 <br>
-# #                 <div style="text-align: justify;">The second factor is capital: Capital are all those products that can 
-# #                 be used to produce further products and do not end up in them: machines, 
-# #                 tools and equipment, patents, buildings, a country's infrastructure. The 
-# #                 more of these products are available, the more goods and services an economy 
-# #                 can produce. Or, in turn, without any factories there will not be any industrial 
-# #                 products. Hence, increasing the capital stock is one way to make an economy grow.
-# #                 <br>
-# #                 <div style="text-align: justify;">The last and third factor of production is labour. Labour is provided by people. 
-# #                 That means, if the population is growing, there are more people around who can work. 
-# #                 Thus, usually, an economy grows when its population is growing (for more 
-# #                 information on employment, check out our other dashboards).</div>
-# #                 </div>""", unsafe_allow_html=True
-# #         )    
-# # with col3:
+# # #     st.markdown("""<div style="text-align: justify;">In chart 1, we can see that 
+# # #                 the economies of a lot of countries (if selected) tend to grow. That is, 
+# # #                 year by year most countries manage to establish new "high scores" in terms 
+# # #                 of the total value of final goods and services they have produced in that 
+# # #                 year (GDP). So how do people actually manage that their economies grow?</div>  
+# # #                 <br>
+# # #                 <div style="text-align: justify;">Production depends on three so-called factors of production: Economists 
+# # #                 call the first land – which is a synonym for natural resources. They 
+# # #                 provide the material input for all the goods and services that an economy 
+# # #                 produces. Obviously, the material boundaries of our planet set an upper 
+# # #                 limit for material growth on earth.</div>   
+# # #                 <br>
+# # #                 <div style="text-align: justify;">The second factor is capital: Capital are all those products that can 
+# # #                 be used to produce further products and do not end up in them: machines, 
+# # #                 tools and equipment, patents, buildings, a country's infrastructure. The 
+# # #                 more of these products are available, the more goods and services an economy 
+# # #                 can produce. Or, in turn, without any factories there will not be any industrial 
+# # #                 products. Hence, increasing the capital stock is one way to make an economy grow.
+# # #                 <br>
+# # #                 <div style="text-align: justify;">The last and third factor of production is labour. Labour is provided by people. 
+# # #                 That means, if the population is growing, there are more people around who can work. 
+# # #                 Thus, usually, an economy grows when its population is growing (for more 
+# # #                 information on employment, check out our other dashboards).</div>
+# # #                 </div>""", unsafe_allow_html=True
+# # #         )    
+# # # with col3:
                 
-# #     st.markdown("""<div style="text-align: justify;">The last and third factor of production is labour. Labour is provided by people. 
-# #                 That means, if the population is growing, there are more people around who can work. 
-# #                 Thus, usually, an economy grows when its population is growing (for more 
-# #                 information on employment, check out our other dashboards).</div>  
-# #                 <br>
-# #                 <div style="text-align: justify;">Besides the pure quantity of people and capital items around, the quality of 
-# #                 both factors matters as well: If people are better educated and trained they 
-# #                 will, most likely, be able to work more efficient and will consequently produce 
-# #                 more per hour than before. In this context, one also often refers to the 
-# #                 term “human capital”. What education is to humans, innovation (or science) is 
-# #                 to capital: If the same number of machines and production processes suddenly 
-# #                 function with a more efficient technology, due to an innovation, then again 
-# #                 production increases – thus, the economy grows.</div>
-# #                 <br>
-# #                 <div style="text-align: justify;">What education is to humans, innovation (or science) is to capital: If the same number of machines 
-# #                 and production processes suddenly function with a more efficient technology, due to an innovation, 
-# #                 then again production increases – thus, the economy grows.</div>""", unsafe_allow_html=True
-# #         )
+# # #     st.markdown("""<div style="text-align: justify;">The last and third factor of production is labour. Labour is provided by people. 
+# # #                 That means, if the population is growing, there are more people around who can work. 
+# # #                 Thus, usually, an economy grows when its population is growing (for more 
+# # #                 information on employment, check out our other dashboards).</div>  
+# # #                 <br>
+# # #                 <div style="text-align: justify;">Besides the pure quantity of people and capital items around, the quality of 
+# # #                 both factors matters as well: If people are better educated and trained they 
+# # #                 will, most likely, be able to work more efficient and will consequently produce 
+# # #                 more per hour than before. In this context, one also often refers to the 
+# # #                 term “human capital”. What education is to humans, innovation (or science) is 
+# # #                 to capital: If the same number of machines and production processes suddenly 
+# # #                 function with a more efficient technology, due to an innovation, then again 
+# # #                 production increases – thus, the economy grows.</div>
+# # #                 <br>
+# # #                 <div style="text-align: justify;">What education is to humans, innovation (or science) is to capital: If the same number of machines 
+# # #                 and production processes suddenly function with a more efficient technology, due to an innovation, 
+# # #                 then again production increases – thus, the economy grows.</div>""", unsafe_allow_html=True
+# # #         )
 
-# # # Configure columns
-# # col1, col2, col3 = st.columns([1,1,1])
+# # # # Configure columns
+# # # col1, col2, col3 = st.columns([1,1,1])
 
-# # ### Chart Capital ###
+# # # ### Chart Capital ###
 
-# # with col1: 
+# # # with col1: 
     
-# #   # Get data
-# #     chart3_data = get_filtered_data([selected_country] + selected_peer, selected_start_year, selected_end_year, ['Total population'])
+# # #   # Get data
+# # #     chart3_data = get_filtered_data([selected_country] + selected_peer, selected_start_year, selected_end_year, ['Total population'])
 
-# #     # ### Group data by year
-# #     chart3_data = chart3_data.groupby([chart3_data.Indicator],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
+# # #     # ### Group data by year
+# # #     chart3_data = chart3_data.groupby([chart3_data.Indicator],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
 
-# #     # Configure plot
-# #     fig = px.line(chart3_data,
-# #                     x="Year", 
-# #                     y="Value",   
-# #                     color='Country',
-# #                     title='Chart 3 - Total Population',
-# #                     hover_name="Value",
-# #                     color_discrete_sequence=px.colors.qualitative.Plotly
-# #                     )
+# # #     # Configure plot
+# # #     fig = px.line(chart3_data,
+# # #                     x="Year", 
+# # #                     y="Value",   
+# # #                     color='Country',
+# # #                     title='Chart 3 - Total Population',
+# # #                     hover_name="Value",
+# # #                     color_discrete_sequence=px.colors.qualitative.Plotly
+# # #                     )
 
-# #     # Move legend 
-# #     fig.update_layout(legend=dict(
-# #         # orientation="h",
-# #         yanchor="bottom",
-# #         y=-0.5,
-# #         xanchor="left",
-# #         x=0.01
-# #         ))
+# # #     # Move legend 
+# # #     fig.update_layout(legend=dict(
+# # #         # orientation="h",
+# # #         yanchor="bottom",
+# # #         y=-0.5,
+# # #         xanchor="left",
+# # #         x=0.01
+# # #         ))
 
-# #     # Display graph
-# #     st.plotly_chart(fig, use_container_width=True)
+# # #     # Display graph
+# # #     st.plotly_chart(fig, use_container_width=True)
 
-# #     # Caption graph
-# #     st.caption('Data Sources: World Development Indicators (WDI)')
+# # #     # Caption graph
+# # #     st.caption('Data Sources: World Development Indicators (WDI)')
 
 
-# # ### Chart Capital ###
+# # # ### Chart Capital ###
 
-# # with col2: 
+# # # with col2: 
     
-# #   # Get data
-# #     chart4_data = get_filtered_data([selected_country] + selected_peer, selected_start_year, selected_end_year, ['Capital stock (in bil. 2011US$)'])
+# # #   # Get data
+# # #     chart4_data = get_filtered_data([selected_country] + selected_peer, selected_start_year, selected_end_year, ['Capital stock (in bil. 2011US$)'])
 
-# #     # ### Group data by year
-# #     chart4_data = chart4_data.groupby([chart4_data.Indicator],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
+# # #     # ### Group data by year
+# # #     chart4_data = chart4_data.groupby([chart4_data.Indicator],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
 
-# #     # Configure plot
-# #     fig = px.line(chart4_data,
-# #                     x="Year", 
-# #                     y="Value",   
-# #                     color='Country',
-# #                     title='Chart 4 - Capital stock (in bil. 2011US$)',
-# #                     hover_name="Value",
-# #                     color_discrete_sequence=px.colors.qualitative.Plotly
-# #                     )
+# # #     # Configure plot
+# # #     fig = px.line(chart4_data,
+# # #                     x="Year", 
+# # #                     y="Value",   
+# # #                     color='Country',
+# # #                     title='Chart 4 - Capital stock (in bil. 2011US$)',
+# # #                     hover_name="Value",
+# # #                     color_discrete_sequence=px.colors.qualitative.Plotly
+# # #                     )
 
-# #     # Move legend 
-# #     fig.update_layout(legend=dict(
-# #         # orientation="h",
-# #         yanchor="bottom",
-# #         y=-0.5,
-# #         xanchor="left",
-# #         x=0.01
-# #         ))
+# # #     # Move legend 
+# # #     fig.update_layout(legend=dict(
+# # #         # orientation="h",
+# # #         yanchor="bottom",
+# # #         y=-0.5,
+# # #         xanchor="left",
+# # #         x=0.01
+# # #         ))
 
-# #     # Display graph
-# #     st.plotly_chart(fig, use_container_width=True)
+# # #     # Display graph
+# # #     st.plotly_chart(fig, use_container_width=True)
 
-# #     # Caption graph
-# #     st.caption('International Monetary Fund (IMF)')
+# # #     # Caption graph
+# # #     st.caption('International Monetary Fund (IMF)')
 
-# #     ### Chart Capital ###
+# # #     ### Chart Capital ###
 
-# # with col3: 
+# # # with col3: 
     
-# #   # Get data
-# #     chart5_data = get_filtered_data([selected_country] + selected_peer, selected_start_year, selected_end_year, ['Population Growth Rate', 'GDP Growth', 'Growth rate in total capital (%)'])
+# # #   # Get data
+# # #     chart5_data = get_filtered_data([selected_country] + selected_peer, selected_start_year, selected_end_year, ['Population Growth Rate', 'GDP Growth', 'Growth rate in total capital (%)'])
 
-# #     # ### Group data by year
-# #     chart5_data = chart5_data.groupby([chart5_data.Indicator],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
+# # #     # ### Group data by year
+# # #     chart5_data = chart5_data.groupby([chart5_data.Indicator],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
 
-# #     # Configure plot
-# #     fig = px.line(chart5_data,
-# #                     x="Year", 
-# #                     y="Value",   
-# #                     color='Indicator',
-# #                     title="Chart 5 - Your Country's Annual Growth Rates [%]: GDP, Population & Capital",
-# #                     hover_name="Value",
-# #                     color_discrete_sequence=px.colors.qualitative.Plotly
-# #                     )
+# # #     # Configure plot
+# # #     fig = px.line(chart5_data,
+# # #                     x="Year", 
+# # #                     y="Value",   
+# # #                     color='Indicator',
+# # #                     title="Chart 5 - Your Country's Annual Growth Rates [%]: GDP, Population & Capital",
+# # #                     hover_name="Value",
+# # #                     color_discrete_sequence=px.colors.qualitative.Plotly
+# # #                     )
 
-# #     # Move legend 
-# #     fig.update_layout(legend=dict(
-# #         # orientation="h",
-# #         yanchor="bottom",
-# #         y=-0.5,
-# #         xanchor="left",
-# #         x=0.01
-# #         ))
+# # #     # Move legend 
+# # #     fig.update_layout(legend=dict(
+# # #         # orientation="h",
+# # #         yanchor="bottom",
+# # #         y=-0.5,
+# # #         xanchor="left",
+# # #         x=0.01
+# # #         ))
 
-# #     # Display graph
-# #     st.plotly_chart(fig, use_container_width=True)
+# # #     # Display graph
+# # #     st.plotly_chart(fig, use_container_width=True)
 
-# #     # Caption graph
-# #     st.caption('International Monetary Fund (IMF)')
+# # #     # Caption graph
+# # #     st.caption('International Monetary Fund (IMF)')
