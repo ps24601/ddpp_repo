@@ -852,7 +852,7 @@ else:
                         ))
         fig_data = ()
         for i in plots_holder:
-            fig_data = fig_data + plots_holder[i]
+            fig_data = fig_data + i.data
         fig.add_traces(fig_data)
 
         fig.update_layout(legend=dict(
