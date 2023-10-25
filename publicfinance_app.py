@@ -411,7 +411,7 @@ else:
     # fig = make_subplots(specs=[[{"secondary_y": True}]])
 
         # Add traces
-        px.line(chart3_data,
+        fig = px.line(chart3_data,
                     x="Year", 
                     y="Value",
                     line_group='Country',
