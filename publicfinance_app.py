@@ -382,7 +382,7 @@ else:
 
     
 ########### ROW 2 ###################################3
-    st.subheader("GDP/GNI Per Capita")
+    st.subheader("GDP/GNI Per Capita (nominal)")
     
     #### Explanatory text box 1
     st.markdown("""<div style="text-align: justify;">GDP per capita is a measure 
@@ -395,46 +395,61 @@ else:
     col1, col2, col3 = st.columns([1,0.02,1])
     with col1:
         chart3_data = get_filtered_data(df_combined,[selected_country] + selected_peer, selected_start_year, selected_end_year, 
-                                    ['GDP per capita'])
-         
-        
+                                    ['GDP per capita','GNI per capita'])
         chart3_data = chart3_data.groupby(['Indicator'],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
 
         # Configure plot
-        fig = px.line(chart3_data,
-                        x="Year", 
-                        y="Value",   
-                        color='Country',
-                        title='Chart 3 - GDP per capita',
-                        hover_name="Value",
-                        color_discrete_sequence=px.colors.qualitative.Plotly
-                        )
+        fig = make_subplots()
+        subfig1  =  px.line(chart3_data[chart3_data.Indicator == ['GDP per capita']],
+                    x="Year", 
+                    y="Value",
+                    line_group='Country',
+                    color='Indicator',
+                    title='Chart 3 - GDP and Inequality',
+                    hover_name="Value",
+                    color_discrete_sequence=px.colors.qualitative.Plotly
+                    )
+                    
+        
+        subfig2 =   px.line(chart3_data[chart3_data.Indicator == ['GNI per capita']],
+                    x="Year", 
+                    y="Value",
+                    line_group='Country',
+                    color='Indicator',
+                    hover_name="Value",
+                    color_discrete_sequence=px.colors.qualitative.Plotly
+                    )
+        subfig2.update_traces(yaxis="y2")
 
-        # Move legend 
+        fig.add_traces(subfig1.data + subfig2.data)
+
         fig.update_layout(legend=dict(
-            # orientation="h",
-            yanchor="bottom",
-            y=-0.5,
-            xanchor="left",
-            x=0.01
-            ))
+                # orientation="h",
+                yanchor="bottom",
+                y=-0.5,
+                xanchor="left",
+                x=0.01
+                ))
+        fig.update_yaxes(title_text="<b>GDP</b> Indicator Value", secondary_y=False)
+        fig.update_yaxes(title_text="<b>GINI Index</b> value", secondary_y=True)
+        fig.for_each_trace(lambda t: t.update(line=dict(color=t.marker.color)))
 
-        # Display graph
+            
         st.plotly_chart(fig, use_container_width=True)
             
     with col3: 
         
     # Get data
         chart4_data = get_filtered_data(df_combined,[selected_country] + selected_peer, selected_start_year, selected_end_year, 
-                                ['GNI per capita'])
+                                ['GDP, PPP (constant 2017 international $)'])
         chart4_data = chart4_data.groupby(['Indicator'],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
 
-            # Configure plot
+        # Configure plot
         fig = px.line(chart4_data,
                         x="Year", 
                         y="Value",   
                         color='Country',
-                        title='Chart 4 - GNI per capita',
+                        title='Chart 4 - GDP, PPP (constant 2017 international $)',
                         hover_name="Value",
                         color_discrete_sequence=px.colors.qualitative.Plotly
                         )
@@ -453,7 +468,126 @@ else:
     st.caption('Data Sources: World Development Indicators (WDI)')
     
 
-# ########## ROW 2 #########################################
+# ########## ROW 3 #########################################
+    # st.subheader("GDP")
+    
+    # #### Explanatory text box 1
+    # st.markdown("""<div style="text-align: justify;">GDP per capita is a measure 
+    #             of a country’s total annual domestic output, divided by population 
+    #             size. In other words, it constitutes a (statistical) average of GDP 
+    #             per person. Together with the Human Development Index, it 
+    #             may provide a hint at the country’s average </div>""", unsafe_allow_html=True
+    #                     )
+
+    # col1, col2, col3 = st.columns([1,0.02,1])
+    # with col1:
+    #     chart3_data = get_filtered_data(df_combined,[selected_country] + selected_peer, selected_start_year, selected_end_year, 
+    #                                 ['GDP per capita','GNI per capita'])
+         
+        
+    #     chart3_data = chart3_data.groupby(['Indicator'],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
+    #     fig = make_subplots(specs=[[{"secondary_y": True}]])
+
+    #     # Add traces
+    #     subfig1  =  px.line(chart3_data_1,
+    #                 x="Year", 
+    #                 y="Value",
+    #                 line_group='Country',
+    #                 color='Indicator',
+    #                 title='Chart 3 - GDP and Inequality',
+    #                 hover_name="Value",
+    #                 color_discrete_sequence=px.colors.qualitative.Plotly
+    #                 )
+                    
+        
+    #     subfig2 =   px.line(chart3_data_2,
+    #                 x="Year", 
+    #                 y="Value",
+    #                 line_group='Country',
+    #                 color='Indicator',
+    #                 hover_name="Value",
+    #                 color_discrete_sequence=px.colors.qualitative.Plotly
+    #                 )
+    #     subfig2.update_traces(yaxis="y2")
+
+    #     fig.add_traces(subfig1.data + subfig2.data)
+
+    #     fig.update_layout(legend=dict(
+    #             # orientation="h",
+    #             yanchor="bottom",
+    #             y=-0.5,
+    #             xanchor="left",
+    #             x=0.01
+    #             ))
+    #     fig.update_yaxes(title_text="<b>GDP</b> Indicator Value", secondary_y=False)
+    #     fig.update_yaxes(title_text="<b>GINI Index</b> value", secondary_y=True)
+    #     fig.for_each_trace(lambda t: t.update(line=dict(color=t.marker.color)))
+            
+    #     st.plotly_chart(fig, use_container_width=True)
+
+    #     st.caption('Data Sources: World Development Indicators (WDI)')
+
+
+
+
+
+
+
+
+    #     tab1, tab2, tab3 = st.tabs(["Country Data", "Unemployment Comparison", "Labour Force Comparison"])
+
+        # # Configure plot
+        # fig = px.line(chart3_data,
+        #                 x="Year", 
+        #                 y="Value", 
+                          
+        #                 color='Country',
+        #                 title='Chart 3 - GDP per capita',
+        #                 hover_name="Value",
+        #                 color_discrete_sequence=px.colors.qualitative.Plotly
+        #                 )
+
+        # # Move legend 
+        # fig.update_layout(legend=dict(
+        #     # orientation="h",
+        #     yanchor="bottom",
+        #     y=-0.5,
+        #     xanchor="left",
+        #     x=0.01
+        #     ))
+
+    #     # Display graph
+    #     st.plotly_chart(fig, use_container_width=True)
+            
+    # with col3: 
+        
+    # # Get data
+    #     chart4_data = get_filtered_data(df_combined,[selected_country] + selected_peer, selected_start_year, selected_end_year, 
+    #                             ['GNI per capita'])
+    #     chart4_data = chart4_data.groupby(['Indicator'],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
+
+    #         # Configure plot
+    #     fig = px.line(chart4_data,
+    #                     x="Year", 
+    #                     y="Value",   
+    #                     color='Country',
+    #                     title='Chart 4 - GNI per capita',
+    #                     hover_name="Value",
+    #                     color_discrete_sequence=px.colors.qualitative.Plotly
+    #                     )
+
+    #         # Move legend 
+    #     fig.update_layout(legend=dict(
+    #         # orientation="h",
+    #         yanchor="bottom",
+    #         y=-0.5,
+    #         xanchor="left",
+    #         x=0.01
+    #         ))
+            
+    #     st.plotly_chart(fig, use_container_width=True)
+
+    # st.caption('Data Sources: World Development Indicators (WDI)')
 #     col1, col2, col3 = st.columns([1,0.02,1])
 #     with col1:
 #         st.subheader("GDP and Inequality")
