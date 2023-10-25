@@ -383,7 +383,7 @@ else:
 ########## ROW 2 #########################################
     col1, col2, col3 = st.columns([1,0.02,1])
     with col1:
-        st.subheader("GDP")
+        st.subheader("GDP and Inequality")
         st.markdown("""<div style="text-align: justify;">Gross Domestic Product (GDP) per capita is a widely used
                         indicator of a country's economic performance and development level. 
                     It is calculated by dividing the total annual domestic output 
@@ -450,13 +450,13 @@ else:
 
         fig.add_traces(subfig1.data + subfig2.data)
 
-        # fig.update_layout(legend=dict(
-        #         # orientation="h",
-        #         yanchor="bottom",
-        #         y=-0.5,
-        #         xanchor="left",
-        #         x=0.01
-        #         ))
+        fig.update_layout(legend=dict(
+                # orientation="h",
+                yanchor="bottom",
+                y=-0.5,
+                xanchor="left",
+                x=0.01
+                ))
         fig.update_yaxes(title_text="<b>GDP</b> Indicator Value", secondary_y=False)
         fig.update_yaxes(title_text="<b>GINI Index</b> value", secondary_y=True)
         fig.for_each_trace(lambda t: t.update(line=dict(color=t.marker.color)))
@@ -464,6 +464,110 @@ else:
         st.plotly_chart(fig, use_container_width=True)
 
     st.caption('Data Sources: World Development Indicators (WDI)')
+
+    ####################### ROW 3 ####################################################################
+    col1, col2, col3 = st.columns([1,0.02,1])
+    with col1:
+        st.subheader("Revenue and Expenditure")
+        st.markdown("""<div style="text-align: justify;">Gross Domestic Product (GDP) per capita is a widely used
+                        indicator of a country's economic performance and development level. 
+                    It is calculated by dividing the total annual domestic output 
+                    of a country by its population size, thus providing a statistical 
+                    average of GDP per person. This metric offers valuable insights 
+                    into a country's standard of living and economic health, 
+                    especially when considered in conjunction with other indicators 
+                    such as the Human Development Index.</div> 
+                    <br>
+                    <div style="text-align: justify;">The growth rate of GDP per capita is 
+                    generally regarded as the primary measure of a country's economic 
+                    growth. It reflects the increase in the average income of a country's 
+                    citizens over time, which is a key factor in determining their standard
+                    of living. A steadily growing GDP per capita is often seen as an 
+                    indicator of a robust economy, as it suggests that the country is producing
+                    more goods and services per person, thereby improving people's 
+                    purchasing power and overall quality of life.<div>
+                    <br>
+                    """,  unsafe_allow_html=True)
+    
+    with col3:
+        chart4_data = get_filtered_data(df_combined,[selected_country], selected_start_year, selected_end_year, 
+                                    ['Fiscal, General Government, Revenue, 2001 Manual, Domestic Currency',
+       'Fiscal, General Government, Revenue, Tax, 2001 Manual, Domestic Currency',
+       'Fiscal, General Government, Expense, 2001 Manual, Domestic Currency'])
+        # 'GDP, PPP (constant 2017 international $)','GDP per capita', 'Gini index'
+        chart4_data = chart4_data.groupby(['Indicator'],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
+
+        fig = px.line(chart4_data,
+                        x="Year", 
+                        y="Value",   
+                        color='Indicator',
+                        title='Chart 4 - Revenue and Expenditure',
+                        hover_name="Value",
+                        color_discrete_sequence=px.colors.qualitative.Plotly
+                        )
+
+            # Move legend 
+        fig.update_layout(legend=dict(
+            # orientation="h",
+            yanchor="bottom",
+            y=-0.5,
+            xanchor="left",
+            x=0.01
+            ))
+            
+        st.plotly_chart(fig, use_container_width=True)
+
+        st.caption('Data Sources: International Monetary Fund (IMF)')
+
+        # chart3_data_2 = get_filtered_data(df_combined,[selected_country] + selected_peer, selected_start_year, selected_end_year, 
+        #                             ['Gini index'])
+       
+        # # 'GDP, PPP (constant 2017 international $)','GDP per capita', 
+        # chart3_data_2 = chart3_data_2.groupby(['Indicator'],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
+
+
+    # Create figure with secondary y-axis
+        fig = make_subplots(specs=[[{"secondary_y": True}]])
+
+        # Add traces
+        subfig1  =  px.line(chart3_data_1,
+                    x="Year", 
+                    y="Value",
+                    line_group='Country',
+                    color='Indicator',
+                    title='Chart 3 - GDP and Inequality',
+                    hover_name="Value",
+                    color_discrete_sequence=px.colors.qualitative.Plotly
+                    )
+                    
+        
+        subfig2 =   px.line(chart3_data_2,
+                    x="Year", 
+                    y="Value",
+                    line_group='Country',
+                    color='Indicator',
+                    hover_name="Value",
+                    color_discrete_sequence=px.colors.qualitative.Plotly
+                    )
+        subfig2.update_traces(yaxis="y2")
+
+        fig.add_traces(subfig1.data + subfig2.data)
+
+        fig.update_layout(legend=dict(
+                # orientation="h",
+                yanchor="bottom",
+                y=-0.5,
+                xanchor="left",
+                x=0.01
+                ))
+        fig.update_yaxes(title_text="<b>GDP</b> Indicator Value", secondary_y=False)
+        fig.update_yaxes(title_text="<b>GINI Index</b> value", secondary_y=True)
+        fig.for_each_trace(lambda t: t.update(line=dict(color=t.marker.color)))
+            
+        st.plotly_chart(fig, use_container_width=True)
+
+    st.caption('Data Sources: World Development Indicators (WDI)')
+    
         
     # fig.add_trace(
     #     px.Scatter(x =  name="yaxis data"),
