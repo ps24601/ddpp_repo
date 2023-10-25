@@ -337,17 +337,17 @@ with col3:
                     color_discrete_sequence=px.colors.qualitative.Plotly
                     )
 
-#     # Move legend 
-#     fig.update_layout(legend=dict(
-#         # orientation="h",
-#         yanchor="bottom",
-#         y=-0.5,
-#         xanchor="left",
-#         x=0.01
-#         ))
+    # Move legend 
+    fig.update_layout(legend=dict(
+        # orientation="h",
+        yanchor="bottom",
+        y=-0.5,
+        xanchor="left",
+        x=0.01
+        ))
 
-#     # Display graph
-#     st.plotly_chart(fig, use_container_width=True)
+    # Display graph
+    st.plotly_chart(fig, use_container_width=True)
 
 #     # Caption graph
 #     st.caption('Data Sources: World Development Indicators (WDI)')
