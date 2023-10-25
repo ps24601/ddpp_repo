@@ -558,7 +558,7 @@ else:
                             )
         chart6_data = get_filtered_data(df_combined,[selected_country] + selected_peer, selected_start_year, selected_end_year, 
                                 ['Fiscal, General Government, Expense, 2001 Manual, Domestic Currency'])
-        chart6_data.replace(columns= {'Fiscal, General Government, Expense, 2001 Manual, Domestic Currency':'Expenditure'},
+        chart6_data.replace({'Fiscal, General Government, Expense, 2001 Manual, Domestic Currency':'Expenditure'},
                            inplace= True)
         chart6_data = chart6_data.groupby(['Indicator'],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
 
