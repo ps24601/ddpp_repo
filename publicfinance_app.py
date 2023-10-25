@@ -459,6 +459,7 @@ else:
         #         ))
         fig.update_yaxes(title_text="<b>GDP</b> Indicator Value", secondary_y=False)
         fig.update_yaxes(title_text="<b>GINI Index</b> value", secondary_y=True)
+        fig.for_each_trace(lambda t: t.update(line=dict(color=t.marker.color)))
             
         st.plotly_chart(fig, use_container_width=True)
 
