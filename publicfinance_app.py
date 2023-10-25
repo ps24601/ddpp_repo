@@ -693,8 +693,6 @@ else:
         st.plotly_chart(fig, use_container_width=True)
     st.caption('Data Sources: International Labour Organization (ILO)')
 
-    st.write("-------------------")
-
     ############### ROW 6 ########################################################
 
     chart9_data = get_filtered_data(df_combined,[selected_country] + selected_peer, selected_start_year, selected_end_year, 
@@ -717,7 +715,7 @@ else:
                         x="Year", 
                         y="Value", 
                         color='Country',
-                        title='Chart 8 - Debt to GDP Ratio',
+                        title='Chart 9 - Debt to GDP Ratio',
                         hover_name="Value",
                         color_discrete_sequence=px.colors.qualitative.Plotly
                         )
@@ -734,8 +732,10 @@ else:
         # Display graph
         st.plotly_chart(fig, use_container_width=True)
     st.caption('Data Sources: International Monetary Fund (IMF)')
+    st.write("----------------------------------------------")
 
     ##################### Row 7 #########################################################
+    st.subheader("More Indicators Plot")
     chart10_data = get_filtered_data(df_combined,[selected_country] + selected_peer, selected_start_year, selected_end_year, 
                         ['Current Account, Goods and Services, Net, National Currency',
                          'Fiscal, General Government, Assets and Liabilities, Net Worth'])
@@ -744,8 +744,8 @@ else:
     chart10_data = chart10_data.groupby(['Indicator'],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
     col1, col2, col3 = st.columns([1,0.02,1])
     with col1:
-        st.subheader("Current Account, Goods and Services, Net, National Currency")
-        fig = px.line(chart7_data,
+        
+        fig = px.line(chart10_data[chart10_data.Indicator == 'Current Account, Goods and Services, Net, National Currency'],
                         x="Year", 
                         y="Value", 
                         color='Country',
@@ -776,11 +776,11 @@ else:
     with col3:
             # Configure plot
         st.subheader('Fiscal, General Government, Assets and Liabilities, Net Worth')
-        fig = px.line(chart10_data,
+        fig = px.line(chart10_data[chart10_data.Indicator == 'Fiscal, General Government, Assets and Liabilities, Net Worth'],
                         x="Year", 
                         y="Value", 
                         color='Country',
-                        title='Chart 7 - Debt to GDP Ratio',
+                        title='Chart 11 - Assets and Liabilities, Net Worth',
                         hover_name="Value",
                         color_discrete_sequence=px.colors.qualitative.Plotly
                         )
@@ -797,6 +797,113 @@ else:
         # Display graph
         st.plotly_chart(fig, use_container_width=True)
     st.caption('Data Sources: International Monetary Fund (IMF)')
+
+    ############# ROW 8 ########################################################
+    chart11_data = get_filtered_data(df_combined,[selected_country] + selected_peer, selected_start_year, selected_end_year, 
+                        ['Exports of Goods and Services, Nominal, Domestic Currency',
+                         'Imports of Goods and Services, Nominal, Domestic Currency'])
+    chart11_data.replace({'Exports of Goods and Services, Nominal, Domestic Currency':'Exports',
+                          'Imports of Goods and Services, Nominal, Domestic Currency':'Imports'},
+                        inplace= True)
+    chart11_data = chart11_data.groupby(['Indicator'],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
+    col1, col2, col3 = st.columns([1,0.02,1])
+    with col1:
+        fig = make_subplots()
+        subfig1  =  px.line(chart11_data[chart11_data.Indicator == 'Exports'],
+                    x="Year", 
+                    y="Value",
+                    line_group='Country',
+                    color='Indicator',
+                    hover_name="Value",
+                    color_discrete_sequence=px.colors.qualitative.Plotly
+                    )
+                    
+        
+        subfig2 =   px.line(chart11_data[chart11_data.Indicator == 'Imports'],
+                    x="Year", 
+                    y="Value",
+                    line_group='Country',
+                    color='Indicator',
+                    hover_name="Value",
+                    color_discrete_sequence=px.colors.qualitative.Plotly
+                    )
+        # subfig2.update_traces(yaxis="y2")
+
+        fig.add_traces(subfig1.data + subfig2.data)
+
+        fig.update_layout(legend=dict(
+                # orientation="h",
+                yanchor="bottom",
+                y=-0.5,
+                xanchor="left",
+                x=0.01
+                ),
+                title_text = 'Chart 12 - Exports & Imports')
+        fig.layout.xaxis.title="Year"
+        fig.layout.yaxis.title="Value"
+
+        # fig.update_yaxes(title_text="<b>GDP</b> Indicator Value", secondary_y=False)
+        # fig.update_yaxes(title_text="<b>GINI Index</b> value", secondary_y=True)
+        fig.for_each_trace(lambda t: t.update(line=dict(color=t.marker.color)))
+
+            
+        st.plotly_chart(fig, use_container_width=True)
+
+    ############################# ROW 10 ###########################3
+
+        
+    #     fig = px.line(chart10_data[chart10_data.Indicator == 'Current Account, Goods and Services, Net, National Currency'],
+    #                     x="Year", 
+    #                     y="Value", 
+    #                     color='Country',
+    #                     title='Chart 10 - Current Account, Goods and Services, Net',
+    #                     hover_name="Value",
+    #                     color_discrete_sequence=px.colors.qualitative.Plotly
+    #                     )
+
+    #     # Move legend 
+    #     fig.update_layout(legend=dict(
+    #         # orientation="h",
+    #         yanchor="bottom",
+    #         y=-0.5,
+    #         xanchor="left",
+    #         x=0.01
+    #         ))
+
+    #     # Display graph
+    #     st.plotly_chart(fig, use_container_width=True)
+    #     #### Explanatory text box 1
+    #     # st.markdown("""<div style="text-align: justify;">An increase in the 
+    #     #             public debt/government debt to GDP ratio indicates an 
+    #     #             increase in public liabilities relative to gross domestic output. 
+    #     #             Rising debt rates may be associated with decreasing debt 
+    #     #             sustainability and the capacity to access new financing. 
+    #     #             Details depend on several factors including financing 
+    #     #             conditions, type of debt, capacity to repay (e. g. DRM).</div>""", unsafe_allow_html=True)
+    # with col3:
+    #         # Configure plot
+    #     st.subheader('Fiscal, General Government, Assets and Liabilities, Net Worth')
+    #     fig = px.line(chart10_data[chart10_data.Indicator == 'Fiscal, General Government, Assets and Liabilities, Net Worth'],
+    #                     x="Year", 
+    #                     y="Value", 
+    #                     color='Country',
+    #                     title='Chart 11 - Assets and Liabilities, Net Worth',
+    #                     hover_name="Value",
+    #                     color_discrete_sequence=px.colors.qualitative.Plotly
+    #                     )
+
+    #     # Move legend 
+    #     fig.update_layout(legend=dict(
+    #         # orientation="h",
+    #         yanchor="bottom",
+    #         y=-0.5,
+    #         xanchor="left",
+    #         x=0.01
+    #         ))
+
+        # Display graph
+        # st.plotly_chart(fig, use_container_width=True)
+
 
     
 
