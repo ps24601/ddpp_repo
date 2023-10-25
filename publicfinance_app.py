@@ -403,35 +403,36 @@ else:
                     purchasing power and overall quality of life.""",  unsafe_allow_html=True)
     with col2:
         chart3_data = get_filtered_data(df_combined,[selected_country] + selected_peer, selected_start_year, selected_end_year, 
-                                    ['GDP, PPP (constant 2017 international $)','GDP per capita'])
+                                    ['GDP per capita', 'GNI per capita'])
+        # 'GDP, PPP (constant 2017 international $)','GDP per capita',
         chart3_data = chart3_data.groupby(['Indicator'],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
 
     # Create figure with secondary y-axis
     # fig = make_subplots(specs=[[{"secondary_y": True}]])
 
-    # Add traces
-    px.line(chart3_data,
-                        x="Year", 
-                        y="Value",
-                        labels = list(chart3_data.Indicator.unique()) ,
-                        color='Country',
-                        title='Chart 1 - Population Growth Rate',
-                        hover_name="Value",
-                        color_discrete_sequence=px.colors.qualitative.Plotly
-                        )
-    
-    fig.update_layout(legend=dict(
-            # orientation="h",
-            yanchor="bottom",
-            y=-0.5,
-            xanchor="left",
-            x=0.01
-            ))
+        # Add traces
+        px.line(chart3_data,
+                            x="Year", 
+                            y="Value",
+                            line_group='Country',
+                            color='Indicator',
+                            title='Chart 3 - GDP Growth Rate',
+                            hover_name="Value",
+                            color_discrete_sequence=px.colors.qualitative.Plotly
+                            )
+        
+        fig.update_layout(legend=dict(
+                # orientation="h",
+                yanchor="bottom",
+                y=-0.5,
+                xanchor="left",
+                x=0.01
+                ))
             
-    st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, use_container_width=True)
 
-    st.caption('Data Sources: World Development Indicators (WDI)')
-    
+        st.caption('Data Sources: World Development Indicators (WDI)')
+        
     # fig.add_trace(
     #     px.Scatter(x =  name="yaxis data"),
     #     secondary_y=False,
