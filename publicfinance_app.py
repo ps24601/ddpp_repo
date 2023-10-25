@@ -492,7 +492,7 @@ else:
         chart5_data = get_filtered_data(df_combined,[selected_country] + selected_peer, selected_start_year, selected_end_year, 
                                     ['Fiscal, General Government, Revenue, 2001 Manual, Domestic Currency',
                                       'Fiscal, General Government, Revenue, Tax, 2001 Manual, Domestic Currency'])
-        chart5_data.rename(columns = {'Fiscal, General Government, Revenue, 2001 Manual, Domestic Currency':'Revenue',
+        chart5_data.replace({'Fiscal, General Government, Revenue, 2001 Manual, Domestic Currency':'Revenue',
                                       'Fiscal, General Government, Revenue, Tax, 2001 Manual, Domestic Currency':'Tax Revenue',
                                       }, inplace= True)
         chart5_data = chart5_data.groupby(['Indicator'],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
@@ -549,11 +549,15 @@ else:
                      serve two broad economic responsibilities: provide selected
                      goods and services to the community and redistribute income
                      and wealth. Expenses exceeding revenues need to be 
-                    financed, e.g., through borrowing.   </div>""", unsafe_allow_html=True
+                    financed, e.g., through borrowing.
+                    
+                    
+                    
+                       </div>""", unsafe_allow_html=True
                             )
         chart6_data = get_filtered_data(df_combined,[selected_country] + selected_peer, selected_start_year, selected_end_year, 
                                 ['Fiscal, General Government, Expense, 2001 Manual, Domestic Currency'])
-        chart6_data.rename(columns= {'Fiscal, General Government, Expense, 2001 Manual, Domestic Currency':'Expenditure'},
+        chart6_data.replace(columns= {'Fiscal, General Government, Expense, 2001 Manual, Domestic Currency':'Expenditure'},
                            inplace= True)
         chart6_data = chart6_data.groupby(['Indicator'],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
 
@@ -579,6 +583,10 @@ else:
         st.plotly_chart(fig, use_container_width=True)
 
     st.caption('Data Sources: International Monetary Fund (IMF)')
+
+    st.write("-------------")
+    ############### ROW 4 ########################################################
+
     # st.subheader("GDP")
     
     # #### Explanatory text box 1
