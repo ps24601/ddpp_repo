@@ -445,11 +445,11 @@ else:
                     color='Indicator',
                     hover_name="Value",
                     color_discrete_sequence=px.colors.qualitative.Plotly
-                    ),
+                    )
         subfig2.update_traces(yaxis="y2")
 
         fig.add_traces(subfig1.data + subfig2.data)
-        
+
         # fig.update_layout(legend=dict(
         #         # orientation="h",
         #         yanchor="bottom",
