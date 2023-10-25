@@ -630,7 +630,7 @@ else:
 
         # Display graph
         st.plotly_chart(fig, use_container_width=True)
-    st.caption('Data Sources: International Monetary Fund (IMF)')
+        st.caption('Data Sources: International Monetary Fund (IMF)')
     st.write("")
 
     ############### ROW 5 ########################################################
@@ -694,7 +694,7 @@ else:
 
             
         st.plotly_chart(fig, use_container_width=True)
-    st.caption('Data Sources: International Labour Organization (ILO)')
+        st.caption('Data Sources: International Labour Organization (ILO)')
     st.write("")
 
     ############### ROW 6 ########################################################
@@ -789,6 +789,7 @@ else:
 
             
         st.plotly_chart(fig, use_container_width=True)
+        st.caption('Data Sources: International Monetary Fund (IMF)')
 
     with col3:
             # Configure plot
@@ -796,7 +797,7 @@ else:
                     ['Gini index'])
 
         chart11_data = chart11_data.groupby(['Indicator'],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')    
-        fig = px.line(chart9_data,
+        fig = px.line(chart11_data,
                         x="Year", 
                         y="Value", 
                         color='Country',
@@ -816,7 +817,8 @@ else:
 
         # Display graph
         st.plotly_chart(fig, use_container_width=True)
-    st.caption('Data Sources: International Monetary Fund (IMF)')
+        st.caption('Data Sources: World Development Indicators (WDI)')
+    
 
     ############# ROW 8 ########################################################
     # 
