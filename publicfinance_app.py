@@ -401,7 +401,7 @@ else:
                     indicator of a robust economy, as it suggests that the country is producing
                     more goods and services per person, thereby improving people's 
                     purchasing power and overall quality of life.""",  unsafe_allow_html=True)
-    with col2:
+    with col3:
         chart3_data = get_filtered_data(df_combined,[selected_country] + selected_peer, selected_start_year, selected_end_year, 
                                     ['GDP per capita', 'GNI per capita'])
         # 'GDP, PPP (constant 2017 international $)','GDP per capita',
@@ -412,14 +412,14 @@ else:
 
         # Add traces
         px.line(chart3_data,
-                            x="Year", 
-                            y="Value",
-                            line_group='Country',
-                            color='Indicator',
-                            title='Chart 3 - GDP Growth Rate',
-                            hover_name="Value",
-                            color_discrete_sequence=px.colors.qualitative.Plotly
-                            )
+                    x="Year", 
+                    y="Value",
+                    line_group='Country',
+                    color='Indicator',
+                    title='Chart 3 - GDP Growth Rate',
+                    hover_name="Value",
+                    color_discrete_sequence=px.colors.qualitative.Plotly
+                    )
         
         fig.update_layout(legend=dict(
                 # orientation="h",
@@ -431,7 +431,7 @@ else:
             
         st.plotly_chart(fig, use_container_width=True)
 
-        st.caption('Data Sources: World Development Indicators (WDI)')
+    st.caption('Data Sources: World Development Indicators (WDI)')
         
     # fig.add_trace(
     #     px.Scatter(x =  name="yaxis data"),
