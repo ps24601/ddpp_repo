@@ -290,7 +290,7 @@ st.write("""
          a deeper understanding of workforce dynamics and make informed decisions for the future.
           """)
 st.write("")
-if selected_country == 'None' or len(selected_peer) == 0:
+if selected_country == None or len(selected_peer) == 0:
     st.warning("Please Select One Country and atleast 1 peer couuntry for better analysis")
 else:
     st.caption("Selected Countries")
