@@ -839,7 +839,7 @@ else:
                             selected_indicators)
 
     filtered_data = filtered_data.groupby(['Indicator'],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
-    fig = make_subplots()
+    
     plots_holder = []
     for i in range(count_of_indicators):
         plots_holder.append(px.line(filtered_data[filtered_data.Indicator == selected_indicators[i]],
@@ -849,7 +849,15 @@ else:
                         color='Indicator',
                         hover_name="Value",
                         color_discrete_sequence=px.colors.qualitative.Plotly
+       
                         ))
+        
+    if count_of_indicators ==2:
+        fig = make_subplots(specs=[[{"secondary_y": True}]])  
+        plots_holder[1].update_traces(yaxis="y2")
+    else:
+        fig = make_subplots()  
+
     fig_data = ()
     for i in plots_holder:
         fig_data = fig_data + i.data
@@ -865,8 +873,10 @@ else:
     fig.layout.xaxis.title="Year"
     fig.layout.yaxis.title="Value"
 
-        # fig.update_yaxes(title_text="<b>GDP</b> Indicator Value", secondary_y=False)
-        # fig.update_yaxes(title_text="<b>GINI Index</b> value", secondary_y=True)
+    if count_of_indicators == 2:
+        fig.update_yaxes(title_text="<b>{}</b>".format(selected_indicators[0]), secondary_y=False)
+        fig.update_yaxes(title_text="<b>{}</b> value".format(selected_indicators[1]), secondary_y=True)
+
     fig.for_each_trace(lambda t: t.update(line=dict(color=t.marker.color)))
 
             
