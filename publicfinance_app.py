@@ -396,12 +396,12 @@ if choice == 'Guided':
         col1, col2, col3 = st.columns([1,0.02,1])
         with col1:
             chart3_data = get_filtered_data(df_combined,[selected_country] + selected_peer, selected_start_year, selected_end_year, 
-                                        ['GDP per capita, PPP (constant 2017 international $)','GNI per capita, PPP (constant 2017 international $)'])
+                                        ['GDP per capita','GNI per capita'])
             chart3_data = chart3_data.groupby(['Indicator'],group_keys=False,sort=False).apply(pd.DataFrame.sort_values,'Year')
 
             # Configure plot
             fig = make_subplots()
-            subfig1  =  px.line(chart3_data[chart3_data.Indicator == 'GDP per capita, PPP (constant 2017 international $)'],
+            subfig1  =  px.line(chart3_data[chart3_data.Indicator == 'GDP per capita'],
                         x="Year", 
                         y="Value",
                         line_group='Country',
@@ -412,7 +412,7 @@ if choice == 'Guided':
                         )
                         
             
-            subfig2 =   px.line(chart3_data[chart3_data.Indicator == 'GNI per capita, PPP (constant 2017 international $)'],
+            subfig2 =   px.line(chart3_data[chart3_data.Indicator == 'GNI per capita'],
                         x="Year", 
                         y="Value",
                         line_group='Country',
