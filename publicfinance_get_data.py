@@ -12,11 +12,11 @@ END_YEAR = 2023
 
 featureMap_indicators={
     'SP.POP.TOTL': 'Population',
-    'NY.GDP.PCAP.PP.KD': 'GDP per capita',
-    'NY.GNP.PCAP.PP.KD': 'GNI per capita',
+    'NY.GDP.PCAP.PP.KD': 'GDP per capita, PPP (constant 2017 international $)',
+    'NY.GNP.PCAP.PP.KD': 'GNI per capita, PPP (constant 2017 international $)',
     'NY.GDP.MKTP.PP.KD': 'GDP, PPP (constant 2017 international $)',
     'SP.POP.GROW': 'Population Growth Rate',
-    'SI.POV.GINI': 'Gini index',
+    'SI.POV.GINI': 'Gini index (income)',
 }
 
 ########################### SPECIFY THE ILO INDICATORS NEEDED ##########################
